@@ -31,6 +31,7 @@ function App() {
       <Route path = "/languages"><Languages/></Route>
       <Route path="/" ><Home/></Route>
       </Switch>
+      {/* HI */}
     </Router>
   );
 }
