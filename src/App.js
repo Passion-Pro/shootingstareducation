@@ -21,7 +21,8 @@ function App() {
         <Route exact path="/contact" ><Contact/></Route>
         <Route exact path="/test preparation sat" ><Test_Prepsat/></Route>
         <Route exact path="/test preparation neet" ><Test_Prepneet/></Route>
-        <Route exact path="/test preparation jee" ><Test_PrepJee/></Route>
+        {/* <Route exact path="/test preparation jee" ><Test_PrepJee/></Route> */}
+        hi
         <Route exact path="/test preparation ielts" ><Test_Prepielts/></Route>
       <Route path = "/headerSidebar"><HeaderSidebar/></Route>
       <Route path = "/courseArchieve"><CourseArchieve/></Route>
