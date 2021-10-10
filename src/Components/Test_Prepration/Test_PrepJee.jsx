@@ -1,7 +1,7 @@
 import { Divider } from '@mui/material';
 import React from 'react';
 import Sidebar from './Sidebar';
-import './Test_PrepJee.css'
+import HomeFooter from '../Home/HomeFooter'
 
 function Test_PrepJee() {
     return (
@@ -101,6 +101,7 @@ function Test_PrepJee() {
         </div>
       </div>
     </div>
+    <HomeFooter/>
         </div>
     )
 }

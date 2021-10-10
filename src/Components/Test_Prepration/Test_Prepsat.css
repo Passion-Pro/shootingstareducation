@@ -125,6 +125,7 @@
 }
 .FAQs_Box_CO{ 
     display:flex;
+    flex-direction: column;
     transition: 0.5s;
     border-top: 1px solid lightgray;
     padding: 12px;
