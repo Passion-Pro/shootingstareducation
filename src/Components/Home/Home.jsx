@@ -6,12 +6,14 @@ import HomeFooter from './HomeFooter.jsx';
 import HomeMiddle from './HomeMiddle.jsx';
 import HomeTop from './HomeTop.jsx';
 import LastSlider from './LastSlider';
+import Header from "../Header/Header"
 
 function Home() {
     return (
         <>
             <div className="home">
-                <HomeTop/>
+                <Header/>
+                {/* <HomeTop/> */}
                 <HomeMiddle/>
                 <Courses/>
                 <ExpTeacher/>
