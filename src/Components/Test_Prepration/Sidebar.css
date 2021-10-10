@@ -2,7 +2,7 @@
     margin: 52px 12px 12px 6px ;
     display: flex;
     flex-direction: column;
-    width: 100%;
+    width: 100% !important;
     box-shadow: 0 0 15px -2px lightgray;
 }
 .secondBar_List{
