@@ -52,18 +52,18 @@ function HeaderSidebar() {
           </div>
           {openTestNames === true && (
             <div className="test_subOptions">
-              <Link>
+              <Link to = "/test preparation sat">
                 {" "}
                 <p className="subOption">SAT</p>
               </Link>
-              <Link>
+              <Link to = "/test preparation neet">
                 {" "}
                 <p className="subOption">NEET</p>{" "}
               </Link>
-              <Link>
+              <Link to = "/test preparation jee">
                 <p className="subOption">IIT JEE ADVANCED</p>
               </Link>
-              <Link>
+              <Link to = "test preparation ielts">
                 {" "}
                 <p className="subOption">IELTS</p>
               </Link>
