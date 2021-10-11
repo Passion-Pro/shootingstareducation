@@ -6,6 +6,9 @@ import CalendarTodayRoundedIcon from '@mui/icons-material/CalendarTodayRounded';
 import PersonRoundedIcon from '@mui/icons-material/PersonRounded';
 import AutoGraphRoundedIcon from '@mui/icons-material/AutoGraphRounded';
 import LibraryBooksRoundedIcon from '@mui/icons-material/LibraryBooksRounded';
+import LaptopChromebookRoundedIcon from '@mui/icons-material/LaptopChromebookRounded';
+import PersonOutlineRoundedIcon from '@mui/icons-material/PersonOutlineRounded';
+import LightbulbRoundedIcon from '@mui/icons-material/LightbulbRounded';
 
 function HomeMiddle() {
     return (
@@ -14,7 +17,7 @@ function HomeMiddle() {
                 <div className="homemiddle_Top">
                     <div className="homemiddle_Top_Box1">
                         <div className="box1_svg">
-
+                        <LaptopChromebookRoundedIcon fontSize="large"/>
                         </div>
                         <div className="box1_head">
                             Learn Online
@@ -24,7 +27,7 @@ function HomeMiddle() {
                         </div>
                     </div>
                     <div className="homemiddle_Top_Box2"> <div className="box1_svg">
-
+                      <PersonOutlineRoundedIcon fontSize="large"/>
                     </div>
                         <div className="box1_head">
                             Expert Teachers
@@ -33,7 +36,7 @@ function HomeMiddle() {
                             Our team of well-trained professionals are adaptable, flexible, and prepared to cater to all our students’ needs.
                         </div></div>
                     <div className="homemiddle_Top_Box3"> <div className="box1_svg">
-
+                       <LightbulbRoundedIcon fontSize="large"/>
                     </div>
                         <div className="box1_head">
                             New Methods

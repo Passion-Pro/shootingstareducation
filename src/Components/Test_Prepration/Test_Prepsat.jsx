@@ -4,6 +4,7 @@ import ArrowDropDownRoundedIcon from "@mui/icons-material/ArrowDropDownRounded";
 import Button from "@mui/material/Button";
 import ArrowDropUpRoundedIcon from "@mui/icons-material/ArrowDropUpRounded";
 import HomeFooter from "../Home/HomeFooter";
+import Header from "../Header/Header";
 
 function Test_Prep() {
   const [visible1, setVisible1] = useState(false);
@@ -31,6 +32,7 @@ function Test_Prep() {
 
   return (
     <div className="test">
+      <Header/>
       <div className="contact_header">
         <div className="header_head">SAT Preparation</div>
         <div className="header_body">

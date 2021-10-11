@@ -18,6 +18,7 @@
     color: white;
     flex-direction: column;
     padding: 12px; 
+    width: 100%;
 }
 .footdivHead{
     padding: 12px 12px 12px 0;
@@ -30,11 +31,13 @@
   justify-content: center;
   align-items: center;
   font-size: 14px;
+  font-weight: 500;
 }
 .footdivhead_link:hover{
     transition: 500ms;
     font-size: 13px;
-    color: purple;
+    font-weight: 500;
+    color: #429ae7;
 }
 .footdivHeademail{
     display: flex;
@@ -42,26 +45,33 @@
 }
 .footdivHeademailfira{
     display: flex;
-    flex: 0.4;
+    /* flex: 0.4; */
     padding-right: 12px;
-    width: fit-content;
+    /* width: fit-content; */
+    width: 40%;
 }
 .footdivHeademailfire{
     display: flex;
-    flex: 0.4;
+    /* flex: 0.4; */
     padding-right: 18px;
-    width: fit-content;
+    width: 40%;
 }
 .footdivHeademailfirp{
     display: flex;
-    flex: 0.4;
-    padding-right: 12px;
-    width: fit-content;
+    /* flex: 0.4; */
+    padding: 6px 0px 3px 0;
+    width: 40%;
 }
 .footdivHeademailSec{
-    flex: 0.6;
-    word-break: break-all;
+    display: flex; 
+    margin: 6px 0px 3px 22px !important;
+    width: 60%;
+}
+.footdivbody{
+    display: flex;
     width: 100%;
+    flex-direction: column;
+    padding: 0 12px 12px 0;
 }
 
 @media(max-width:768px){
