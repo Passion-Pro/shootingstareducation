@@ -15,9 +15,9 @@ function Home() {
                 <Header/>
                 <HomeTop/>
                 <HomeMiddle/>
-                <Courses/>
+                {/* <Courses/> */}
                 <ExpTeacher/>
-                <LastSlider/>
+                {/* <LastSlider/> */}
             <HomeFooter/>
             </div>
         </>
