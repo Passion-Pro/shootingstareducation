@@ -4,12 +4,14 @@ import Header from "../../Header/Header";
 import Title from "../CourseArchieve/Title";
 import HomeFooter from "../../Home/HomeFooter";
 import styled from "styled-components";
+import Sidebar from "../../Sidebar/Sidebar"
 function PrimaryEducation() {
   return (
     <div className="Education">
       <Header />
       <Title title="Primary Education" />
       <Container>
+        <div className="middle">
         <div className="image_container"></div>
          <div className="content">
          <p className="courseName">Primary Education</p>
@@ -42,6 +44,10 @@ function PrimaryEducation() {
              </p>
          </div>
          </div>
+         </div>
+         <div className="page_sidebar">
+           <Sidebar/>
+         </div>
       </Container>
       <HomeFooter/>
     </div>
@@ -49,13 +55,20 @@ function PrimaryEducation() {
 }
 
 const Container = styled.div`
-  padding: 20px;
+ padding: 20px;
   margin-left: 20px;
   margin-top: 10px;
   display: flex;
-  flex-direction: column;
-  height: fit-content;
+  flex-direction: row;
+  max-width: 1440px;
 
+  .middle{
+    display : flex;
+    flex-direction : column;
+    margin-left : auto;
+    margin-right : auto;
+
+  }
   .image_container {
     width: 65vw;
     height: 60vh;
@@ -71,6 +84,15 @@ const Container = styled.div`
         margin-right : auto;
         margin-left : auto;
     }
+  }
+
+  .page_sidebar{
+      width : 80%;
+      margin-left : 40px;
+    }
+
+  .secondBar{
+    margin-top : 20px !important;
   }
 
   .content{

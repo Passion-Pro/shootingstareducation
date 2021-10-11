@@ -4,12 +4,14 @@ import Header from "../../Header/Header";
 import Title from "../CourseArchieve/Title";
 import HomeFooter from "../../Home/HomeFooter";
 import styled from "styled-components";
+import Sidebar from "../../Sidebar/Sidebar"
 function Languages() {
   return (
     <div className="Education">
       <Header />
       <Title title="Languages" />
       <Container>
+        <div className="middle">
         <div className="image_container"></div>
          <div className="content">
          <p className="courseName">Languages</p>
@@ -46,8 +48,12 @@ function Languages() {
              </p>
          </div>
          </div>
+         </div>
+         <div className="page_sidebar">
+           <Sidebar/>
+         </div>
       </Container>
-      {/* <HomeFooter/> */}
+      <HomeFooter/>
     </div>
   );
 }
@@ -57,7 +63,25 @@ const Container = styled.div`
   margin-left: 20px;
   margin-top: 10px;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  max-width: 1440px;
+
+  .middle{
+    display : flex;
+    flex-direction : column;
+    margin-left : auto;
+    margin-right : auto;
+
+  }
+
+  .page_sidebar{
+      width : 80%;
+      margin-left : 40px;
+    }
+
+  .secondBar{
+    margin-top : 20px !important;
+  }
 
   .image_container {
     width: 65vw;
@@ -77,7 +101,7 @@ const Container = styled.div`
 
   .content{
     width: 65vw;
-    height: 60vh;
+    height: fit-content;
     margin-top : 10px;
 
     .courseName{
