@@ -60,10 +60,12 @@ function Languages() {
 
 const Container = styled.div`
   padding: 20px;
-  margin-left: 20px;
+  margin-left: auto;
+  margin-right: auto;
   margin-top: 10px;
   display: flex;
   flex-direction: row;
+  justify-content: center;
   max-width: 1440px;
 
   .middle{
@@ -149,6 +151,15 @@ const Container = styled.div`
             font-size: 30px;
         }
       }
+  }
+
+  @media(min-width:1630px){
+    .content{
+      width : 50vw;
+    }
+    .image_container{
+      width : 50vw;
+    }
   }
 `;
 
