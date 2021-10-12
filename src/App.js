@@ -12,6 +12,7 @@ import Test_Prepsat from "./Components/Test_Prepration/Test_Prepsat";
 import Test_Prepneet from "./Components/Test_Prepration/Test_Prepneet";
 import Test_PrepJee from "./Components/Test_Prepration/Test_PrepJee";
 import Test_Prepielts from "./Components/Test_Prepration/Test_Prepielts";
+import Login from "./Components/Login/Login"
 
 function App() {
   return (
@@ -49,6 +50,9 @@ function App() {
         </Route>
         <Route path="/languages">
           <Languages />
+        </Route>
+        <Route path = "/signIn">
+          <Login/>
         </Route>
         <Route path="/">
           <Home />

@@ -1,11 +1,14 @@
-import React from "react";
+import React , {useState , useEffect} from "react";
 import "./PrimaryEducation.css";
 import Header from "../../Header/Header";
 import Title from "../CourseArchieve/Title";
 import HomeFooter from "../../Home/HomeFooter";
 import styled from "styled-components";
 import Sidebar from "../../Sidebar/Sidebar"
+import SignInPopup from "../../Header/SigInPopup"
+import {useStateValue} from "../../../StateProvider"
 function PrimaryEducation() {
+  const[{openSignInPopup} , dispatch] = useStateValue();
   return (
     <div className="Education">
       <Header />
@@ -50,6 +53,7 @@ function PrimaryEducation() {
          </div>
       </Container>
       <HomeFooter/>
+    <SignInPopup/>
     </div>
   );
 }
