@@ -2,7 +2,8 @@ import React from "react";
 import "../Primary Education/PrimaryEducation.css";
 import Header from "../../Header/Header";
 import Title from "../CourseArchieve/Title";
-import HomeFooter from "../../Home/HomeFooter";
+import HomeFooter from "../../Home/HomeFooter"
+import Sidebar from "../../Sidebar/Sidebar"
 import styled from "styled-components";
 function SecondaryEducation() {
   return (
@@ -10,6 +11,7 @@ function SecondaryEducation() {
       <Header />
       <Title title="Secondary Education" />
       <Container>
+        <div className="middle">
         <div className="image_container"></div>
          <div className="content">
          <p className="courseName">Secondary Education</p>
@@ -42,18 +44,42 @@ function SecondaryEducation() {
              </p>
          </div>
          </div>
+         </div>
+         <div className="page_sidebar">
+           <Sidebar/>
+         </div>
       </Container>
-      {/* <HomeFooter/> */}
+      <HomeFooter/>
     </div>
   );
 }
 
 const Container = styled.div`
-  padding: 20px;
-  margin-left: 20px;
+padding: 20px;
+margin-left: auto;
+  margin-right: auto;
   margin-top: 10px;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  justify-content: center;
+  max-width: 1440px;
+
+  .middle{
+    display : flex;
+    flex-direction : column;
+    margin-left : auto;
+    margin-right : auto;
+
+  }
+
+  .page_sidebar{
+      width : 80%;
+      margin-left : 40px;
+    }
+
+  .secondBar{
+    margin-top : 20px !important;
+  }
 
   .image_container {
     width: 65vw;
@@ -73,7 +99,7 @@ const Container = styled.div`
 
   .content{
     width: 65vw;
-    height: 60vh;
+    height: fit-content;
     margin-top : 10px;
 
     .courseName{
@@ -117,6 +143,15 @@ const Container = styled.div`
             font-size: 30px;
         }
       }
+  }
+
+  @media(min-width:1630px){
+    .content{
+      width : 50vw;
+    }
+    .image_container{
+      width : 50vw;
+    }
   }
 `;
 

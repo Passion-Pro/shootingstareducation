@@ -27,8 +27,8 @@ function Header() {
                    <div className="names">
                    <Link to="/test preparation sat">  <p className="suboption sat">SAT</p></Link>
               <Link to="/test preparation neet">  <p className="suboption">NEET</p> </Link>
-                <Link to="/test preparation jee"><p className="suboption">IIT JEE ADVANCED</p></Link>
-               <Link to="/test preparation ielts"> <p className="suboption">IELTS</p></Link>
+               <Link to="/test preparation ielts"> <p className="suboption">IELTS</p></Link> 
+                <Link to = "/test preparation jee"><p className="suboption">IIT JEE ADVANCED</p></Link> 
                    </div>
                 </TestNames>
                 <TestNames className = "test_names">

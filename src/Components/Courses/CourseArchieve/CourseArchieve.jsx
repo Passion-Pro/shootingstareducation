@@ -11,7 +11,7 @@ function CourseArchieve() {
         <div className = 'courseArchieve'>
           <Header/>
            <Title title = "Course Archieve"/>
-           <div className = "middle">
+           <div className = "middle_container">
            <div className="main_content">
              <InfoBox name = "Primary Education" text = "Being the first stage of formal education, Primary Education is the first step in helping children to fall in love with learning and ensuring that their academic" photoUrl = "https://shootingstareducation.com/assets/img/courses/primary_2_848x500.jpg"/>
              <InfoBox name = "Secondary Education" text = "Secondary Education might just be the most essential part of a student’s journey at school. Along with slowly discovering who they are as people" photoUrl = "https://shootingstareducation.com/assets/img/courses/secondary_848x500.jpg"/>
