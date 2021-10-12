@@ -12,11 +12,15 @@ import Test_Prepsat from "./Components/Test_Prepration/Test_Prepsat";
 import Test_Prepneet from "./Components/Test_Prepration/Test_Prepneet";
 import Test_PrepJee from "./Components/Test_Prepration/Test_PrepJee";
 import Test_Prepielts from "./Components/Test_Prepration/Test_Prepielts";
+import Main from "./Components/WithLogin/Main/Main";
 
 function App() {
   return (
     <Router>
       <Switch>
+        <Route  path="/main">
+          <Main />
+        </Route>
         <Route  path="/contact">
           <Contact />
         </Route>
