@@ -5,6 +5,7 @@ import Button from "@mui/material/Button";
 import ArrowDropUpRoundedIcon from "@mui/icons-material/ArrowDropUpRounded";
 import HomeFooter from "../Home/HomeFooter";
 import Header from "../Header/Header";
+import Title from "../Courses/CourseArchieve/Title";
 
 function Test_Prep() {
   const [visible1, setVisible1] = useState(false);
@@ -33,14 +34,7 @@ function Test_Prep() {
   return (
     <div className="test">
       <Header/>
-      <div className="contact_header">
-        <div className="header_head">SAT Preparation</div>
-        <div className="header_body">
-          <div className="header_body_home">Home /</div>
-          <div className="header_body_contact">Test Preparation</div>
-        </div>
-      </div>
-
+     <Title title={"TEST PREPARATION"}/>
       {/*  */}
 
       <div className="test_first">
