@@ -1,11 +1,14 @@
-import React from "react";
+import React , {useState , useEffect} from "react";
 import "./PrimaryEducation.css";
 import Header from "../../Header/Header";
 import Title from "../CourseArchieve/Title";
 import HomeFooter from "../../Home/HomeFooter";
 import styled from "styled-components";
 import Sidebar from "../../Sidebar/Sidebar"
+import SignInPopup from "../../Header/SigInPopup"
+import {useStateValue} from "../../../StateProvider"
 function PrimaryEducation() {
+  const[{openSignInPopup} , dispatch] = useStateValue();
   return (
     <div className="Education">
       <Header />
@@ -50,15 +53,18 @@ function PrimaryEducation() {
          </div>
       </Container>
       <HomeFooter/>
+    <SignInPopup/>
     </div>
   );
 }
 
 const Container = styled.div`
  padding: 20px;
-  margin-left: 20px;
+  margin-left: auto;
+  margin-right: auto;
   margin-top: 10px;
   display: flex;
+  justify-content: center;
   flex-direction: row;
   max-width: 1440px;
 
@@ -87,7 +93,7 @@ const Container = styled.div`
   }
 
   .page_sidebar{
-      width : 80%;
+      width : 30vw;
       margin-left : 40px;
     }
 
@@ -141,6 +147,15 @@ const Container = styled.div`
             font-size: 30px;
         }
       }
+  }
+
+  @media(min-width:1630px){
+    .content{
+      width : 50vw;
+    }
+    .image_container{
+      width : 50vw;
+    }
   }
 `;
 
