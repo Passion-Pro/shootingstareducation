@@ -12,15 +12,16 @@ import Test_Prepsat from "./Components/Test_Prepration/Test_Prepsat";
 import Test_Prepneet from "./Components/Test_Prepration/Test_Prepneet";
 import Test_PrepJee from "./Components/Test_Prepration/Test_PrepJee";
 import Test_Prepielts from "./Components/Test_Prepration/Test_Prepielts";
-import Main from "./Components/WithLogin/Main/Main";
+// import Main from "./Components/WithLogin/Main/Main";
+import Login from "./Components/Login/Login";
 
 function App() {
   return (
     <Router>
       <Switch>
-        <Route  path="/main">
+        {/* <Route  path="/main">
           <Main />
-        </Route>
+        </Route> */}
         <Route  path="/contact">
           <Contact />
         </Route>
@@ -53,6 +54,9 @@ function App() {
         </Route>
         <Route path="/languages">
           <Languages />
+        </Route>
+        <Route path = "/signIn">
+          <Login/>
         </Route>
         <Route path="/">
           <Home />

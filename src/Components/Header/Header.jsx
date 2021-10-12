@@ -4,12 +4,24 @@ import {Link} from "react-router-dom"
 import DehazeIcon from "@material-ui/icons/Dehaze"
 import {useHistory} from "react-router-dom"
 import styled from "styled-components"
+import {useStateValue} from "../../StateProvider"
+import {actionTypes} from "../../reducer"
+import SignInPopup from "./SigInPopup"
 
 
 function Header() {
     const history = useHistory()
+    const[{openSignInPopup} , dispatch] = useStateValue()
     const openSidebar = () => {
       history.push("/headerSidebar")
+    }
+
+    const OpenSignInPopup = (e) => {
+       e.preventDefault();
+       dispatch({
+          type : actionTypes.OPEN_SIGNINPOPUP,
+          openSignInPopup : true,
+       })
     }
     return (
         <div className = "header">
@@ -41,13 +53,12 @@ function Header() {
                <Link to = "/languages"> <p className="suboption">Languages</p></Link>
                    </div>
                 </TestNames>
-               
                 <Link>
                   <p className="link_para">Contact</p>
                 </Link>
             </div>
-            <button>Sign In</button>
-        </div>
+            <button onClick = {OpenSignInPopup}>Sign In</button>
+         </div>
     )
 };
 
