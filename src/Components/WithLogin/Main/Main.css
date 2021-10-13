@@ -1,0 +1,23 @@
+.main {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+  /* align-items: center; */
+  justify-content: center;
+  background-color: #eeecec;
+}
+.mainBody {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.mainBodyIN {
+  display: flex;
+  padding: 12px;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  padding: 12px;
+  max-width: 1400px;
+}

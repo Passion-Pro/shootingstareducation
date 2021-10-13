@@ -1,0 +1,11 @@
+.Notification{
+    display: flex;
+    flex: 0.3;
+    border: 3px solid lightgray;
+    height: 70vh;
+}
+@media(max-width:1000px){
+    .Notification{
+      display: none;
+    }
+  }
