@@ -1,7 +1,36 @@
-import React from "react";
+import React , {useState , useEffect} from "react";
 import styled from "styled-components";
+import {useStateValue} from "../../StateProvider"
+import db, { auth } from "../../firebase"
+import { Link, useHistory } from "react-router-dom";
 
 function Login() {
+  const[{signInAs} , dispatch] = useStateValue();
+  const[email , setEmail] = useState();
+  const[password , setPassword] = useState();
+  const history = useHistory();
+  const sign_in = (e) => {
+    e.preventDefault();
+    console.log(auth.user);
+    auth
+      .signInWithEmailAndPassword(email, password)
+      .then((auth) => {
+        history.push("/AssignmentsPage");
+      })
+      .catch((error) => alert(error.message));
+  };
+
+  const create_new_account = (e) => {
+    e.preventDefault();
+    auth
+      .createUserWithEmailAndPassword(email, password)
+      .then((auth) => {
+        if (auth) {
+          history.push("/AssignmentsPage");
+        }
+      })
+      .catch((error) => alert(error.message));
+  }
   return (
     <div className="login">
       <Container>
@@ -12,14 +41,23 @@ function Login() {
               <div className="signIn_form">
                 <div className="email">
                   <p>Email</p>
-                  <input type="text" />
+                  <input type="text"
+                  placeholder="Enter email address"
+                  value = {email}
+                  onChange={e => setEmail(e.target.value)}
+                  />
                 </div>
                 <div className="password">
                   <p>Password</p>
-                  <input type="password" />
+                  <input type="password" 
+                  placeholder="Enter password"
+                  value = {password}
+                  onChange = {e => setPassword(e.target.value)}
+                  />
                 </div>
                 <div className="sign_In_button">
-                  <button>Sign In</button>
+                  <button onClick = {create_new_account}>Create</button>
+                  <button onClick = {sign_in}>Sign In</button>
                 </div>
               </div>
             </form>
@@ -97,7 +135,7 @@ const Container = styled.div`
     input {
       margin-bottom: 10px;
       border-radius: 5px;
-      width: 80%;
+      width: 95%;
       height: 40px;
       padding: 10px;
     }
@@ -111,7 +149,7 @@ const Container = styled.div`
     input {
       margin-bottom: 10px;
       border-radius: 5px;
-      width: 80%;
+      width: 95%;
       height: 40px;
       padding: 10px;
     }
@@ -126,6 +164,7 @@ const Container = styled.div`
       width: 80px;
       height: 35px;
       color: white;
+      margin-left : 20px;
 
       &:hover {
         background-color: #3f8ef7;
