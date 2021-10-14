@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./Chat.css";
 import SendRoundedIcon from "@mui/icons-material/SendRounded";
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 function Chat() {
   const [input, setInput] = useState("");
@@ -13,15 +14,14 @@ function Chat() {
     <div className="chat">
       <div className="chat__header">
        <div className="chat__headerFirst">
+         <div className="chat__headerFirst__back">
+            <ArrowBackIcon />
+         </div>
          <div className="chat__headerFirst__Fotu">
-            
          </div>
          <div className="chat__headerFirst__account">
             WEB DEVELOPMENT
          </div>
-       </div>
-       <div className="chat__headerSecond">
-        <MoreVertIcon />
        </div>
       </div>
       <div className="chat__body">

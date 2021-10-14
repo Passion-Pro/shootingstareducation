@@ -22,6 +22,14 @@ function App() {
   return (
     <Router>
       <Switch>
+      <Route  path="/mainChat">
+          <div className="chat_Show">
+          <Chat />
+          </div>
+          <div className="chat_Show_Not">
+          <Main />
+          </div>
+        </Route>
         <Route  path="/main">
           <Main />
         </Route>
