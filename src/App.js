@@ -12,9 +12,11 @@ import Test_Prepsat from "./Components/Test_Prepration/Test_Prepsat";
 import Test_Prepneet from "./Components/Test_Prepration/Test_Prepneet";
 import Test_PrepJee from "./Components/Test_Prepration/Test_PrepJee";
 import Test_Prepielts from "./Components/Test_Prepration/Test_Prepielts";
-import Main from "./Components/WithLogin/Main/Main";
 import Login from "./Components/Login/Login";
-import Chat from "./Components/WithLogin/Chat/Chat";
+import AssignmentsPage from "./Components/WithLogin/AssignmentsPage/AssignmentsPage";
+import NoticesPage from "./Components/WithLogin/Notices/NoticesPage";
+import DoubtsPage from "./Components/WithLogin/DoubtsPage/DoubtsPage";
+import Main from "./Components/WithLogin/Main/Main"
 
 function App() {
   return (
@@ -66,6 +68,15 @@ function App() {
         </Route>
         <Route path = "/signIn">
           <Login/>
+        </Route>
+        <Route path = "/AssignmentsPage">
+          <AssignmentsPage />
+        </Route>
+        <Route path = "/NoticesPage">
+          <NoticesPage />
+        </Route>
+        <Route path = "/DoubtsPage">
+          <DoubtsPage />
         </Route>
         <Route path="/">
           <Home />
