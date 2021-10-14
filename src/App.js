@@ -12,7 +12,7 @@ import Test_Prepsat from "./Components/Test_Prepration/Test_Prepsat";
 import Test_Prepneet from "./Components/Test_Prepration/Test_Prepneet";
 import Test_PrepJee from "./Components/Test_Prepration/Test_PrepJee";
 import Test_Prepielts from "./Components/Test_Prepration/Test_Prepielts";
-import Login from "./Components/Login/Login"
+import Login from "./Components/Login/Login";
 import AssignmentsPage from "./Components/WithLogin/AssignmentsPage/AssignmentsPage";
 import NoticesPage from "./Components/WithLogin/Notices/NoticesPage";
 import DoubtsPage from "./Components/WithLogin/DoubtsPage/DoubtsPage";
@@ -21,19 +21,22 @@ function App() {
   return (
     <Router>
       <Switch>
-        <Route exact path="/contact">
+        <Route  path="/main">
+          <Main />
+        </Route>
+        <Route  path="/contact">
           <Contact />
         </Route>
-        <Route exact path="/test preparation sat">
+        <Route path="/test preparation sat">
           <Test_Prepsat />
         </Route>
-        <Route exact path="/test preparation neet">
+        <Route  path="/test preparation neet">
           <Test_Prepneet />
         </Route>
-        <Route exact path="/test preparation jee">
+        <Route  path="/test preparation jee">
           <Test_PrepJee />
         </Route>
-        <Route exact path="/test preparation ielts">
+        <Route  path="/test preparation ielts">
           <Test_Prepielts />
         </Route>
         <Route path="/headerSidebar">
@@ -75,4 +78,3 @@ function App() {
 }
 
 export default App;
-//yo 

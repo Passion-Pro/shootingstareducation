@@ -1,5 +1,6 @@
 import React from 'react';
 import './HomeFooter.css';
+import KeyboardArrowRightRoundedIcon from '@mui/icons-material/KeyboardArrowRightRounded';
 
 function HomeFooter() {
     return (
@@ -19,16 +20,15 @@ function HomeFooter() {
                             QUICK LINKS
                         </div>
                         <div className="footdivhead_link">
-                            {">> Home"}
+                        <KeyboardArrowRightRoundedIcon/>  {"Home"}
                         </div>
                         <div className="footdivhead_link">
-                            {">> About Us"}
+                        <KeyboardArrowRightRoundedIcon/> {"About Us"}
                         </div>
                         <div className="footdivhead_link">
-                            {">> Contact Us"}
+                        <KeyboardArrowRightRoundedIcon/> {"Contact Us"}
                         </div>
-                        <div className="footdivhead_link">
-                            {">> Course Archive"}
+                        <div className="footdivhead_link"><KeyboardArrowRightRoundedIcon/> {"Course Archive"}
                         </div>
                     </div>
                     <div className="footdiv">
@@ -36,23 +36,24 @@ function HomeFooter() {
                             POPULAR COURSES
                         </div>
                         <div className="footdivhead_link">
-                            {">> Primary Education"}
+                        <KeyboardArrowRightRoundedIcon/>  {"Primary Education"}
                         </div>
                         <div className="footdivhead_link">
-                            {">> Secondary Education"}
+                        <KeyboardArrowRightRoundedIcon/> {"Secondary Education"}
                         </div>
                         <div className="footdivhead_link">
-                            {">> NEET"}
+                        <KeyboardArrowRightRoundedIcon/> {"NEET"}
                         </div>
                         <div className="footdivhead_link">
-                            {">> Languages"}
+                        <KeyboardArrowRightRoundedIcon/>{"Languages"}
                         </div>
                     </div>
                     <div className="footdiv">
                         <div className="footdivHead">
                             CONTACT
                         </div>
-                        <div className="footdivHeademail">
+                       <div className="footdivbody">
+                       <div className="footdivHeademail">
                             <div className="footdivHeademailfirp">
                                 Phone
                             </div>
@@ -78,6 +79,7 @@ function HomeFooter() {
                             P O BOX IS 32925
                             </div>
                         </div>
+                       </div>
                     </div>
                 </div>
             </div>

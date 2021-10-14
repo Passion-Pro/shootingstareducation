@@ -1,24 +1,16 @@
 import { Divider } from '@mui/material';
 import React from 'react';
 import Sidebar from './Sidebar';
-import HomeFooter from '../Home/HomeFooter'
+import HomeFooter from '../Home/HomeFooter';
+import Title from '../Courses/CourseArchieve/Title';
+import Header from '../Header/Header';
 
 function Test_PrepJee() {
     return (
         <div className="Test_Prepneet">
+           <Header/>
             <div className="contact">
-      <div className="contact_header">
-        <div className="header_head">JEE MAIN and ADVANCED</div>
-        <div className="header_body">
-            <div className="header_body_home">
-                Home /
-            </div>
-            <div className="header_body_contact">
-            Course Detail
-            </div>
-        </div>
-
-      </div>
+            <Title title={"JEE"}/>
       <div className="contact_body">
         <div className="contact_body1">
           <div className="Form_N">

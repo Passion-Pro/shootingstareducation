@@ -1,0 +1,164 @@
+.headerMain{
+    display: flex;
+    width: 100vw;
+    height: 6vh;
+    min-width: fit-content;
+    border-bottom: 2px solid lightgray;
+    padding: 0 12px 0 12px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: white;
+}
+.headerMain__Left{
+    display: flex;
+    flex: 0.3;
+    align-items: center;
+}
+.headerMain__Middle{
+    display: flex;
+    flex: 0.4;
+    align-items: center;
+}
+.headerMain__Middle{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+.headerMain__Dehazeicon{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height:3.5vh;
+    width: 4vh;
+    border: 1px solid lightgray;
+    padding: 8px;
+    border-radius: 2px;
+    color: rgb(0, 127, 255)!important;
+}
+.HeaderMain__Selectcourse__Name{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgb(0, 127, 255);
+    font-weight: 700;
+}
+.headerMain__Dehazeicon:hover{
+    cursor: pointer;
+    background-color: rgb(236, 234, 234);
+    transition:0.3s;
+}
+.HeaderMain__Logo{
+    padding: 0 12px 0 12px;
+}
+.HeaderMain__Right{
+    display: flex;
+    flex: 0.3;
+    align-items: center;
+    justify-content: space-between;
+}
+.HeaderMain__Logo{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 5vh;
+}
+.HeaderMain__Logo>img{
+     width: 100%;
+     height: 100%;
+}
+.HeaderMain__Right{
+    display: flex;
+}
+.HeaderMain__Selectcourse{
+    display: flex;
+    width: 20vw;
+    height: 4vh;
+    border: 1px solid lightgray;
+    border-radius: 3px;
+    align-items: center;
+    justify-content: center;
+}
+.HeaderMain__Selectcourse__Name{
+    display: flex;
+    width: 30vw;
+    height: 4vh;
+    border-right: 1px solid lightgray;
+    font-size: large;
+    font-weight: 500;
+}
+.HeaderMain__SelectCourse_icon{
+   height: 100%;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   color: rgb(0, 127, 255)!important;
+}
+.HeaderMain__SelectCourse_icon:hover{
+    cursor: pointer;
+    background-color: rgb(236, 234, 234);
+    transition:0.3s;
+}
+.HeaderMain__HiddenDiv{
+    width: 20vw;
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 6vh;
+    left: 70%;
+    bottom: 0;
+    right: 0;
+    z-index: 100;
+    background-color: white;
+    height: fit-content;
+    border: 1px solid white;
+    font-weight: 600;
+    padding: 12px;
+}
+.HeaderMain__HiddenDiv_hide{
+    display: none;
+}
+.HeaderMain__HiddenDiv__IN{
+    display: flex;
+    word-break: break-all;
+    align-items: center;
+    justify-content: center;
+}
+.logo_m{
+    display:none ;
+}
+.headerMain__Dehazeicon{
+    display: none;
+}
+@media(max-width:768px){
+    .logo{
+        display: none;
+    }
+    .logo_m{
+        display:flex ;
+    }
+    .headerMain__Dehazeicon{
+        display: flex;
+    }
+    .headerMain__Middle{
+        display: none;
+    }
+    .headerMain__Left{
+        display: flex;
+        flex: 0.6;
+    }
+    .HeaderMain__Right{
+        display: flex;
+        flex: 0.4;
+    }
+    .HeaderMain__Selectcourse{
+        display: flex;
+        width: 40vw;
+        
+    }
+    .HeaderMain__Selectcourse__Name{ 
+        font-weight: 400;
+        font-size: small;
+        overflow-x: scroll;
+    }
+}
