@@ -14,11 +14,20 @@ import Test_PrepJee from "./Components/Test_Prepration/Test_PrepJee";
 import Test_Prepielts from "./Components/Test_Prepration/Test_Prepielts";
 import Main from "./Components/WithLogin/Main/Main";
 import Login from "./Components/Login/Login";
+import Chat from "./Components/WithLogin/Chat/Chat";
 
 function App() {
   return (
     <Router>
       <Switch>
+      <Route  path="/mainChat">
+          <div className="chat_Show">
+          <Chat />
+          </div>
+          <div className="chat_Show_Not">
+          <Main />
+          </div>
+        </Route>
         <Route  path="/main">
           <Main />
         </Route>

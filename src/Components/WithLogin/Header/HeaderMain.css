@@ -1,7 +1,7 @@
 .headerMain{
     display: flex;
     width: 100vw;
-    height: 6vh;
+    height: 8vh;
     min-width: fit-content;
     border-bottom: 2px solid lightgray;
     padding: 0 12px 0 12px;
@@ -36,13 +36,6 @@
     border-radius: 2px;
     color: rgb(0, 127, 255)!important;
 }
-.HeaderMain__Selectcourse__Name{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: rgb(0, 127, 255);
-    font-weight: 700;
-}
 .headerMain__Dehazeicon:hover{
     cursor: pointer;
     background-color: rgb(236, 234, 234);
@@ -55,7 +48,8 @@
     display: flex;
     flex: 0.3;
     align-items: center;
-    justify-content: space-between;
+    justify-content: space-around;
+    /* justify-content: space-between; */
 }
 .HeaderMain__Logo{
     display: flex;
@@ -66,9 +60,6 @@
 .HeaderMain__Logo>img{
      width: 100%;
      height: 100%;
-}
-.HeaderMain__Right{
-    display: flex;
 }
 .HeaderMain__Selectcourse{
     display: flex;
@@ -85,7 +76,11 @@
     height: 4vh;
     border-right: 1px solid lightgray;
     font-size: large;
-    font-weight: 500;
+    font-weight: 600;
+    color: rgb(0, 127, 255);
+    align-items: center;
+    justify-content: center;
+    min-width: fit-content;
 }
 .HeaderMain__SelectCourse_icon{
    height: 100%;
@@ -130,7 +125,15 @@
 .headerMain__Dehazeicon{
     display: none;
 }
-@media(max-width:768px){
+.HeaderMain__For__Mobile{
+    display: none;
+}
+.headerMain__chat__text{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+@media(max-width:1085px){
     .logo{
         display: none;
     }
@@ -152,13 +155,36 @@
         flex: 0.4;
     }
     .HeaderMain__Selectcourse{
-        display: flex;
-        width: 40vw;
-        
+      width: 60vw;
     }
-    .HeaderMain__Selectcourse__Name{ 
-        font-weight: 400;
-        font-size: small;
-        overflow-x: scroll;
+    .HeaderMain__Profile{
+        display: none;
+    }
+    .HeaderMain__Selectcourse__Name{
+        width: 100%;
+    }
+    .HeaderMain__HiddenDiv{
+        width: 60vw;
+        left: 38.6%;
+    }
+    .HeaderMain__For__Mobile{
+        display: flex;
+        position: absolute;
+        bottom: 0;
+        /* top: 0; */
+        left: 0;
+        right: 0;
+        border-top: 1px solid lightgray;
+        background-color: white;
+        height: 8vh;
+        z-index: 100;
+        align-items: center;
+        justify-content: space-around;
+    }
+
+}
+@media(max-width:377px){
+    .HeaderMain__HiddenDiv{
+        left: 37.2%;
     }
 }
