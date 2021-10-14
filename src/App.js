@@ -16,6 +16,7 @@ import Login from "./Components/Login/Login";
 import AssignmentsPage from "./Components/WithLogin/AssignmentsPage/AssignmentsPage";
 import NoticesPage from "./Components/WithLogin/Notices/NoticesPage";
 import DoubtsPage from "./Components/WithLogin/DoubtsPage/DoubtsPage";
+import Main from "./Components/WithLogin/Main/Main"
 
 function App() {
   return (
