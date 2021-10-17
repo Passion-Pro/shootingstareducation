@@ -92,7 +92,7 @@ const Container = styled.div`
   @media(max-width:500px) {
     width : fit-content;
       .doubt{
-          width : 50%;
+          width : 70%;
           height : fit-content;
       }
       .doubt_message{
