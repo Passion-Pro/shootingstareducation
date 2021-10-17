@@ -77,6 +77,7 @@ const Container = styled.div`
     display: flex;
     justify-content: center;
     margin-top: 30px;
+    margin-right : 30px;
   }
 
   @media (max-width: 1184px) {
