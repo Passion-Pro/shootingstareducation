@@ -1,0 +1,14 @@
+.doubtsPage{
+    width: 100vw;
+    height : 100vh;   
+};
+
+.upcoming_class{
+    display : none;
+}
+
+/* @media(max-width:1024px){
+    .upcoming_class{
+
+    }
+} */
