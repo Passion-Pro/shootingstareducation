@@ -8,20 +8,49 @@ import AttachFileIcon from "@mui/icons-material/AttachFile";
 import DoubtReplies from "./DoubtReplies";
 import { useStateValue } from "../../../StateProvider";
 import Notices from "../Notices/Notices";
+import {useHistory} from "react-router-dom"
+import { actionTypes } from "../../../reducer";
+import NoticePopup from "../Notices/NoticePopup";
+import AskDoubtPopup from "./AskDoubtPopup"
 
 function DoubtsPage() {
   const [{ openDoubtReplies }, dispatch] = useStateValue();
+  const history = useHistory();
+
+  const goToNoticesPage = (e) => {
+      e.preventDefault();
+      history.push("/NoticesPage")
+  }
+
+  const open_noticesPopup = (e) => {
+    e.preventDefault();
+    dispatch({
+      type: actionTypes.OPEN_NOTICES_POPUP,
+      openNoticesPopup: true,
+    });
+  };
+
+  const open_ask_doubt_popup = (e) => {
+      e.preventDefault();
+      dispatch({
+          type : actionTypes.OPEN_ASKDOUBT_POPUP,
+          openAskDoubtPopup : true
+      })
+  }
   return (
     <div className="doubtsPage">
-        {/* <div className="upcoming_class">
+        <div className="upcoming_class">
              <p>Upcoming class at 14:33 on Monday</p>
-             <button>Ask a doubt</button>
-             <button>Notices</button>
-         </div> */}
+             <div className="header_buttons">
+             <button className="notice_button" onClick = {open_noticesPopup}>Notices</button>
+             <button className="notice_button_for_mobile" onClick = {goToNoticesPage}>Notices</button>
+             </div>
+         </div>
       <Container>
         <DoubtBox>
           <div className="doubtBox_header">
             <p>Physics</p>
+            <button className="ask_doubt_button" onClick = {open_ask_doubt_popup}>Ask a doubt</button>
           </div>
           {openDoubtReplies === false?(<div className="doubtBox_doubts">
             <Doubt />
@@ -41,10 +70,11 @@ function DoubtsPage() {
           </div>
         </DoubtBox>
         <div className="notices">
-           <button>Ask a doubt</button>
           <Notices />
         </div>
       </Container>
+      <NoticePopup />
+      <AskDoubtPopup />
     </div>
   );
 }
@@ -54,6 +84,7 @@ const Container = styled.div`
   flex-direction: row;
   height: 100%;
   padding: 50px;
+  padding-top : 20px;
   justify-content : space-around;
   .notices {
     flex: 0.3;
@@ -98,6 +129,8 @@ const DoubtBox = styled.div`
 
   .doubtBox_header {
     padding: 10px;
+    display: flex;
+    justify-content : space-between;
     /* background-color: darkgray; */
     p {
       text-align: center;
