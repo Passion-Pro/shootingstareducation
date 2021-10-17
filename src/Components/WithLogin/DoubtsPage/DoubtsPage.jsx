@@ -1,11 +1,168 @@
-import React from 'react'
+import React from "react";
+import styled from "styled-components";
+import "./DoubtsPage.css";
+import Doubt from "./Doubt";
+import SendIcon from "@mui/icons-material/Send";
+import InsertEmoticonIcon from "@mui/icons-material/InsertEmoticon";
+import AttachFileIcon from "@mui/icons-material/AttachFile";
+import DoubtReplies from "./DoubtReplies";
+import { useStateValue } from "../../../StateProvider";
+import Notices from "../Notices/Notices";
 
 function DoubtsPage() {
-    return (
-        <div>
-           HI 
+  const [{ openDoubtReplies }, dispatch] = useStateValue();
+  return (
+    <div className="doubtsPage">
+        {/* <div className="upcoming_class">
+             <p>Upcoming class at 14:33 on Monday</p>
+             <button>Ask a doubt</button>
+             <button>Notices</button>
+         </div> */}
+      <Container>
+        <DoubtBox>
+          <div className="doubtBox_header">
+            <p>Physics</p>
+          </div>
+          {openDoubtReplies === false?(<div className="doubtBox_doubts">
+            <Doubt />
+            <Doubt />
+          </div>):(
+             <DoubtReplies/>
+          )}
+          <div className="doubtBox_footer">
+            <div className="send_Message_box">
+              <input type="text" placeholder="Type a message " />
+              <div className="icons">
+                <AttachFileIcon className="attach_file_icon icon" />
+                <InsertEmoticonIcon className="emoji_icon icon" />
+                <SendIcon className="send_icon icon" />
+              </div>
+            </div>
+          </div>
+        </DoubtBox>
+        <div className="notices">
+           <button>Ask a doubt</button>
+          <Notices />
         </div>
-    )
+      </Container>
+    </div>
+  );
 }
 
-export default DoubtsPage
+const Container = styled.div`
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  padding: 50px;
+  justify-content : space-around;
+  .notices {
+    flex: 0.3;
+    display: flex;
+    justify-content: flex-start;
+    margin-left : 20px;
+    /* margin-top : -50px; */
+    flex-direction : column;
+    width : fit-content;
+    padding-top : 0px;
+    button{
+        height : 40px;
+        border-radius : 10px;
+        margin-left : 25px;
+        background-color : white;
+        &:hover{
+            background-color : #80b3f5;
+            color : white;
+        }
+    }
+  }
+
+  @media(max-width:1024px) {
+      .notices {
+          display : none;
+      }
+  }
+  
+  @media(max-width:500px) {
+     padding : 0px;
+     padding-top : 20px;
+  }
+`;
+
+const DoubtBox = styled.div`
+  flex: 0.7;
+  /* padding: 10px; */
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid lightgray;
+
+  .doubtBox_header {
+    padding: 10px;
+    /* background-color: darkgray; */
+    p {
+      text-align: center;
+      margin-bottom: 0px;
+      font-size: 17px;
+      font-weight: 450;
+    }
+    border-bottom: 1px solid lightgray;
+  }
+
+  .doubtBox_doubts {
+    /* background-color: #eeeded; */
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+    background-color: #5094ee;
+  }
+
+  .doubtBox_footer {
+    background-color: #fff;
+    width: 100%;
+    height: 60px;
+    padding: 5px;
+    display: flex;
+    flex-direction: row;
+  }
+
+  .send_Message_box {
+    width: 100%;
+    height: 100%;
+    border: 1px solid lightgray;
+    display: flex;
+    flex-direction: column;
+    padding: 5px;
+    input {
+      border: 0;
+      outline-width: 0px;
+      width: 100%;
+      padding: 5px;
+      height: 50%;
+    }
+  }
+
+  .send_icon {
+    margin-left: 10px;
+  }
+
+  .icons {
+    display: flex;
+    justify-content: flex-end;
+    margin-left: 5px;
+  }
+
+  .icon {
+    font-size: 18px;
+    &:hover {
+      cursor: pointer;
+      color: #6d6969;
+    }
+  }
+
+  @media (max-width: 1024px) {
+      flex : 1;
+  }
+`;
+
+export default DoubtsPage;

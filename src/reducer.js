@@ -4,6 +4,7 @@ export const initialState = {
   signInAs : null,
   openAsignmentPopup : false,
   openNoticesPopup : false,
+  openDoubtReplies : false,
 };
 
 export const actionTypes = {
@@ -11,7 +12,8 @@ export const actionTypes = {
   SET_USER : "SET_USER",
   SIGN_IN_AS : "SIGN_IN_AS",
   OPEN_ASSIGNMENT_POPUP : "OPEN_ASSIGNMENT_POPUP",
-  OPEN_NOTICES_POPUP : "OPEN_NOTICES_POPUP"
+  OPEN_NOTICES_POPUP : "OPEN_NOTICES_POPUP", 
+  OPEN_DOUBT_REPLIES : "OPEN_DOUBT_REPLIES",
 };
 
 const reducer = (state, action) => {
@@ -36,6 +38,11 @@ const reducer = (state, action) => {
       return{
         ...state,
         openNoticesPopup : action.openNoticesPopup,
+      }
+    case actionTypes.OPEN_DOUBT_REPLIES:
+      return{
+        ...state,
+        openDoubtReplies : action.openDoubtReplies,
       }
 
     default:

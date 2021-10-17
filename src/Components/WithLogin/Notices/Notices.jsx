@@ -20,8 +20,9 @@ function Notices() {
 
 const Container=styled.div`
   margin:20px;
-  margin-left : 0px;
-  margin-right : 40px;
+  margin-top : 0px;
+  /* margin-left : 0px;
+  margin-right : 40px; */
   width : 100%;
   max-height : 70vh;
   /* background-color : #e9e6e6; */
