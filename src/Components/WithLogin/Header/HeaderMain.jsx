@@ -26,7 +26,7 @@ function HeaderMain() {
        </div>
        <div className="headerMain__Middle">
          <div className="headerMain__Middle">
-           <div className="headerMain__assignment"> 
+           <div className="headerMain__assignment" onClick={() => history.push("/AssignmentsPage")}> 
            <IconButton>
            <AssignmentIcon/>
            </IconButton>
@@ -34,8 +34,8 @@ function HeaderMain() {
               Assignment
              </div>
            </div>
-           <div className="headerMain__assignment">
-           <IconButton>
+           <div className="headerMain__assignment" onClick={() => history.push('/DoubtsPage')}>
+           <IconButton >
             <QuestionAnswerIcon/>
             </IconButton>
             <div className="headerMain__chat__text">

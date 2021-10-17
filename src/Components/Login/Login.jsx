@@ -15,7 +15,12 @@ function Login() {
     auth
       .signInWithEmailAndPassword(email, password)
       .then((auth) => {
-        history.push("/AssignmentsPage");
+        if(signInAs === "teacher"){
+          history.push("/AssignmentsPageForTeachers");
+        }
+        else if(signInAs === "student"){
+          history.push("/AssignmentsPage")
+        }
       })
       .catch((error) => alert(error.message));
   };
