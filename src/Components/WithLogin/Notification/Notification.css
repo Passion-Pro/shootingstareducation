@@ -1,10 +1,9 @@
 .Notification{
     display: flex;
     flex: 0.3!important;
-    border: 2px solid lightgray;
-    height: 70vh;
+    height: 80vh;
     width: 100%;
-    overflow:scroll;
+    overflow: hidden;
 }
 @media(max-width:1085px){
   .Notification{

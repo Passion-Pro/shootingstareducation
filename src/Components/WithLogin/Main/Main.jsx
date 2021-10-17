@@ -9,7 +9,6 @@ import Notices from '../Notices/Notices';
 function Main() { 
     return (
         <div className="main">
-            {/* <div className="Header_Show"> */}
             <HeaderMain/>
             {/* </div> */}
             <div className="mainBody">

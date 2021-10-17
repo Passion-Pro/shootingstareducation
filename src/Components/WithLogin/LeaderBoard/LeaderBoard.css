@@ -21,7 +21,6 @@
 .leaderboard__body__In__Header{
     display: flex;
     align-items: center;
-    justify-content: space-around;
    height: 10vh;
    width: 100%;
    border-top-left-radius: 8px;
@@ -29,9 +28,18 @@
    background-color: #223577;
    color: seashell;
 }
+.leadeaboard__body__Header__back{
+    display: flex;
+    justify-content: center;
+    padding-left: 12px;
+}
 .leaderboard__body__Header__text{
+    display: flex;
+    justify-content: center;
     font-size: x-large;
     font-weight: 500;
+    flex: 1;
+
 }
 .leaderboard__body__In__head_head{
     display: flex;
@@ -67,5 +75,16 @@
 @media(max-width:768px){
     .leaderboard__body__In{
         width: 100%;
+        height: 100vh;
+    }
+    .leaderboard__body__In__Header{
+        border-top-right-radius:0;
+        border-top-left-radius: 0;    
+    }
+    .LeaderBoard__Header{
+      display: none;   
+    }
+    .leaderboard__body__In__Body{
+        height: 80vh;
     }
 }

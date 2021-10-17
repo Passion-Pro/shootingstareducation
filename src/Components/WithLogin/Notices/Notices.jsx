@@ -12,6 +12,9 @@ function Notices() {
                    <Notice/>
                    <Notice/>
                    <Notice/>
+                   <Notice/>
+                   <Notice/>
+                   <Notice/>
                </div>
             </Container>
         </>
@@ -24,12 +27,12 @@ const Container=styled.div`
   /* margin-left : 0px;
   margin-right : 40px; */
   width : 100%;
-  max-height : 70vh;
   /* background-color : #e9e6e6; */
   border-radius : 10px;
   padding : 10px;
   padding-top : 15px;
-  height : fit-content;
+  height: 80vh;
+  /* height : fit-content; */
 
   .all_notices{
       margin-top : 40px;

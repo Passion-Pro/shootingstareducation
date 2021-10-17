@@ -8,7 +8,7 @@ function LeaderSecHead() {
             Name
            </div>
            <div className="LeaderSecHead__Other">
-            Others
+           
            </div>
        </div>
     )

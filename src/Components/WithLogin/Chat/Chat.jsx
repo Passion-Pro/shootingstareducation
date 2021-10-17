@@ -1,16 +1,16 @@
 import React, { useState } from "react";
 import "./Chat.css";
-import SendRoundedIcon from "@mui/icons-material/SendRounded";
-import { IconButton } from '@mui/material';
+import SendIcon from "@mui/icons-material/Send";import { IconButton } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { useHistory } from "react-router";
+import { useHistory } from "react-router";import AttachFileIcon from "@mui/icons-material/AttachFile";
+import db from "../../../firebase";
 
 function Chat() {
   const [input, setInput] = useState("");
   const user=true;
   const history=useHistory()
   const sendMessage=()=>{
-
+        // db.collection(course)
   }
   return (
     <div className="chat">
@@ -20,8 +20,6 @@ function Chat() {
            <IconButton>
             <ArrowBackIcon />
             </IconButton>
-         </div>
-         <div className="chat__headerFirst__Fotu">
          </div>
          <div className="chat__headerFirst__account">
             WEB DEVELOPMENT
@@ -41,15 +39,15 @@ function Chat() {
               </div>
           </div>
       </div>
-      <div className="chat__input">
-        <input
-          type="text"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          placeholder="Type a message ... "
-        />
-        <SendRoundedIcon id="send" fontSize="large" onClick={sendMessage}/>
-      </div>
+      <div className="doubtBox_footer">
+            <div className="send_Message_box">
+              <input type="text" placeholder="Type a message " />
+              <div className="icons">
+                <AttachFileIcon className="attach_file_icon icon" />
+                <SendIcon className="send_icon icon" />
+              </div>
+            </div>
+          </div>
     </div>
   );
 }
