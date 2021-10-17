@@ -1,11 +1,11 @@
 .headerMain{
     display: flex;
     width: 100vw;
-    height: 8vh;
+    height: fit-content;
     min-width: fit-content;
     border-bottom: 2px solid lightgray;
-    padding: 0 12px 0 12px;
-    position: absolute;
+    /* padding: 4px 0 2px 0; */
+    position: sticky;
     top: 0;
     left: 0;
     background-color: white;

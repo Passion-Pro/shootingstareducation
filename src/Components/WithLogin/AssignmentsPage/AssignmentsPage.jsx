@@ -8,6 +8,7 @@ import Notices from "../Notices/Notices";
 import { actionTypes } from "../../../reducer";
 import NoticePopup from "../Notices/NoticePopup";
 import { useHistory } from "react-router-dom";
+import HeaderMain from "../Header/HeaderMain"
 
 function AssignmentsPage() {
   const [{ openAsignmentPopup }, dispatch] = useStateValue();
@@ -27,6 +28,7 @@ function AssignmentsPage() {
   };
   return (
     <div className="assignmentsPage">
+     <HeaderMain/>
       <div className="upcoming_class_div">
         <p>Upcoming Class at 14:33 on Monday</p>
         <div className="upcoming_class_div_button">

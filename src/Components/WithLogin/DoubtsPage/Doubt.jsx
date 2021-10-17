@@ -46,16 +46,16 @@ const Container = styled.div`
     margin-left: auto;
     margin-top: 10px;
     margin-bottom: 4px;
-    width: 300px;
+    width: 60%;
   }
 
   .doubt_message {
     position: relative;
-    width: 300px;
+    width: 100%;
     background-color: #fff;
     border-radius: 10px;
     p {
-      font-size: 12px;
+      font-size: 14px;
       padding: 10px;
       margin-bottom: 0px;
       padding-bottom: 4px !important;
