@@ -40,7 +40,7 @@
 .chat_Show{
     display: none;
 }
-@media(max-width:768px){
+@media(max-width:1085px){
   .chat_Show_Not{
     display: none;
 }

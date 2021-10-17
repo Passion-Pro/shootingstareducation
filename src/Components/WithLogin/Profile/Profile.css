@@ -1,0 +1,46 @@
+.profile{
+   height: 100vh;
+   width: 100vw;
+   display: flex;
+   flex-direction: column;
+}
+.profile__Fotu{
+
+}
+.profile__body{
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  align-items: center;
+  justify-content: center;
+} 
+.profile__bodyIn{
+  height: 75vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0 0 120px 0;
+  background-color: #338fecc0;
+  width: 50%;
+}
+.profile__Name{
+display: flex;
+flex-direction: column;
+padding-top: 22px;
+max-width: 40vh;
+width: fit-content;
+/* align-items: center;
+justify-content: center; */
+}
+.Courses__div{
+  max-height: 20vh ;
+  height: fit-content;
+}
+.update__profile>h6{
+  display: flex;
+  flex-direction: column;
+  font-size: x-large;
+  font-weight: 600;
+  color: #3390ec;
+}
