@@ -77,7 +77,9 @@
     flex-direction: column;
     width: fit-content;
     max-width: 70%;
+    /* border: 1px solid lightgray; */
     border-radius: 6px;
+    /* background-color: rgb(241, 241, 241); */
 }
 .chat__message_div{
     display: flex;
@@ -94,13 +96,15 @@
     align-content: flex-end;
     justify-content: flex-end;
     padding:0 12px 0 0;
-    font-size: small;
+    font-size: 12px;
 }
 .chat__message__my>h6{
     margin: 0;
     padding: 2px 0px 3px 0px !important ;
     color: black;
     font-style: italic;
+    font-size: 13px;
+    font-weight: 700;
 }
 .chat__message_div{
     padding: 0 6px 0 6px;
@@ -111,7 +115,7 @@
     margin: 0;
     padding-top: 12px ;
     font-weight: 400;
-    font-size: 18px;
+    font-size: 14px;
 }
 .chat__msgBox{
     display: flex;
