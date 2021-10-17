@@ -5,6 +5,7 @@ export const initialState = {
   openAsignmentPopup : false,
   openNoticesPopup : false,
   openDoubtReplies : false,
+  course: null,
   openAskDoubtPopup : false,
 };
 
@@ -16,6 +17,7 @@ export const actionTypes = {
   OPEN_NOTICES_POPUP : "OPEN_NOTICES_POPUP", 
   OPEN_DOUBT_REPLIES : "OPEN_DOUBT_REPLIES",
   OPEN_ASKDOUBT_POPUP : "OPEN_ASKDOUBT_POPUP",
+  SET_COURSE:"SET_COURSE",
 };
 
 const reducer = (state, action) => {
