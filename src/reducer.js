@@ -23,30 +23,35 @@ export const actionTypes = {
 const reducer = (state, action) => {
   console.log(action);
   switch (action.type) {
+    case actionTypes.SET_COURSE:
+      return {
+        ...state,
+        course: action.course,
+      };
     case actionTypes.OPEN_SIGNINPOPUP:
       return {
         ...state,
         openSignInPopup: action.openSignInPopup,
       };
     case actionTypes.SIGN_IN_AS:
-        return{
-            ...state,
-            signInAs: action.signInAs,
-        }
-    case actionTypes.OPEN_ASSIGNMENT_POPUP:
-      return{
+      return {
         ...state,
-        openAsignmentPopup : action.openAsignmentPopup,
+        signInAs: action.signInAs,
+      }
+    case actionTypes.OPEN_ASSIGNMENT_POPUP:
+      return {
+        ...state,
+        openAsignmentPopup: action.openAsignmentPopup,
       }
     case actionTypes.OPEN_NOTICES_POPUP:
-      return{
+      return {
         ...state,
-        openNoticesPopup : action.openNoticesPopup,
+        openNoticesPopup: action.openNoticesPopup,
       }
     case actionTypes.OPEN_DOUBT_REPLIES:
-      return{
+      return {
         ...state,
-        openDoubtReplies : action.openDoubtReplies,
+        openDoubtReplies: action.openDoubtReplies,
       }
     case actionTypes.OPEN_ASKDOUBT_POPUP:
       return{

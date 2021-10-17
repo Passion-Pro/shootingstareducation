@@ -18,14 +18,16 @@ function LeaderBoard() {
     // var date= today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
   return (
     <div className="LeaderBoard">
+      <div className="LeaderBoard__Header">
       <HeaderMain />
+      </div>
       <div className="leaderboard__Body">
         <div className="leaderboard__body__In">
           <div className="leaderboard__body__In__Header">
               <div className="leadeaboard__body__Header__back">
-               <ArrowBackRoundedIcon onClick={()=>{
+               <ArrowBackRoundedIcon onClick={()=>
                   history.push('/main')
-               }}/>
+               }/>
               </div>
               <div className="leaderboard__body__Header__text">
               LeaderBoard

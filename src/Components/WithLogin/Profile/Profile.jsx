@@ -10,7 +10,7 @@ function Profile() {
             <div className="profile__body">
                <div className="profile__bodyIn">
                    <div className="profile__Fotu">
-                   <AccountCircleRoundedIcon style={{ fontSize: 110 }} />
+                   <AccountCircleRoundedIcon style={{ fontSize: 110,color:'white' }} />
                    </div>
                    <div className="profile__Name">
                      <h6>Nishant</h6>
