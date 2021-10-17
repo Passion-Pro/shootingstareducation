@@ -1,6 +1,6 @@
 .chat{
     display: flex;
-    flex: 0.7 !important;
+    flex: 0.7;
     flex-direction: column;
     margin-right: 12px;
     border: 2px solid rgba(1, 14, 27, 0.255);
@@ -10,14 +10,13 @@
 .chat__header{
     display: flex;
     height: 60px;
-    border-bottom: 1px solid rgb(0, 127, 255,0.255);
+    border-bottom: 1px solid lightgray;
     z-index: 1;
-    background-color: rgba(0,0,0,.1);
+    background-color: rgb(241, 241, 241);
     width: 100%;
     align-items: center;
     justify-content: space-between;
     padding: 12px;
-    background-color: rgb(0, 127, 255,0.555);
 }
 .chat__headerFirst{
     display: flex;

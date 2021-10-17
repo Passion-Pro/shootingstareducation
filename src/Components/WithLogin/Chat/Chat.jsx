@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import "./Chat.css";
 import SendRoundedIcon from "@mui/icons-material/SendRounded";
-import MoreVertIcon from '@mui/icons-material/MoreVert';
+import { IconButton } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { useHistory } from "react-router";
 
 function Chat() {
   const [input, setInput] = useState("");
   const user=true;
+  const history=useHistory()
   const sendMessage=()=>{
 
   }
@@ -14,8 +16,10 @@ function Chat() {
     <div className="chat">
       <div className="chat__header">
        <div className="chat__headerFirst">
-         <div className="chat__headerFirst__back">
+         <div className="chat__headerFirst__back" onClick={()=>history.push('/main')}>
+           <IconButton>
             <ArrowBackIcon />
+            </IconButton>
          </div>
          <div className="chat__headerFirst__Fotu">
          </div>

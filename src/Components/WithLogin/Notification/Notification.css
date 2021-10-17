@@ -1,11 +1,16 @@
 .Notification{
     display: flex;
-    flex: 0.3;
-    border: 3px solid lightgray;
+    flex: 0.3!important;
+    border: 2px solid lightgray;
     height: 70vh;
+    width: 100%;
+    overflow:scroll;
 }
-@media(max-width:1000px){
-    .Notification{
-      display: none;
-    }
+@media(max-width:1085px){
+  .Notification{
+    flex: 1;
+    border: none;
+    align-items: center;
+    justify-content: center;
+}
   }

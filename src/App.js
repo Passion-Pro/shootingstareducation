@@ -16,7 +16,10 @@ import Login from "./Components/Login/Login";
 import AssignmentsPage from "./Components/WithLogin/AssignmentsPage/AssignmentsPage";
 import NoticesPage from "./Components/WithLogin/Notices/NoticesPage";
 import DoubtsPage from "./Components/WithLogin/DoubtsPage/DoubtsPage";
-import Main from "./Components/WithLogin/Main/Main"
+import Main from "./Components/WithLogin/Main/Main";
+import Chat from "./Components/WithLogin/Chat/Chat";
+import Profile from "./Components/WithLogin/Profile/Profile";
+import LeaderBoard from "./Components/WithLogin/LeaderBoard/LeaderBoard";
 
 function App() {
   return (
@@ -30,8 +33,14 @@ function App() {
           <Main />
           </div>
         </Route>
+        <Route  path="/leaderboard">
+          <LeaderBoard />
+        </Route>
         <Route  path="/main">
           <Main />
+        </Route>
+        <Route  path="/profile">
+          <Profile />
         </Route>
         <Route  path="/contact">
           <Contact />
