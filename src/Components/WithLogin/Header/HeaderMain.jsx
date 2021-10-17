@@ -62,6 +62,11 @@ function HeaderMain() {
         <ArrowDropDownRoundedIcon/>
         </div>
         </div>
+        <div className={showDiv?"HeaderMain__HiddenDiv":"HeaderMain__HiddenDiv_hide"}>
+          <div className="HeaderMain__HiddenDiv__IN"  onClick={()=>setShowDiv(!showDiv)}>
+            WEB DEVELOPMENT
+          </div>
+           </div>
      </div>
         <div className="HeaderMain__Profile" onClick={()=>{
           history.push('/profile')
@@ -70,11 +75,6 @@ function HeaderMain() {
         </div> 
       </div>
         </div>
-         <div className={showDiv?"HeaderMain__HiddenDiv":"HeaderMain__HiddenDiv_hide"}>
-          <div className="HeaderMain__HiddenDiv__IN"  onClick={()=>setShowDiv(!showDiv)}>
-            WEB DEVELOPMENT
-          </div>
-           </div>
           <div className="HeaderMain__For__Mobile">
            <div className="headerMain__chat" onClick={()=>history.push('/mainchat')}>
              <IconButton>

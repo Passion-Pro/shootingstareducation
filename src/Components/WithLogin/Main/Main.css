@@ -3,6 +3,7 @@
   flex-direction: column;
   width: 100vw;
   height: 100vh;
+  padding: 8px 0 8px 0;
 }
 .mainBody {
   display: flex;
