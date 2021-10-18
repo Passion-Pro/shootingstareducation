@@ -12,6 +12,7 @@ import {useHistory} from "react-router-dom"
 import { actionTypes } from "../../../reducer";
 import NoticePopup from "../Notices/NoticePopup";
 import AskDoubtPopup from "./AskDoubtPopup"
+import HeaderMain from "../Header/HeaderMain"
 
 function DoubtsPage() {
   const [{ openDoubtReplies }, dispatch] = useStateValue();
@@ -38,6 +39,8 @@ function DoubtsPage() {
       })
   }
   return (
+    <>
+        <HeaderMain/>
     <div className="doubtsPage">
         <div className="upcoming_class">
              <p>Upcoming class at 14:33 on Monday</p>
@@ -76,6 +79,7 @@ function DoubtsPage() {
       <NoticePopup />
       <AskDoubtPopup />
     </div>
+    </>
   );
 }
 
