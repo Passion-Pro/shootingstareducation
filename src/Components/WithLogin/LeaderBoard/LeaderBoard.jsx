@@ -18,8 +18,8 @@ function LeaderBoard() {
     // var date= today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
   return (
     <div className="LeaderBoard">
-      <div className="LeaderBoard__Header">
       <HeaderMain />
+      <div className="LeaderBoard__Header">
       </div>
       <div className="leaderboard__Body">
         <div className="leaderboard__body__In">
