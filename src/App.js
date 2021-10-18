@@ -20,41 +20,45 @@ import Main from "./Components/WithLogin/Main/Main";
 import Chat from "./Components/WithLogin/Chat/Chat";
 import Profile from "./Components/WithLogin/Profile/Profile";
 import LeaderBoard from "./Components/WithLogin/LeaderBoard/LeaderBoard";
+import MainTeacher from "./Components/WithLogin/Teacher/Main/MainTeacher";
 
 function App() {
   return (
     <Router>
       <Switch>
-      <Route  path="/mainChat">
+        <Route path="/mainChat">
           <div className="chat_Show">
-          <Chat />
+            <Chat />
           </div>
           <div className="chat_Show_Not">
-          <Main />
+            <Main />
           </div>
         </Route>
-        <Route  path="/leaderboard">
+        <Route path="/mainteacher">
+          <MainTeacher />
+        </Route>
+        <Route path="/leaderboard">
           <LeaderBoard />
         </Route>
-        <Route  path="/main">
+        <Route path="/main">
           <Main />
         </Route>
-        <Route  path="/profile">
+        <Route path="/profile">
           <Profile />
         </Route>
-        <Route  path="/contact">
+        <Route path="/contact">
           <Contact />
         </Route>
         <Route path="/test preparation sat">
           <Test_Prepsat />
         </Route>
-        <Route  path="/test preparation neet">
+        <Route path="/test preparation neet">
           <Test_Prepneet />
         </Route>
-        <Route  path="/test preparation jee">
+        <Route path="/test preparation jee">
           <Test_PrepJee />
         </Route>
-        <Route  path="/test preparation ielts">
+        <Route path="/test preparation ielts">
           <Test_Prepielts />
         </Route>
         <Route path="/headerSidebar">
@@ -75,16 +79,16 @@ function App() {
         <Route path="/languages">
           <Languages />
         </Route>
-        <Route path = "/signIn">
-          <Login/>
+        <Route path="/signIn">
+          <Login />
         </Route>
-        <Route path = "/AssignmentsPage">
+        <Route path="/AssignmentsPage">
           <AssignmentsPage />
         </Route>
-        <Route path = "/NoticesPage">
+        <Route path="/NoticesPage">
           <NoticesPage />
         </Route>
-        <Route path = "/DoubtsPage">
+        <Route path="/DoubtsPage">
           <DoubtsPage />
         </Route>
         <Route path="/">
