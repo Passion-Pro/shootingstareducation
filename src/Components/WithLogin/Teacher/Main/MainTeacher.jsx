@@ -1,13 +1,13 @@
 import React from 'react';
 import Chat from '../../Chat/Chat';
-import HeaderMain from '../../Header/HeaderMain';
+import HeaderTeacher from '../HeaderTeacher/HeaderTeacher';
 import NoticesTeacher from '../Notice/NoticesTeacher';
 import './MainTeacher.css';
 
 function MainTeacher() {
     return (
         <div className="mainteacher">
-          <HeaderMain/>
+          <HeaderTeacher/>
           <div className="mainBody">
                 <div className="mainBodyIN">
                 <div id="chat">

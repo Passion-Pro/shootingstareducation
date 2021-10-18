@@ -1,0 +1,195 @@
+.headerTeacher{
+    display: flex;
+    width: 100vw;
+    height: fit-content;
+    border-bottom: 2px solid lightgray;
+    position: sticky;
+    top: 0;
+    background-color: white;
+    align-items: center;
+    justify-content: space-between;
+}
+.chat__headerFirst__back{
+    display: none;
+}
+.HeaderTeacher__Profile{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+.headerTeacher__Left{
+    display: flex;
+    flex: 0.7;
+    align-items: center;
+}
+.headerTeacher__Middle{
+    display: flex;
+    flex: 0.3;
+    /* align-items: center; */
+}
+.headerTeacher__Middle{
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+.headerTeacher__Dehazeicon{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height:3.5vh;
+    width: 4vh;
+    border: 1px solid lightgray;
+    padding: 8px;
+    border-radius: 2px;
+    color: rgb(0, 127, 255)!important;
+}
+.headerTeacher__Dehazeicon:hover{
+    cursor: pointer;
+    background-color: rgb(236, 234, 234);
+    transition:0.3s;
+}
+.HeaderTeacher__Logo{
+    padding: 0 12px 0 12px;
+}
+.HeaderTeacher__Right{
+    display: flex;
+    flex: 0.3;
+    align-items: center;
+    justify-content: space-around;
+    /* justify-content: space-between; */
+}
+.HeaderTeacher__Right__Div{
+    width: 100%;
+}
+.HeaderTeacher__Logo{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 5vh;
+}
+.HeaderTeacher__Logo>img{
+     width: 100%;
+     height: 100%;
+}
+.HeaderTeacher__Selectcourse{
+    display: flex;
+    width: 20vw;
+    height: 4vh;
+    border: 1px solid lightgray;
+    border-radius: 3px;
+    align-items: center;
+    justify-content: center;
+    margin-right: 12px;
+}
+.HeaderTeacher__Selectcourse__Name{
+    display: flex;
+    width: 30vw;
+    height: 4vh;
+    border-right: 1px solid lightgray;
+    font-size: large;
+    font-weight: 600;
+    color: rgb(0, 127, 255);
+    align-items: center;
+    justify-content: center;
+    min-width: fit-content;
+}
+.HeaderTeacher__SelectCourse_icon{
+   height: 100%;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   color: rgb(0, 127, 255)!important;
+}
+.HeaderTeacher__SelectCourse_icon:hover{
+    cursor: pointer;
+    background-color: rgb(236, 234, 234);
+    transition:0.3s;
+}
+.HeaderTeacher__HiddenDiv{
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    width: 20%;
+    z-index: 100;
+    background-color: white;
+    height: fit-content;
+    border: 1px solid lightgray;
+    font-weight: 600;
+    padding: 12px;
+    margin-top: 10px;
+    border-top: 2px solid #2370e2;
+}
+.HeaderTeacher__HiddenDiv_hide{
+    display: none;
+}
+.HeaderTeacher__HiddenDiv__IN{
+    display: flex;
+    word-break: break-all;
+    align-items: center;
+    /* justify-content: center; */
+}
+.logo_m{
+    display:none ;
+}
+.headerTeacher__Dehazeicon{
+    display: none;
+}
+.HeaderTeacher__For__Mobile{
+    display: none;
+}
+.headerTeacher__chat__text{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.headerTeacher__assignment{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 12px;
+}
+@media(max-width:1085px){
+    .logo{
+        display: flex;
+    }
+    .logo_m{
+        display:none;
+    }
+    .headerTeacher__Dehazeicon{
+        display: flex;
+    }
+    .headerTeacher__Middle{
+        display: none;
+    }
+    .headerTeacher__Left{
+        display: flex;
+    }
+    .HeaderTeacher__Selectcourse{
+      width: 60vw;
+    }
+    .HeaderTeacher__Selectcourse__Name{
+        width: 100%;
+    }
+    .HeaderTeacher__For__Mobile{
+        display: flex;
+        position: absolute;
+        bottom: 0;
+        /* top: 0; */
+        left: 0;
+        right: 0;
+        border-top: 1px solid lightgray;
+        background-color: white;
+        height: 8vh;
+        z-index: 100;
+        align-items: center;
+        justify-content: space-around;
+    }
+    .chat__headerFirst__back{
+        display: flex;
+    }
+    .HeaderTeacher__HiddenDiv{
+        width: 60%;
+    }
+}
