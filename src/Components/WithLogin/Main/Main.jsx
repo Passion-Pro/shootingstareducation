@@ -1,10 +1,8 @@
 import React from 'react';
 import './Main.css'
 import Chat from '../Chat/Chat'
-import HeaderMain from '../Header/HeaderMain'
-import Notification from '../Notification/Notification'
-import UpcomingClass from '../Notices/UpcomingClass';
-import Notices from '../Notices/Notices';
+import HeaderMain from '../Header/HeaderMain';
+import FirstNotices from '../FirstNotices/FirstNotices';
 
 function Main() { 
     return (
@@ -17,7 +15,7 @@ function Main() {
                 <Chat />
                 </div>
                 <div id="noti">
-                <Notification/>
+                <FirstNotices/>
                 </div>
                 </div>
             </div>

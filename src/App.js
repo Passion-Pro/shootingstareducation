@@ -21,6 +21,7 @@ import Chat from "./Components/WithLogin/Chat/Chat";
 import Profile from "./Components/WithLogin/Profile/Profile";
 import LeaderBoard from "./Components/WithLogin/LeaderBoard/LeaderBoard";
 import MainTeacher from "./Components/WithLogin/Teacher/Main/MainTeacher";
+import Notification from "./Components/WithLogin/Notification/Notification";
 
 
 function App() {
@@ -34,6 +35,9 @@ function App() {
           <div className="chat_Show_Not">
             <Main />
           </div>
+        </Route>
+        <Route path="/notification">
+          <Notification/>
         </Route>
         <Route path="/mainteacher">
           <MainTeacher />

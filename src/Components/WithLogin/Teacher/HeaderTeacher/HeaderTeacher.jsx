@@ -15,66 +15,85 @@ function HeaderTeacher() {
   const history=useHistory();
     return (
       <>
-        <div className="headerTeacher">
-       <div className="headerTeacher__Left">
-       <div className="HeaderTeacher__Logo" onClick={()=>
+        <div className="headerMain">
+       <div className="headerMain__Left">
+       <div className="HeaderMain__Logo" onClick={()=>
        history.push('/main')
       }>
               <img src={"/img/lolo.svg"} alt="logo" className="logo"/>
               <img src="/img/Star_logo.png" alt="" className="logo_m"/>
        </div>
        </div>
-       <div className="headerTeacher__Middle">
-         <div className="headerTeacher__Middle">
-           <div className="headerTeacher__assignment" onClick={() => history.push("/AssignmentsPage")}> 
+       <div className="headerMain__Middle">
+         <div className="headerMain__Middle">
+           <div className="headerMain__assignment" onClick={() => history.push("/AssignmentsPage")}> 
            <IconButton>
            <AssignmentIcon/>
            </IconButton>
-           <div className="headerTeacher__chat__text">
+           <div className="headerMain__chat__text">
               Assignment
              </div>
            </div>
-           <div className="headerTeacher__assignment" onClick={() => history.push('/DoubtsPage')}>
+           <div className="headerMain__assignment" onClick={() => history.push('/DoubtsPage')}>
            <IconButton >
             <QuestionAnswerIcon/>
             </IconButton>
-            <div className="headerTeacher__chat__text">
+            <div className="headerMain__chat__text">
               Doubt
              </div>
            </div>
-           <div className="headerTeacher__assignment" onClick={()=>history.push('/leaderboard')}>
+           <div className="headerMain__assignment" onClick={()=>history.push('/leaderboard')}>
            <IconButton>
            <LeaderboardIcon />
             </IconButton>
-            <div className="headerTeacher__chat__text">
+            <div className="headerMain__chat__text">
               LeaderBoard
              </div>
            </div>
          </div>
        </div> 
-       <div className="headerTeacher__assignment" onClick={()=>{
+      <div className="HeaderMain__Right">
+     <div className="HeaderMain__Right__Div">
+     {/* <div className="HeaderMain__Selectcourse">
+        <div className="HeaderMain__Selectcourse__Name">
+          WEB DEVELOPMENT
+        </div>
+        <div className="HeaderMain__SelectCourse_icon" onClick={()=>setShowDiv(!showDiv)}>
+        <ArrowDropDownRoundedIcon/>
+        </div>
+        </div> */}
+        {/* <div className={showDiv?"HeaderMain__HiddenDiv":"HeaderMain__HiddenDiv_hide"}>
+          <div className="HeaderMain__HiddenDiv__IN"  onClick={()=>setShowDiv(!showDiv)}>
+            WEB DEVELOPMENT
+          </div>
+           </div> */}
+     </div>
+        <div className="HeaderMain__Profile" onClick={()=>{
           history.push('/profile')
         }}>
+          <div className="headerMain__assignment" onClick={()=>history.push('/leaderboard')}>
            <IconButton>
-        <AccountCircleRoundedIcon/>
+        <AccountCircleRoundedIcon />
             </IconButton>
-            <div className="headerTeacher__chat__text">
-              Account
+            <div className="headerMain__chat__text">
+              LeaderBoard
              </div>
            </div>
+        </div> 
+      </div>
         </div>
-          <div className="HeaderTeacher__For__Mobile">
-           <div className="headerTeacher__chat" onClick={()=>history.push('/mainchat')}>
+          <div className="HeaderMain__For__Mobile">
+           <div className="headerMain__chat" onClick={()=>history.push('/mainchat')}>
              <IconButton>
              <ChatIcon/>
              </IconButton>
            </div>
-           <div className="headerTeacher__assignment"> 
+           <div className="headerMain__assignment"> 
            <IconButton>
            <AssignmentIcon/>
            </IconButton>
            </div>
-           <div className="headerTeacher__doubt">
+           <div className="headerMain__doubt">
               <IconButton>
             <QuestionAnswerIcon/>
             </IconButton>
