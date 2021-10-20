@@ -1,23 +1,25 @@
 export const initialState = {
   openSignInPopup: false,
-  user : null,
-  signInAs : null,
-  openAsignmentPopup : false,
-  openNoticesPopup : false,
-  openDoubtReplies : false,
-  course: null,
-  openAskDoubtPopup : false,
+  user: null,
+  signInAs: null,
+  openAsignmentPopup: false,
+  openNoticesPopup: false,
+  openDoubtReplies: false,
+  course_Subject: null,
+  course_Main: null,
+  openAskDoubtPopup: false,
 };
 
 export const actionTypes = {
   OPEN_SIGNINPOPUP: "OPEN_SIGNINPOPUP",
-  SET_USER : "SET_USER",
-  SIGN_IN_AS : "SIGN_IN_AS",
-  OPEN_ASSIGNMENT_POPUP : "OPEN_ASSIGNMENT_POPUP",
-  OPEN_NOTICES_POPUP : "OPEN_NOTICES_POPUP", 
-  OPEN_DOUBT_REPLIES : "OPEN_DOUBT_REPLIES",
-  OPEN_ASKDOUBT_POPUP : "OPEN_ASKDOUBT_POPUP",
-  SET_COURSE:"SET_COURSE",
+  SET_USER: "SET_USER",
+  SIGN_IN_AS: "SIGN_IN_AS",
+  OPEN_ASSIGNMENT_POPUP: "OPEN_ASSIGNMENT_POPUP",
+  OPEN_NOTICES_POPUP: "OPEN_NOTICES_POPUP",
+  OPEN_DOUBT_REPLIES: "OPEN_DOUBT_REPLIES",
+  OPEN_ASKDOUBT_POPUP: "OPEN_ASKDOUBT_POPUP",
+  SET_COURSE: "SET_COURSE",
+  SET_COURSE_MAIN: "SET_COURSE_MAIN",
 };
 
 const reducer = (state, action) => {
@@ -26,7 +28,12 @@ const reducer = (state, action) => {
     case actionTypes.SET_COURSE:
       return {
         ...state,
-        course: action.course,
+        course_Subject: action.course_Subject,
+      };
+    case actionTypes.SET_COURSE_MAIN:
+      return {
+        ...state,
+        course_Main: action.course_Main,
       };
     case actionTypes.OPEN_SIGNINPOPUP:
       return {
@@ -54,9 +61,14 @@ const reducer = (state, action) => {
         openDoubtReplies: action.openDoubtReplies,
       }
     case actionTypes.OPEN_ASKDOUBT_POPUP:
-      return{
+      return {
         ...state,
-        openAskDoubtPopup : action.openAskDoubtPopup,
+        openAskDoubtPopup: action.openAskDoubtPopup,
+      }
+    case actionTypes.SET_USER:
+      return {
+        ...state,
+        user: action.user,
       }
 
     default:
