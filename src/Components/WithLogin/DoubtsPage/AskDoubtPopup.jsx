@@ -57,6 +57,10 @@ position: fixed;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.24);
     padding: 10px;
 
+    @media(max-width:500px){
+      width : 80vw;
+    }
+
     textarea {
       width: 90%;
       outline-width: 0px;

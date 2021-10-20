@@ -37,7 +37,12 @@ function Login() {
       .createUserWithEmailAndPassword(email, password)
       .then((auth) => {
         if (auth) {
-          history.push("/main");
+          console.log(auth)
+          db.collection("students").doc(auth.user.uid).set({
+            email : auth.user.email,
+            name : "Ronak"
+          })
+          history.push("/AssignmentsPage");
         }
       })
       .catch((error) => alert(error.message));

@@ -1,28 +1,28 @@
 import React from 'react'
 import styled from "styled-components"
-import {useStateValue} from  "../../../StateProvider"
-import {actionTypes} from "../../../reducer"
+import {useStateValue} from  "../../../../StateProvider"
+import {actionTypes} from "../../../../reducer"
 
 function Assignment() {
-    const[{openAsignmentPopup} , dispatch] = useStateValue();
+    const[{openAsignmentPopupForTeacher} , dispatch] = useStateValue();
     const open_assignment_details = (e) => {
-      e.preventDefault();
-      dispatch({
-          type : actionTypes.OPEN_ASSIGNMENT_POPUP,
-          openAsignmentPopup : true,
-      })
-    }
-     return (
-        <div className = 'assignment'>
-         <Container>
+        e.preventDefault();
+        dispatch({
+            type : actionTypes.OPEN_ASSIGNMENT_POPUP_FOR_TEACHER,
+            openAssignmentPopupForTeacher : true,
+        })
+      }
+    return (
+       <>
+          <Container>
            <p className="assignment_title">Assignment 1</p>
             <p className="assignment_description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud...</p>
             <p className="asssignment_due_date">Due date: 13/12/2020</p>
             <div className="submit_button">
-                <button onClick = {open_assignment_details}>Submit</button>
+                <button onClick = {open_assignment_details}>View</button>
             </div>
          </Container>  
-        </div>
+       </>
     )
 };
 
@@ -61,6 +61,7 @@ const Container = styled.div`
           border-radius : 20px;
           background-color : #1183e0;
           color : white;
+
           &:hover{
               cursor : pointer;
               background-color : #63b3f5;

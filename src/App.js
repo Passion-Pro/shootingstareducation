@@ -20,6 +20,9 @@ import Main from "./Components/WithLogin/Main/Main";
 import Chat from "./Components/WithLogin/Chat/Chat";
 import Profile from "./Components/WithLogin/Profile/Profile";
 import LeaderBoard from "./Components/WithLogin/LeaderBoard/LeaderBoard";
+import AssignmentsPageForTeacher from "./Components/WithLogin/Teacher/AssignmentsPage/AssignmentsPageForTeacher"
+import DoubtsPageForTeacher from "./Components/WithLogin/Teacher/DoubtsPage/DoubtsPageForTeacher";
+import MessagesSectionForMobile from "./Components/WithLogin/Teacher/DoubtsPage/MessagesSectionForMobile";
 import MainTeacher from "./Components/WithLogin/Teacher/Main/MainTeacher";
 import Notification from "./Components/WithLogin/Notification/Notification";
 import { actionTypes } from "./reducer";
@@ -120,6 +123,15 @@ function App() {
         </Route>
         <Route path="/DoubtsPage">
           <DoubtsPage />
+        </Route>
+        <Route path = "/AssignmentsPageForTeachers">
+          <AssignmentsPageForTeacher/>
+        </Route>
+        <Route path = "/DoubtsPageForTeachers">
+          <DoubtsPageForTeacher/>
+        </Route>
+        <Route path = "/doubtsMessagesPageForTeachers">
+          <MessagesSectionForMobile/>
         </Route>
         <Route path="/">
           <Home />
