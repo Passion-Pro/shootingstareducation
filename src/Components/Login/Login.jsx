@@ -11,7 +11,8 @@ function Login() {
   const history = useHistory();
   const sign_in = (e) => {
     e.preventDefault();
-    console.log(auth.user);
+    console.log(auth);
+    console.log(auth.currentUser.uid)
     auth
       .signInWithEmailAndPassword(email, password)
       .then((auth) => {
@@ -31,6 +32,11 @@ function Login() {
       .createUserWithEmailAndPassword(email, password)
       .then((auth) => {
         if (auth) {
+          console.log(auth)
+          db.collection("students").doc(auth.user.uid).set({
+            email : auth.user.email,
+            name : "Ronak"
+          })
           history.push("/AssignmentsPage");
         }
       })
