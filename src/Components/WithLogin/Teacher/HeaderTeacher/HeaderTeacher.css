@@ -137,13 +137,11 @@
 }
 .HeaderMain__For__Mobile{
     display: none;
-    height: fit-content;
 }
 .headerMain__chat__text{
     display: flex;
     align-items: center;
     justify-content: center;
-    height: fit-content;
 }
 .headerMain__assignment{
     display: flex;
@@ -151,23 +149,6 @@
     align-items: center;
     justify-content: center;
     padding: 12px;
-    height: fit-content;
-}
-.Course__Subject{
-    display: flex;
-    flex-direction: column;
-}
-.Course__Subject__Hide{
-    display: none;
-}
-.Course__Subject>h6{
-    border: 1px solid lightgray;
-    padding: 4px;
-    background-color: rgb(238, 238, 238); 
-    cursor: pointer;
-}
-.headerCourse{
-    cursor: pointer;
 }
 @media(max-width:1085px){
     .logo{
@@ -200,6 +181,9 @@
         display: flex;
         position: absolute;
         bottom: 0;
+        /* top: 0; */
+        left: 0;
+        right: 0;
         border-top: 1px solid lightgray;
         background-color: white;
         height: 8vh;

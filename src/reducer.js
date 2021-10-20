@@ -5,10 +5,12 @@ export const initialState = {
   openAsignmentPopup: false,
   openNoticesPopup: false,
   openDoubtReplies: false,
-  course: null,
   openAskDoubtPopup: false,
   openAssignmentPopupForTeacher: false,
   openCreateAssignmentPopup : false,
+  course_Subject: null,
+  course_Main: null,
+  openAskDoubtPopup: false,
 };
 
 export const actionTypes = {
@@ -22,6 +24,7 @@ export const actionTypes = {
   SET_COURSE: "SET_COURSE",
   OPEN_ASSIGNMENT_POPUP_FOR_TEACHER: "OPEN_ASSIGNMENT_POPUP_FOR_TEACHER",
   OPEN_CREATE_ASSIGNMENT_POPUP : "OPEN_CREATE_ASSIGNMENT_POPUP",
+  SET_COURSE_MAIN: "SET_COURSE_MAIN",
 };
 
 const reducer = (state, action) => {
@@ -30,7 +33,12 @@ const reducer = (state, action) => {
     case actionTypes.SET_COURSE:
       return {
         ...state,
-        course: action.course,
+        course_Subject: action.course_Subject,
+      };
+    case actionTypes.SET_COURSE_MAIN:
+      return {
+        ...state,
+        course_Main: action.course_Main,
       };
     case actionTypes.OPEN_SIGNINPOPUP:
       return {
@@ -71,6 +79,11 @@ const reducer = (state, action) => {
       return{
         ...state,
         openCreateAssignmentPopup: action.openCreateAssignmentPopup,
+      }
+    case actionTypes.SET_USER:
+      return {
+        ...state,
+        user: action.user,
       }
 
     default:

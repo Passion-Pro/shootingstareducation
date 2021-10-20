@@ -23,42 +23,75 @@ import LeaderBoard from "./Components/WithLogin/LeaderBoard/LeaderBoard";
 import AssignmentsPageForTeacher from "./Components/WithLogin/Teacher/AssignmentsPage/AssignmentsPageForTeacher"
 import DoubtsPageForTeacher from "./Components/WithLogin/Teacher/DoubtsPage/DoubtsPageForTeacher";
 import MessagesSectionForMobile from "./Components/WithLogin/Teacher/DoubtsPage/MessagesSectionForMobile";
+import MainTeacher from "./Components/WithLogin/Teacher/Main/MainTeacher";
+import Notification from "./Components/WithLogin/Notification/Notification";
+import { actionTypes } from "./reducer";
+import { auth } from "./firebase";
+import { useEffect } from "react";
+import { useStateValue } from "./StateProvider";
 
 
 function App() {
+
+  const[{signInAs,user} , dispatch] = useStateValue();
+  useEffect(() => {
+    // will only run once when the app component loads...
+
+    auth.onAuthStateChanged((auth) => {
+      if (auth) {
+        // the user just logged in / the user was logged in
+        dispatch({
+          type : actionTypes.SET_USER,
+          user: auth,
+        });
+      } else {
+        // the user is logged out
+        // dispatch({
+        //   type: "SET_USER",
+        //   user: null,
+        // });
+      }
+    });
+  }, []); 
   return (
     <Router>
       <Switch>
-      <Route  path="/mainChat">
+        <Route path="/mainChat">
           <div className="chat_Show">
-          <Chat />
+            <Chat />
           </div>
           <div className="chat_Show_Not">
-          <Main />
+            <Main />
           </div>
         </Route>
-        <Route  path="/leaderboard">
+        <Route path="/notification">
+          <Notification/>
+        </Route>
+        <Route path="/mainteacher">
+          <MainTeacher />
+        </Route>
+        <Route path="/leaderboard">
           <LeaderBoard />
         </Route>
-        <Route  path="/main">
+        <Route path="/main">
           <Main />
         </Route>
-        <Route  path="/profile">
+        <Route path="/profile">
           <Profile />
         </Route>
-        <Route  path="/contact">
+        <Route path="/contact">
           <Contact />
         </Route>
         <Route path="/test preparation sat">
           <Test_Prepsat />
         </Route>
-        <Route  path="/test preparation neet">
+        <Route path="/test preparation neet">
           <Test_Prepneet />
         </Route>
-        <Route  path="/test preparation jee">
+        <Route path="/test preparation jee">
           <Test_PrepJee />
         </Route>
-        <Route  path="/test preparation ielts">
+        <Route path="/test preparation ielts">
           <Test_Prepielts />
         </Route>
         <Route path="/headerSidebar">
@@ -79,16 +112,16 @@ function App() {
         <Route path="/languages">
           <Languages />
         </Route>
-        <Route path = "/signIn">
-          <Login/>
+        <Route path="/signIn">
+          <Login />
         </Route>
-        <Route path = "/AssignmentsPage">
+        <Route path="/AssignmentsPage">
           <AssignmentsPage />
         </Route>
-        <Route path = "/NoticesPage">
+        <Route path="/NoticesPage">
           <NoticesPage />
         </Route>
-        <Route path = "/DoubtsPage">
+        <Route path="/DoubtsPage">
           <DoubtsPage />
         </Route>
         <Route path = "/AssignmentsPageForTeachers">
