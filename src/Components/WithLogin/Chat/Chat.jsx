@@ -4,14 +4,22 @@ import SendIcon from "@mui/icons-material/Send";import { IconButton } from '@mui
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useHistory } from "react-router";import AttachFileIcon from "@mui/icons-material/AttachFile";
 import db from "../../../firebase";
+import Chatmsg from "./Chatmsg";
+import { useStateValue } from "../../../StateProvider";
 
 function Chat() {
+  const [{user},dispatch]=useStateValue();
   const [input, setInput] = useState("");
-  const user=true;
   const history=useHistory()
-  const sendMessage=()=>{
-        // db.collection(course)
-  }
+  var today = new Date();
+  var dateC=today.getDate()+'-'+(today.getMonth()+1)+'-'+today.getFullYear();
+  // const sendMessage=()=>{
+  //       db.collection("course").doc().collection(course).doc().collection(course_Subject).doc().collection('chat').add({
+  //         message:message,
+  //         name:user?.email,
+  //         date:dateC,
+  //       })
+  // }
   return (
     <div className="chat">
       <div className="chat__header">
@@ -27,16 +35,8 @@ function Chat() {
        </div>
       </div>
       <div className="chat__body">
-          <div className={user?"chat__msgBox":"chat__msgBoxNot"}>
-          <div className="chat__message__my">
-              <h6>name</h6>
-              <div className="chat__message_div">
-              <h5>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium, sed reiciendis voluptates illo exercitationem officiis voluptatum atque numquam ea porro dolorem non dolore consequuntur neque, modi nam quidem dolor expedita?
-              </h5>
-              <p>13-10-2021</p>
-              </div>
-              </div>
+          <div className={false?"chat__msgBox":"chat__msgBoxNot"}>
+          <Chatmsg/>
           </div>
       </div>
       <div className="doubtBox_footer">

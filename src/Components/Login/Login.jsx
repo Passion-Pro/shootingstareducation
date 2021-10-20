@@ -3,23 +3,29 @@ import styled from "styled-components";
 import {useStateValue} from "../../StateProvider"
 import db, { auth } from "../../firebase"
 import { Link, useHistory } from "react-router-dom";
+import { actionTypes } from "../../reducer";
 
 function Login() {
-  const[{signInAs} , dispatch] = useStateValue();
+  const[{signInAs,user} , dispatch] = useStateValue();
   const[email , setEmail] = useState();
   const[password , setPassword] = useState();
   const history = useHistory();
+  console.log(user)
+
   const sign_in = (e) => {
-    e.preventDefault();
-    console.log(auth.user);
+    e.preventDefault(); 
     auth
       .signInWithEmailAndPassword(email, password)
       .then((auth) => {
+        dispatch({
+          type : actionTypes.SET_USER,
+           user: auth,
+      })
         if(signInAs === "teacher"){
-          history.push("/AssignmentsPageForTeachers");
+          history.push("/mainteacher");
         }
         else if(signInAs === "student"){
-          history.push("/AssignmentsPage")
+          history.push("/main")
         }
       })
       .catch((error) => alert(error.message));
@@ -31,11 +37,14 @@ function Login() {
       .createUserWithEmailAndPassword(email, password)
       .then((auth) => {
         if (auth) {
-          history.push("/AssignmentsPage");
+          history.push("/main");
         }
       })
       .catch((error) => alert(error.message));
   }
+  
+  
+
   return (
     <div className="login">
       <Container>

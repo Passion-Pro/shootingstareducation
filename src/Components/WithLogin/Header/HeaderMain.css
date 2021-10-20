@@ -153,6 +153,22 @@
     padding: 12px;
     height: fit-content;
 }
+.Course__Subject{
+    display: flex;
+    flex-direction: column;
+}
+.Course__Subject__Hide{
+    display: none;
+}
+.Course__Subject>h6{
+    border: 1px solid lightgray;
+    padding: 4px;
+    background-color: rgb(238, 238, 238); 
+    cursor: pointer;
+}
+.headerCourse{
+    cursor: pointer;
+}
 @media(max-width:1085px){
     .logo{
         display: none;

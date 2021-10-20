@@ -22,9 +22,34 @@ import Profile from "./Components/WithLogin/Profile/Profile";
 import LeaderBoard from "./Components/WithLogin/LeaderBoard/LeaderBoard";
 import MainTeacher from "./Components/WithLogin/Teacher/Main/MainTeacher";
 import Notification from "./Components/WithLogin/Notification/Notification";
+import { actionTypes } from "./reducer";
+import { auth } from "./firebase";
+import { useEffect } from "react";
+import { useStateValue } from "./StateProvider";
 
 
 function App() {
+
+  const[{signInAs,user} , dispatch] = useStateValue();
+  useEffect(() => {
+    // will only run once when the app component loads...
+
+    auth.onAuthStateChanged((auth) => {
+      if (auth) {
+        // the user just logged in / the user was logged in
+        dispatch({
+          type : actionTypes.SET_USER,
+          user: auth,
+        });
+      } else {
+        // the user is logged out
+        // dispatch({
+        //   type: "SET_USER",
+        //   user: null,
+        // });
+      }
+    });
+  }, []); 
   return (
     <Router>
       <Switch>
