@@ -1,4 +1,4 @@
-import React from "react";
+import React , {useState , useEffect} from "react";
 import styled from "styled-components";
 import { useHistory } from "react-router-dom";
 import HeaderMain from "../../Header/HeaderMain";
@@ -11,9 +11,27 @@ import InsertEmoticonIcon from "@mui/icons-material/InsertEmoticon";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 import Doubt from "../../DoubtsPage/Doubt";
 import DoubtReplies from "../../DoubtsPage/DoubtReplies";
+import db from "../../../../firebase";
 
 function DoubtsPageForTeacher() {
-  const [{ openDoubtReplies }, dispatch] = useStateValue();
+  const [{ openDoubtReplies ,  course_MainID,
+    course_SubjectID  }, dispatch] = useStateValue();
+  const[rooms, setRooms] = useState([]);
+
+  useEffect(() => {
+    db.collection("Courses")
+    .doc(course_MainID)
+    .collection("Subjects")
+    .doc(course_SubjectID)
+    .collection("doubtRooms")
+    .onSnapshot((snapshot) =>
+      setRooms(
+        snapshot.docs.map((doc) => ({
+          data: doc.data(),
+        }))
+      )
+    );
+  } ,[])
   return (
     <div className="doubtsPageforTeacher">
       <HeaderMain />
