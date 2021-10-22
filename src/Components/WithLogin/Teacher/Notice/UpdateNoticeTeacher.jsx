@@ -31,22 +31,21 @@ function UpdateNoticeTeacher() {
         )
       ))
     }
-  },[teacherCourseId,teacherSubjectId])
-  console.log(noticesHeader)
+  },[teacherCourseId,teacherSubjectId]);
 
   const UpdateClass=(e)=>{
     e.preventDefault();
       if(teacherCourseId && teacherSubjectId){
-       if(noticesHeader){
-        db.collection('Courses').doc(teacherCourseId).collection("Subjects").doc(teacherSubjectId).collection('noticesHeader').add({
-          upcomingclass:updateclass,
-          topic:updatetopic,
-        })
-       }else{
-        db.collection('Courses').doc(teacherCourseId).collection("Subjects").doc(teacherSubjectId).collection('noticesHeader').update({
-          upcomingclass:updateclass,
-          topic:updatetopic,
-        })
+       if(noticesHeader[0]?.data?.topic){
+         db.collection('Courses').doc(teacherCourseId).collection("Subjects").doc(teacherSubjectId).collection('noticesHeader').doc(noticesHeader[0]?.id).update({
+           upcomingclass:updateclass,
+           topic:updatetopic,
+          })
+        }else{
+         db.collection('Courses').doc(teacherCourseId).collection("Subjects").doc(teacherSubjectId).collection('noticesHeader').add({
+           upcomingclass:updateclass,
+           topic:updatetopic,
+         })
        }
       }
       setUpdateclass('');
@@ -128,9 +127,9 @@ function UpdateNoticeTeacher() {
         )}
         <div className="upcoming_class">
           <p className="upcoming_class_timing">
-            {noticesHeader?.data?.upcomingclass}
+            {noticesHeader[0]?.data?.upcomingclass}
           </p>
-          <p className="upcoming_class_topic">Topic : Projectile Motion</p>
+          <p className="upcoming_class_topic">Topic : {noticesHeader[0]?.data?.topic}</p>
         </div>
         <div className="addNotice"  onClick={() => setUpdatedivshow(!updatedivshow)}>
           <div className="iconPlus">

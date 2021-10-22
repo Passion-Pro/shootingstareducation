@@ -9,14 +9,14 @@ import Button from "@mui/material/Button";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Stack from "@mui/material/Stack";
 
-function NoticeTeacher() {
+function NoticeTeacher({notice}) {
   const [popupshowD, setPopupshowD] = useState(false);
   const [popupshowU, setPopupshowU] = useState(false);
 
   const UpdatePOPUP = () => {};
 
   const [content, setContent] = useState("");
-  
+  console.log(notice);
   return (
     <>
       <Container>
@@ -36,14 +36,11 @@ function NoticeTeacher() {
               </div>
               <div className="popupbody">
                 <div className="popupbody_text">
-                  Are you sure . Lorem ipsum dolor, sit amet consectetur
-                  adipisicing elit. Sed enim nesciunt voluptate eius dolores
-                  quasi dignissimos, hic libero, harum possimus quis debitis
-                  nihil.
+                 {notice?.data?.notice}
                 </div>
                 <div className="btn">
                   <Stack direction="row" spacing={2}>
-                    <Button variant="outlined" startIcon={<DeleteIcon />}>
+                    <Button variant="outlined" startIcon={<DeleteIcon/>}>
                       Delete
                     </Button>
                   </Stack>
@@ -52,7 +49,7 @@ function NoticeTeacher() {
             </div>
           </div>
         )}
-        {/* update notice */}
+        
         {popupshowU && (
           <div className="popupDelete">
             <div className="popupDeleteIn">
@@ -79,23 +76,10 @@ function NoticeTeacher() {
         <div className="close_notice">
         </div>
         <div className="notice">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse corrupti
-          deleniti est sunt dolor dicta quod explicabo perferendis
-          reprehenderit, ab exercitationem corporis distinctio iusto a vero.
-          Maiores ipsam facere minima.
+        {notice?.data?.notice}
         </div>
         <div className="For__Teacher">
-        <div className="sent_by">MNK Sir</div>
-          {/* <div
-            className="Update"
-            onClick={() => {
-              setPopupshowU(!popupshowU);
-            }}
-          >
-            <IconButton>
-              <ChangeCircleRoundedIcon />
-            </IconButton>
-          </div> */}
+        <div className="sent_by">{notice.data?.teacher}</div>
           <div
             className="Update"
             onClick={() => {
