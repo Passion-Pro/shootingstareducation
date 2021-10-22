@@ -24,9 +24,9 @@ function DoubtsPage() {
       course_MainID,
       course_SubjectID,
       user,
-      userInfo,
       userCourseId,
       userSubjectId,
+      signInAs
     },
     dispatch,
   ] = useStateValue();
@@ -36,7 +36,8 @@ function DoubtsPage() {
   const [rooms, setRooms] = useState([]);
 
   useEffect(() => {
-    db.collection("users")
+    if(user && userCourseId && userSubjectId && course_MainID && course_SubjectID){
+      db.collection("users")
       .doc(user?.uid)
       .collection("courses")
       .doc(userCourseId)
@@ -59,7 +60,8 @@ function DoubtsPage() {
           }))
         )
       );
-  }, []);
+    }
+  }, [user, userCourseId , userSubjectId ,course_MainID ,course_SubjectID ]);
 
   const goToNoticesPage = (e) => {
     e.preventDefault();
@@ -88,6 +90,10 @@ function DoubtsPage() {
 
   const sendMessage = (e) => {
     e.preventDefault();
+    console.log(signInAs)
+    console.log(input);
+    console.log("User Course Id is" , userCourseId);
+    console.log("User Subject Id is" , userSubjectId);
     db.collection("users")
       .doc(user?.uid)
       .collection("courses")
@@ -96,13 +102,13 @@ function DoubtsPage() {
       .doc(userSubjectId)
       .collection("messagesToTeacher")
       .add({
-        name: userInfo.name,
+        name: signInAs.name,
         message: input,
         timestamp: firebase.firestore.FieldValue.serverTimestamp(),
       });
     let x = 0;
     for (let i = 0; i < rooms.length; i++) {
-      if (rooms[i].data.name === userInfo.name) {
+      if (rooms[i].data.name === signInAs.name) {
         x = 1;
       }
     }
@@ -113,7 +119,7 @@ function DoubtsPage() {
         .doc(course_SubjectID)
         .collection("doubtRooms")
         .add({
-          name: userInfo.name,
+          name: signInAs.name,
         })
         .then(() => {
           db.collection("Courses")
@@ -121,7 +127,7 @@ function DoubtsPage() {
             .collection("Subjects")
             .doc(course_SubjectID)
             .collection("doubtRooms")
-            .where("name", "==", userInfo.name)
+            .where("name", "==", signInAs.name)
             .get()
             .then((querySnapshot) => {
               querySnapshot.forEach((doc) => {
@@ -136,7 +142,7 @@ function DoubtsPage() {
                   .doc(doc.id)
                   .collection("messages")
                   .add({
-                    name: userInfo.name,
+                    name: signInAs.name,
                     message: input,
                     timestamp: firebase.firestore.FieldValue.serverTimestamp(),
                   });
@@ -153,7 +159,7 @@ function DoubtsPage() {
       .collection("Subjects")
       .doc(course_SubjectID)
       .collection("doubtRooms")
-      .where("name", "==", userInfo.name)
+      .where("name", "==", signInAs.name)
       .get()
       .then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
@@ -168,7 +174,7 @@ function DoubtsPage() {
             .doc(doc.id)
             .collection("messages")
             .add({
-              name: userInfo.name,
+              name: signInAs.name,
               message: input,
               timestamp: firebase.firestore.FieldValue.serverTimestamp(),
             });
@@ -232,7 +238,7 @@ function DoubtsPage() {
                   type="text"
                   placeholder="Type a message "
                   value={input}
-                  onChange={(e) => setInput(e.target.value)}
+                  onChange={e => setInput(e.target.value)}
                 />
                 <div className="icons">
                   <AttachFileIcon className="attach_file_icon icon" />

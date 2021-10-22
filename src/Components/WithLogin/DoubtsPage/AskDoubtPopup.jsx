@@ -10,13 +10,14 @@ function AskDoubtPopup() {
   const [{ openAskDoubtPopup }]= useStateValue();
   const [input, setInput] = useState();
   const [
-    { openDoubtReplies, course_MainID, course_SubjectID, user, userInfo , userCourseId , userSubjectId},
+    { openDoubtReplies, course_MainID, course_SubjectID, user, userCourseId , userSubjectId , signInAs},
     dispatch,
   ] = useStateValue();
   const [rooms, setRooms] = useState([]);
 
   useEffect(() => {
-    db.collection("Courses")
+    if(user && userCourseId && userSubjectId && course_MainID && course_SubjectID){
+      db.collection("Courses")
       .doc(course_MainID)
       .collection("Subjects")
       .doc(course_SubjectID)
@@ -28,7 +29,9 @@ function AskDoubtPopup() {
           }))
         )
       );
-  } , [])
+
+    }
+  } , [user, userCourseId , userSubjectId ,course_MainID ,course_SubjectID ])
 
   const close_askDoubt_popup = () => {
     dispatch({
@@ -47,13 +50,13 @@ function AskDoubtPopup() {
     .doc(userSubjectId)
     .collection("messagesToTeacher")
     .add({
-      name: userInfo.name,
+      name: signInAs.name,
       message: input,
       timestamp: firebase.firestore.FieldValue.serverTimestamp(),
     });
     let x = 0;
     for (let i = 0; i < rooms.length; i++) {
-      if (rooms[i].data.name === userInfo.name) {
+      if (rooms[i].data.name === signInAs.name) {
         x = 1;
       }
     }
@@ -64,7 +67,7 @@ function AskDoubtPopup() {
         .doc(course_SubjectID)
         .collection("doubtRooms")
         .add({
-          name: userInfo.name,
+          name: signInAs.name,
         })
         .then(() => {
           db.collection("Courses")
@@ -72,7 +75,7 @@ function AskDoubtPopup() {
             .collection("Subjects")
             .doc(course_SubjectID)
             .collection("doubtRooms")
-            .where("name", "==", userInfo.name)
+            .where("name", "==",signInAs.name)
             .get()
             .then((querySnapshot) => {
               querySnapshot.forEach((doc) => {
@@ -87,7 +90,7 @@ function AskDoubtPopup() {
                   .doc(doc.id)
                   .collection("messages")
                   .add({
-                    name: userInfo.name,
+                    name: signInAs.name,
                     message: input,
                     timestamp: firebase.firestore.FieldValue.serverTimestamp(),
                   });
@@ -103,7 +106,7 @@ function AskDoubtPopup() {
       .collection("Subjects")
       .doc(course_SubjectID)
       .collection("doubtRooms")
-      .where("name", "==", userInfo.name)
+      .where("name", "==", signInAs.name)
       .get()
       .then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
@@ -118,7 +121,7 @@ function AskDoubtPopup() {
             .doc(doc.id)
             .collection("messages")
             .add({
-              name: userInfo.name,
+              name: signInAs.name,
               message: input,
               timestamp: firebase.firestore.FieldValue.serverTimestamp(),
             });

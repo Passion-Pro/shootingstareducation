@@ -19,24 +19,37 @@ function Login() {
       .then((auth) => {
         dispatch({
           type : actionTypes.SET_USER,
-           user: auth,
+           user: auth.user,
       })
-        if(signInAs === "teacher"){
-          history.push("/mainteacher");
-        }
-        else if(signInAs === "student"){
-          db.collection("students").doc(user?.uid).onSnapshot((snapshot) => {
-            dispatch({
-              type : actionTypes.SET_USER_INFO,
-              userInfo : snapshot.data()
-            })
-          })
-          history.push("/main");
-        }
       })
       .catch((error) => alert(error.message));
   };
-
+  useEffect(()=>{
+    if(user?.uid){
+       db.collection('users').doc(user?.uid).onSnapshot((snapshot)=>(
+      //  dispatch({
+      //     type:actionTypes.SIGN_IN_AS,
+      //     signInAs:snapshot.data(),
+      //    });
+        console.log(snapshot.data())
+       ))
+    }
+    },[user?.uid]);
+    console.log(user?.uid,signInAs)
+  useEffect(()=>{
+    if(signInAs?.value === "teacher"){
+      history.push("/mainteacher");
+    }
+    else if(signInAs?.value  === "student"){
+      db.collection("students").doc(user?.uid).onSnapshot((snapshot) => {
+        dispatch({
+          type : actionTypes.SET_USER_INFO,
+          userInfo : snapshot.data()
+        })
+      })
+      history.push("/main");
+    }
+  },[signInAs,user])
   const create_new_account = (e) => {
     e.preventDefault();
     auth
