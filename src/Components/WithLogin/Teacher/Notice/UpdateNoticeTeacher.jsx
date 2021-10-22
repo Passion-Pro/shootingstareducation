@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
 import UpdateRoundedIcon from "@mui/icons-material/UpdateRounded";
@@ -8,13 +8,62 @@ import Button from "@mui/material/Button";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Stack from "@mui/material/Stack";
 import ControlPointRoundedIcon from "@mui/icons-material/ControlPointRounded";
+import { useStateValue } from "../../../../StateProvider";
+import db from "../../../../firebase";
 
 function UpdateNoticeTeacher() {
+  const [{ signInAs, user,teacherSubjectId,teacherCourseId}, dispatch] =useStateValue();
   const [updatedivshow, setUpdatedivshow] = useState(false);
   const [addNotice, setAddNotice] = useState(false);
   const [updateclass, setUpdateclass] = useState("");
   const [updatetopic, setUpdatetopic] = useState("");
   const [notice,setNotice]=useState("");
+  const [noticesHeader,setNoticesHeader]=useState([]);
+  
+  useEffect(()=>{
+    if(teacherCourseId && teacherSubjectId){
+      db.collection('Courses').doc(teacherCourseId).collection("Subjects").doc(teacherSubjectId).collection('noticesHeader').onSnapshot((snapshot)=>(
+        setNoticesHeader(
+          snapshot.docs.map((doc) => ({
+            data: doc.data(),
+            id: doc.id,
+          }))
+        )
+      ))
+    }
+  },[teacherCourseId,teacherSubjectId])
+  console.log(noticesHeader)
+
+  const UpdateClass=(e)=>{
+    e.preventDefault();
+      if(teacherCourseId && teacherSubjectId){
+       if(noticesHeader){
+        db.collection('Courses').doc(teacherCourseId).collection("Subjects").doc(teacherSubjectId).collection('noticesHeader').add({
+          upcomingclass:updateclass,
+          topic:updatetopic,
+        })
+       }else{
+        db.collection('Courses').doc(teacherCourseId).collection("Subjects").doc(teacherSubjectId).collection('noticesHeader').update({
+          upcomingclass:updateclass,
+          topic:updatetopic,
+        })
+       }
+      }
+      setUpdateclass('');
+      setUpdatetopic('');
+      setUpdatedivshow(false);
+  }
+  const AddNotice=(e)=>{
+    e.preventDefault();
+    if(teacherCourseId && teacherSubjectId){
+      db.collection('Courses').doc(teacherCourseId).collection("Subjects").doc(teacherSubjectId).collection('notices').add({
+        notice:notice,
+        teacher:signInAs?.name,
+      })
+    }
+    setNotice('');
+    setAddNotice(false)
+  }
   return (
     <>
       <Container>
@@ -33,17 +82,17 @@ function UpdateNoticeTeacher() {
               <div className="popupbody">
                 <input
                   placeholder="Upcoming class"
-                  value={updatetopic}
+                  value={updateclass}
                   onChange={(e) => setUpdateclass(e.target.value)}
-                />
+                  />
                 <input
                   placeholder="Topic"
-                  value={updateclass}
+                  value={updatetopic}
                   onChange={(e) => setUpdatetopic(e.target.value)}
                 />
-                <div className="btn">
+                <div className="btn" >
                   <Stack direction="row" spacing={2}>
-                    <Button variant="outlined">Update</Button>
+                    <Button variant="outlined" onClick={UpdateClass}>Update</Button>
                   </Stack>
                 </div>
               </div>
@@ -70,7 +119,7 @@ function UpdateNoticeTeacher() {
                 />
                 <div className="btn">
                   <Stack direction="row" spacing={2}>
-                    <Button variant="outlined">Add</Button>
+                    <Button variant="outlined" onClick={AddNotice}>Add</Button>
                   </Stack>
                 </div>
               </div>
@@ -79,7 +128,7 @@ function UpdateNoticeTeacher() {
         )}
         <div className="upcoming_class">
           <p className="upcoming_class_timing">
-            Upcoming Class at 14:33 on Monday
+            {noticesHeader?.data?.upcomingclass}
           </p>
           <p className="upcoming_class_topic">Topic : Projectile Motion</p>
         </div>
