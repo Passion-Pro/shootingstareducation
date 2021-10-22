@@ -1,11 +1,27 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styled from "styled-components"
 import AddNotice from './AddNotice';
 import NoticeTeacher from './NoticeTeacher';
 import UpdateNoticeTeacher from './UpdateNoticeTeacher';
 
-
 function NoticesTeacher() {
+
+    const [notices,setNotices]=useEffect([]);
+
+    // useEffect(()=>{
+    //     if(teacherCourseId && teacherSubjectId){
+    //       db.collection('Courses').doc(teacherCourseId).collection("Subjects").doc(teacherSubjectId).collection('noticesHeader').onSnapshot((snapshot)=>(
+    //         setNoticesHeader(
+    //           snapshot.docs.map((doc) => ({
+    //             data: doc.data(),
+    //             id: doc.id,
+    //           }))
+    //         )
+    //       ))
+    //     }
+    //   },[teacherCourseId,teacherSubjectId]);
+
+    //   console.log(noticesHeader);
     return (
         <>
             <Container> 

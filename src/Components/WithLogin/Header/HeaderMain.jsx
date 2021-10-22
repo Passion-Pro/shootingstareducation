@@ -11,25 +11,14 @@ import { useHistory } from "react-router";
 import HeaderCourse from "./HeaderCourse";
 import db from "../../../firebase";
 import { useStateValue } from "../../../StateProvider";
+import { actionTypes } from "../../../reducer";
 
 function HeaderMain() {
-  const [{ signInAs, user, course_Subject, course_Main }, dispatch] =useStateValue();
+  const [{ signInAs, user, course_Subject, course_Main,course_SubjectID,course_MainID }, dispatch] =useStateValue();
   const [showDiv, setShowDiv] = useState(false);
   const history = useHistory();
   const [coursesArray, setCoursesArray] = useState([]);
-  // db.collection("users")
-  // .doc(userId)
-  // .collection("rooms")
-  // .doc(roomId)
-  // .collection("participants")
-  // .onSnapshot((snapshot) =>
-  //   setParticipants(
-  //     snapshot.docs.map((doc) => ({
-  //       id: doc.id,
-  //       data: doc.data(),
-  //     }))
-  //   )
-  // );
+
   useEffect(() => {
     if (user?.uid) {
       db.collection("students")
@@ -45,6 +34,51 @@ function HeaderMain() {
         );
     }
   }, [user]);
+
+ useEffect(()=>{
+  if(course_Subject==null){
+    dispatch({
+      type: actionTypes.SET_COURSE,
+      course_Subject: coursesArray[0]?.data?.subjects[0],
+    });
+    dispatch({
+      type: actionTypes.SET_COURSE_MAIN,
+      course_Main: coursesArray[0]?.data?.name,
+    });
+  if(coursesArray[0]?.data?.name){
+    db.collection("Courses")
+    .where("name", "==",coursesArray[0]?.data?.name)
+    .get()
+    .then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+          console.log("doc?.id",doc?.id)
+        dispatch({
+          type:actionTypes.SET_COURSE_MAIN_ID,
+          course_MainID:doc.id,
+        })
+        db.collection("Courses").doc(doc.id).collection('Subjects')
+        .where("name", "==",coursesArray[0]?.data?.subjects[0])
+        .get()
+        .then((querySnapshot) => {
+          querySnapshot.forEach((doc1) => {
+            dispatch({
+                type:actionTypes.SET_COURSE_ID,
+                course_SubjectID:doc1.id,
+            })
+          });
+        })
+        .catch((error) => {
+          console.log("Error getting documents: ", error);
+        });
+      });
+    })
+    .catch((error) => {
+      console.log("Error getting documents: ", error);
+    });
+  }
+  }
+ },[coursesArray]);
+
   return (
     <>
       <div className="headerMain">
@@ -92,7 +126,7 @@ function HeaderMain() {
           <div className="HeaderMain__Right__Div">
             <div className="HeaderMain__Selectcourse">
               <div className="HeaderMain__Selectcourse__Name">
-                {course_Subject ?course_Subject:coursesArray[0]?.data?.subjects[0]}
+                {course_Subject}{" , "}{ course_Main}
               </div>
               <div
                 className="HeaderMain__SelectCourse_icon"
