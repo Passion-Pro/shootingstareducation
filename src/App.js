@@ -26,7 +26,7 @@ import MessagesSectionForMobile from "./Components/WithLogin/Teacher/DoubtsPage/
 import MainTeacher from "./Components/WithLogin/Teacher/Main/MainTeacher";
 import Notification from "./Components/WithLogin/Notification/Notification";
 import { actionTypes } from "./reducer";
-import { auth } from "./firebase";
+import db, { auth } from "./firebase";
 import { useEffect } from "react";
 import { useStateValue } from "./StateProvider";
 
@@ -34,25 +34,36 @@ import { useStateValue } from "./StateProvider";
 function App() {
 
   const[{signInAs,user} , dispatch] = useStateValue();
+
   useEffect(() => {
     // will only run once when the app component loads...
-
     auth.onAuthStateChanged((auth) => {
-      if (auth) {
-        // the user just logged in / the user was logged in
+      if (auth) { 
         dispatch({
           type : actionTypes.SET_USER,
           user: auth,
         });
-      } else {
-        // the user is logged out
-        // dispatch({
-        //   type: "SET_USER",
-        //   user: null,
-        // });
-      }
+      } else {  }
     });
-  }, []); 
+  }, []);
+
+  useEffect(()=>{
+  if(user){
+     db.collection('users').doc(user?.uid).onSnapshot((snapshot)=>(
+      dispatch({
+        type:actionTypes.SIGN_IN_AS,
+        signInAs:snapshot.data(),
+       })
+      // console.log(snapshot.data())
+     ))
+  }
+  },[user])
+  // useEffect(()=>{
+  //   if(){
+      
+  //   }
+  //   },[])
+console.log(signInAs)
   return (
     <Router>
       <Switch>

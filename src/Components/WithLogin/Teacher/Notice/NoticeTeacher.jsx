@@ -16,7 +16,7 @@ function NoticeTeacher() {
   const UpdatePOPUP = () => {};
 
   const [content, setContent] = useState("");
-
+  
   return (
     <>
       <Container>

@@ -79,7 +79,6 @@
     max-width: 70%;
     /* border: 1px solid lightgray; */
     border-radius: 6px;
-    /* background-color: rgb(241, 241, 241); */
 }
 .chat__message_div{
     display: flex;

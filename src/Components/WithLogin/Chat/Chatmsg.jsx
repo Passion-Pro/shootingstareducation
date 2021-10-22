@@ -1,15 +1,15 @@
 import React from 'react'
 
-function Chatmsg({name,msg,date}) {
+function Chatmsg({message}) {
     return (
         // <div className="chatmsg">
             <div className="chat__message__my">
-              <h6>{name?name:"name"}</h6>
+              <h6>{message.data?.name}</h6>
               <div className="chat__message_div">
               <h5>
-                 {msg?msg:" Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium, sed reiciendis voluptates illo exercitationem officiis voluptatum atque numquam ea porro dolorem non dolore consequuntur neque, modi nam quidem dolor expedita?"}
+                 {message.data?.message}
               </h5>
-              <p>{date?date:"test"}</p>
+              <p>{message.data?.date}</p>
               </div>
               </div>
         // </div>

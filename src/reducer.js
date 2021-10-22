@@ -1,3 +1,4 @@
+
 export const initialState = {
   openSignInPopup: false,
   user: null,
@@ -9,11 +10,16 @@ export const initialState = {
   openAssignmentPopupForTeacher: false,
   openCreateAssignmentPopup : false,
   course_Subject: null,
+  course_SubjectID:null,
   course_Main: null,
+  course_MainID:null,
   openAskDoubtPopup: false,
   userInfo : [],
   userCourseId : null,
   userSubjectId : null,
+  teacher:null,
+  teacherSubjectId:null,
+  teacherCourseId:null,
 };
 
 export const actionTypes = {
@@ -25,18 +31,48 @@ export const actionTypes = {
   OPEN_DOUBT_REPLIES: "OPEN_DOUBT_REPLIES",
   OPEN_ASKDOUBT_POPUP: "OPEN_ASKDOUBT_POPUP",
   SET_COURSE: "SET_COURSE",
+  SET_COURSE_ID:"SET_COURSE_ID",
   OPEN_ASSIGNMENT_POPUP_FOR_TEACHER: "OPEN_ASSIGNMENT_POPUP_FOR_TEACHER",
   OPEN_CREATE_ASSIGNMENT_POPUP : "OPEN_CREATE_ASSIGNMENT_POPUP",
   SET_COURSE_MAIN: "SET_COURSE_MAIN",
   SET_USER_INFO : "SET_USER_INFO",
   SET_USER_COURSEID : "SET_USER_COURSEID",
   SET_USER_SUBJECTID : "SET_USER_SUBJECTID",
+  SET_COURSE_MAIN_ID:"SET_COURSE_MAIN_ID",
+  SET_TEACHER:'SET_TEACHER',
+  SET_TEACHER_COURSE_ID:'SET_TEACHER_COURSE_ID',
+  SET_TEACHER_SUBJECT_ID:'SET_TEACHER_SUBJECT_ID',
 };
 
 const reducer = (state, action) => {
   console.log(action);
   switch (action.type) {
-    case actionTypes.SET_COURSE:
+    case actionTypes.SET_TEACHER_SUBJECT_ID:
+      return {
+        ...state,
+        teacherSubjectId: action.teacherSubjectId,
+      };
+      case actionTypes.SET_TEACHER_COURSE_ID:
+      return {
+        ...state,
+        teacherCourseId: action.teacherCourseId,
+      };
+      case actionTypes.SET_COURSE_ID:
+      return {
+        ...state,
+        course_SubjectID: action.course_SubjectID,
+      };
+      case actionTypes.SET_TEACHER:
+      return {
+        ...state,
+        teacher: action.teacher,
+      };
+      case actionTypes.SET_COURSE_MAIN_ID:
+      return {
+        ...state,
+        course_MainID: action.course_MainID,
+      };
+      case actionTypes.SET_COURSE:
       return {
         ...state,
         course_Subject: action.course_Subject,

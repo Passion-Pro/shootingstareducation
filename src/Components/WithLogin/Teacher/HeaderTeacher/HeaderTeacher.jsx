@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './HeaderTeacher.css';
 import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
 import ArrowDropDownRoundedIcon from '@mui/icons-material/ArrowDropDownRounded';
@@ -8,11 +8,49 @@ import ChatIcon from '@mui/icons-material/Chat';
 import LeaderboardIcon from '@mui/icons-material/Leaderboard';
 import { IconButton } from '@mui/material';
 import { useHistory } from 'react-router';
+import db from '../../../../firebase';
+import { useStateValue } from '../../../../StateProvider';
+import { actionTypes } from '../../../../reducer';
 
 function HeaderTeacher() {
-
+  const [{ signInAs, user,teacherSubjectId}, dispatch] =useStateValue();
   const [showDiv,setShowDiv]=useState(false);
   const history=useHistory();
+  console.log(teacherSubjectId)
+  useEffect(()=>{
+    if(signInAs?.courseName){
+      db.collection("Courses")
+      .where("name", "==",signInAs?.courseName)
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+            console.log("doc?.id",doc?.id)
+          dispatch({
+            type:actionTypes.SET_TEACHER_COURSE_ID,
+            teacherCourseId:doc.id,
+          })
+          db.collection("Courses").doc(doc.id).collection('Subjects')
+          .where("name", "==",signInAs?.courseSubject)
+          .get()
+          .then((querySnapshot) => {
+            querySnapshot.forEach((doc1) => {
+              dispatch({
+                  type:actionTypes.SET_TEACHER_SUBJECT_ID,
+                  teacherSubjectId:doc1.id,
+              })
+            });
+          })
+          .catch((error) => {
+            console.log("Error getting documents: ", error);
+          });
+        });
+      })
+      .catch((error) => {
+        console.log("Error getting documents: ", error);
+      });
+    }
+   },[signInAs?.courseName]);
+
     return (
       <>
         <div className="headerMain">
@@ -54,19 +92,6 @@ function HeaderTeacher() {
        </div> 
       <div className="HeaderMain__Right">
      <div className="HeaderMain__Right__Div">
-     {/* <div className="HeaderMain__Selectcourse">
-        <div className="HeaderMain__Selectcourse__Name">
-          WEB DEVELOPMENT
-        </div>
-        <div className="HeaderMain__SelectCourse_icon" onClick={()=>setShowDiv(!showDiv)}>
-        <ArrowDropDownRoundedIcon/>
-        </div>
-        </div> */}
-        {/* <div className={showDiv?"HeaderMain__HiddenDiv":"HeaderMain__HiddenDiv_hide"}>
-          <div className="HeaderMain__HiddenDiv__IN"  onClick={()=>setShowDiv(!showDiv)}>
-            WEB DEVELOPMENT
-          </div>
-           </div> */}
      </div>
         <div className="HeaderMain__Profile" onClick={()=>{
           history.push('/profile')
