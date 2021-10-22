@@ -29,9 +29,9 @@ function Doubt() {
               nulla pariatur.
             </p>
           </div>
-          <p className="view_replies" onClick = {open_doubt_replies}>
+          {/* <p className="view_replies" onClick = {open_doubt_replies}>
               View Replies
-          </p>
+          </p> */}
         </div>
       </Container>
     </>

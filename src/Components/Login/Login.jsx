@@ -25,7 +25,13 @@ function Login() {
           history.push("/mainteacher");
         }
         else if(signInAs === "student"){
-          history.push("/main")
+          db.collection("students").doc(user?.uid).onSnapshot((snapshot) => {
+            dispatch({
+              type : actionTypes.SET_USER_INFO,
+              userInfo : snapshot.data()
+            })
+          })
+          history.push("/main");
         }
       })
       .catch((error) => alert(error.message));
@@ -38,8 +44,8 @@ function Login() {
       .then((auth) => {
         if (auth) {
           console.log(auth)
-          db.collection("students").doc(auth.user.uid).set({
-            email : auth.user.email,
+          db.collection("students").doc(auth.user?.uid).set({
+            email : auth.user?.email,
             name : "Ronak"
           })
           history.push("/AssignmentsPage");

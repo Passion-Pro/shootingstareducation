@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import "./DoubtsPage.css";
 import Doubt from "./Doubt";
@@ -13,11 +13,53 @@ import { actionTypes } from "../../../reducer";
 import NoticePopup from "../Notices/NoticePopup";
 import AskDoubtPopup from "./AskDoubtPopup";
 import HeaderMain from "../Header/HeaderMain";
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import db from "../../../firebase";
+import firebase from "firebase";
 
 function DoubtsPage() {
-  const [{ openDoubtReplies }, dispatch] = useStateValue();
+  const [
+    {
+      openDoubtReplies,
+      course_MainID,
+      course_SubjectID,
+      user,
+      userInfo,
+      userCourseId,
+      userSubjectId,
+    },
+    dispatch,
+  ] = useStateValue();
   const history = useHistory();
+  const [input, setInput] = useState();
+  const [messages, setMessages] = useState([]);
+  const [rooms, setRooms] = useState([]);
+
+  useEffect(() => {
+    db.collection("users")
+      .doc(user?.uid)
+      .collection("courses")
+      .doc(userCourseId)
+      .collection("subjects")
+      .doc(userSubjectId)
+      .collection("messagesToTeacher")
+      .onSnapshot((snapshot) =>
+        setMessages(snapshot.docs.map((doc) => doc.data()))
+      );
+
+    db.collection("Courses")
+      .doc(course_MainID)
+      .collection("Subjects")
+      .doc(course_SubjectID)
+      .collection("doubtRooms")
+      .onSnapshot((snapshot) =>
+        setRooms(
+          snapshot.docs.map((doc) => ({
+            data: doc.data(),
+          }))
+        )
+      );
+  }, []);
 
   const goToNoticesPage = (e) => {
     e.preventDefault();
@@ -42,13 +84,107 @@ function DoubtsPage() {
 
   const back_to_previous_page = () => {
     history.goBack();
-  }
+  };
 
+  const sendMessage = (e) => {
+    e.preventDefault();
+    db.collection("users")
+      .doc(user?.uid)
+      .collection("courses")
+      .doc(userCourseId)
+      .collection("subjects")
+      .doc(userSubjectId)
+      .collection("messagesToTeacher")
+      .add({
+        name: userInfo.name,
+        message: input,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+      });
+    let x = 0;
+    for (let i = 0; i < rooms.length; i++) {
+      if (rooms[i].data.name === userInfo.name) {
+        x = 1;
+      }
+    }
+    if (x === 0) {
+      db.collection("Courses")
+        .doc(course_MainID)
+        .collection("Subjects")
+        .doc(course_SubjectID)
+        .collection("doubtRooms")
+        .add({
+          name: userInfo.name,
+        })
+        .then(() => {
+          db.collection("Courses")
+            .doc(course_MainID)
+            .collection("Subjects")
+            .doc(course_SubjectID)
+            .collection("doubtRooms")
+            .where("name", "==", userInfo.name)
+            .get()
+            .then((querySnapshot) => {
+              querySnapshot.forEach((doc) => {
+                // doc.data() is never undefined for query doc snapshots
+                console.log(doc.id, " => ", doc.data());
+
+                db.collection("Courses")
+                  .doc(course_MainID)
+                  .collection("Subjects")
+                  .doc(course_SubjectID)
+                  .collection("doubtRooms")
+                  .doc(doc.id)
+                  .collection("messages")
+                  .add({
+                    name: userInfo.name,
+                    message: input,
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                  });
+              });
+            })
+            .catch((error) => {
+              console.log("Error getting documents: ", error);
+            });
+        });
+    }
+    else{
+      db.collection("Courses")
+      .doc(course_MainID)
+      .collection("Subjects")
+      .doc(course_SubjectID)
+      .collection("doubtRooms")
+      .where("name", "==", userInfo.name)
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          // doc.data() is never undefined for query doc snapshots
+          console.log(doc.id, " => ", doc.data());
+
+          db.collection("Courses")
+            .doc(course_MainID)
+            .collection("Subjects")
+            .doc(course_SubjectID)
+            .collection("doubtRooms")
+            .doc(doc.id)
+            .collection("messages")
+            .add({
+              name: userInfo.name,
+              message: input,
+              timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+            });
+        });
+      })
+      .catch((error) => {
+        console.log("Error getting documents: ", error);
+      });
+    }
+    setInput();
+  };
 
   return (
     <>
       <div className="dbPage_header">
-        <HeaderMain/>
+        <HeaderMain />
       </div>
       <div className="doubtsPage">
         <div className="upcoming_class">
@@ -68,10 +204,13 @@ function DoubtsPage() {
         <Container>
           <DoubtBox>
             <div className="doubtBox_header">
-             <div className="doubtBox_header_name">
-             <ArrowBackIcon className="arrowBack_icon" onClick = {back_to_previous_page}/>
-              <p>Physics</p>
-             </div>
+              <div className="doubtBox_header_name">
+                <ArrowBackIcon
+                  className="arrowBack_icon"
+                  onClick={back_to_previous_page}
+                />
+                <p>Physics</p>
+              </div>
               <button
                 className="ask_doubt_button"
                 onClick={open_ask_doubt_popup}
@@ -89,11 +228,16 @@ function DoubtsPage() {
             )}
             <div className="doubtBox_footer">
               <div className="send_Message_box">
-                <input type="text" placeholder="Type a message " />
+                <input
+                  type="text"
+                  placeholder="Type a message "
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                />
                 <div className="icons">
                   <AttachFileIcon className="attach_file_icon icon" />
                   <InsertEmoticonIcon className="emoji_icon icon" />
-                  <SendIcon className="send_icon icon" />
+                  <SendIcon className="send_icon icon" onClick={sendMessage} />
                 </div>
               </div>
             </div>
@@ -116,6 +260,7 @@ const Container = styled.div`
   padding: 50px;
   padding-top: 20px;
   justify-content: space-around;
+  /* height: 88vh; */
   .notices {
     flex: 0.3;
     display: flex;
