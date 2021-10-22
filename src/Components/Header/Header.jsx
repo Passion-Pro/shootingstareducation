@@ -7,6 +7,7 @@ import styled from "styled-components";
 import { useStateValue } from "../../StateProvider";
 import { actionTypes } from "../../reducer";
 import SignInPopup from "./SigInPopup";
+import { auth } from "../../firebase";
 
 function Header() {
   const history = useHistory();
@@ -36,10 +37,10 @@ function Header() {
         <TestNames className="test_names">
           <p className="link_para test_preparation">Test Preparation</p>
           <div className="names">
-            <Link to="/test preparation sat">
+            {/* <Link to="/test preparation sat"> */}
               {" "}
-              <p className="suboption sat">SAT</p>
-            </Link>
+              <p className="suboption sat" onClick={()=>{auth.signOut()}}>SAT</p>
+            {/* </Link> */}
             <Link to="/test preparation neet">
               {" "}
               <p className="suboption">NEET</p>{" "}

@@ -45,6 +45,39 @@ function HeaderSubject({ subject, course }) {
         .catch((error) => {
           console.log("Error getting documents: ", error);
         });
+
+
+        db.collection("students").doc(user.uid).collection("courses")
+        .where("name", "==",course)
+        .get()
+        .then((querySnapshot) => {
+          querySnapshot.forEach((doc) => {
+              console.log("doc?.id",doc?.id)
+            dispatch({
+              type:actionTypes.SET_USER_COURSEID,
+              userCourseId:doc.id,
+            })
+            db.collection("students").doc(user.uid).collection("courses").doc(doc.id).collection("subjects")
+            .where("name", "==",subject)
+            .get()
+            .then((querySnapshot) => {
+              querySnapshot.forEach((doc1) => {
+                dispatch({
+                   type : actionTypes.SET_USER_SUBJECTID,
+                   userSubjectId : doc1.id,
+                })
+              });
+            })
+            .catch((error) => {
+              console.log("Error getting documents: ", error);
+            });
+          });
+        })
+        .catch((error) => {
+          console.log("Error getting documents: ", error);
+        });
+
+
       }
       }
   

@@ -48,7 +48,7 @@ function App() {
   }, []);
 console.log(user)
   useEffect(()=>{
-  if(user){
+  if(user?.uid){
      db.collection('users').doc(user?.uid).onSnapshot((snapshot)=>(
       dispatch({
         type:actionTypes.SIGN_IN_AS,
@@ -57,7 +57,7 @@ console.log(user)
       // console.log(snapshot.data())
      ))
   }
-  },[user])
+  },[user?.uid])
   // useEffect(()=>{
   //   if(){
       

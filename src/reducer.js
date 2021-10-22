@@ -14,6 +14,9 @@ export const initialState = {
   course_Main: null,
   course_MainID:null,
   openAskDoubtPopup: false,
+  userInfo : [],
+  userCourseId : null,
+  userSubjectId : null,
   teacher:null,
   teacherSubjectId:null,
   teacherCourseId:null,
@@ -32,6 +35,9 @@ export const actionTypes = {
   OPEN_ASSIGNMENT_POPUP_FOR_TEACHER: "OPEN_ASSIGNMENT_POPUP_FOR_TEACHER",
   OPEN_CREATE_ASSIGNMENT_POPUP : "OPEN_CREATE_ASSIGNMENT_POPUP",
   SET_COURSE_MAIN: "SET_COURSE_MAIN",
+  SET_USER_INFO : "SET_USER_INFO",
+  SET_USER_COURSEID : "SET_USER_COURSEID",
+  SET_USER_SUBJECTID : "SET_USER_SUBJECTID",
   SET_COURSE_MAIN_ID:"SET_COURSE_MAIN_ID",
   SET_TEACHER:'SET_TEACHER',
   SET_TEACHER_COURSE_ID:'SET_TEACHER_COURSE_ID',
@@ -121,7 +127,21 @@ const reducer = (state, action) => {
         ...state,
         user: action.user,
       }
-
+    case actionTypes.SET_USER_INFO:
+      return {
+         ...state,
+         userInfo : action.userInfo,
+      }
+    case actionTypes.SET_USER_COURSEID:
+      return{
+        ...state,
+        userCourseId : action.userCourseId,
+      }
+    case actionTypes.SET_USER_SUBJECTID:
+      return{
+        ...state,
+        userSubjectId : action.userSubjectId,
+      }
     default:
       return state;
   }
