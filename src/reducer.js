@@ -6,6 +6,9 @@ export const initialState = {
   openAsignmentPopup: false,
   openNoticesPopup: false,
   openDoubtReplies: false,
+  openAskDoubtPopup: false,
+  openAssignmentPopupForTeacher: false,
+  openCreateAssignmentPopup : false,
   course_Subject: null,
   course_SubjectID:null,
   course_Main: null,
@@ -26,6 +29,8 @@ export const actionTypes = {
   OPEN_ASKDOUBT_POPUP: "OPEN_ASKDOUBT_POPUP",
   SET_COURSE: "SET_COURSE",
   SET_COURSE_ID:"SET_COURSE_ID",
+  OPEN_ASSIGNMENT_POPUP_FOR_TEACHER: "OPEN_ASSIGNMENT_POPUP_FOR_TEACHER",
+  OPEN_CREATE_ASSIGNMENT_POPUP : "OPEN_CREATE_ASSIGNMENT_POPUP",
   SET_COURSE_MAIN: "SET_COURSE_MAIN",
   SET_COURSE_MAIN_ID:"SET_COURSE_MAIN_ID",
   SET_TEACHER:'SET_TEACHER',
@@ -80,26 +85,36 @@ const reducer = (state, action) => {
       return {
         ...state,
         signInAs: action.signInAs,
-      }
+      };
     case actionTypes.OPEN_ASSIGNMENT_POPUP:
       return {
         ...state,
         openAsignmentPopup: action.openAsignmentPopup,
-      }
+      };
     case actionTypes.OPEN_NOTICES_POPUP:
       return {
         ...state,
         openNoticesPopup: action.openNoticesPopup,
-      }
+      };
     case actionTypes.OPEN_DOUBT_REPLIES:
       return {
         ...state,
         openDoubtReplies: action.openDoubtReplies,
-      }
+      };
     case actionTypes.OPEN_ASKDOUBT_POPUP:
       return {
         ...state,
         openAskDoubtPopup: action.openAskDoubtPopup,
+      };
+    case actionTypes.OPEN_ASSIGNMENT_POPUP_FOR_TEACHER:
+      return {
+        ...state,
+        openAssignmentPopupForTeacher: action.openAssignmentPopupForTeacher,
+      };
+    case actionTypes.OPEN_CREATE_ASSIGNMENT_POPUP:
+      return{
+        ...state,
+        openCreateAssignmentPopup: action.openCreateAssignmentPopup,
       }
     case actionTypes.SET_USER:
       return {
