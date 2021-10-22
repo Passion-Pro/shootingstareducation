@@ -46,7 +46,7 @@ function App() {
       } else {  }
     });
   }, []);
-
+console.log(user)
   useEffect(()=>{
   if(user){
      db.collection('users').doc(user?.uid).onSnapshot((snapshot)=>(

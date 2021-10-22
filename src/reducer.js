@@ -28,7 +28,7 @@ export const actionTypes = {
   OPEN_DOUBT_REPLIES: "OPEN_DOUBT_REPLIES",
   OPEN_ASKDOUBT_POPUP: "OPEN_ASKDOUBT_POPUP",
   SET_COURSE: "SET_COURSE",
-  SET_COURSE_ID:"SET_COURSE_ID",
+  SET_COURSE_SUBJECT_ID:"SET_COURSE_SUBJECT_ID",
   OPEN_ASSIGNMENT_POPUP_FOR_TEACHER: "OPEN_ASSIGNMENT_POPUP_FOR_TEACHER",
   OPEN_CREATE_ASSIGNMENT_POPUP : "OPEN_CREATE_ASSIGNMENT_POPUP",
   SET_COURSE_MAIN: "SET_COURSE_MAIN",
@@ -51,7 +51,7 @@ const reducer = (state, action) => {
         ...state,
         teacherCourseId: action.teacherCourseId,
       };
-      case actionTypes.SET_COURSE_ID:
+      case actionTypes.SET_COURSE_SUBJECT_ID:
       return {
         ...state,
         course_SubjectID: action.course_SubjectID,

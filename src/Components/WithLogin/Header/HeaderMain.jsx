@@ -62,7 +62,7 @@ function HeaderMain() {
         .then((querySnapshot) => {
           querySnapshot.forEach((doc1) => {
             dispatch({
-                type:actionTypes.SET_COURSE_ID,
+                type:actionTypes.SET_COURSE_SUBJECT_ID,
                 course_SubjectID:doc1.id,
             })
           });

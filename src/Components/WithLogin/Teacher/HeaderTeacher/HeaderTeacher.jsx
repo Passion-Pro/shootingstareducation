@@ -16,7 +16,7 @@ function HeaderTeacher() {
   const [{ signInAs, user,teacherSubjectId}, dispatch] =useStateValue();
   const [showDiv,setShowDiv]=useState(false);
   const history=useHistory();
-  console.log(teacherSubjectId)
+  
   useEffect(()=>{
     if(signInAs?.courseName){
       db.collection("Courses")
