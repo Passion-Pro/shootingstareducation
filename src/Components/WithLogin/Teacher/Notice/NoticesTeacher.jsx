@@ -7,8 +7,7 @@ import NoticeTeacher from "./NoticeTeacher";
 import UpdateNoticeTeacher from "./UpdateNoticeTeacher";
 
 function NoticesTeacher() {
-  const [{ signInAs, user, teacherSubjectId, teacherCourseId }, dispatch] =
-    useStateValue();
+  const [{ signInAs, user, teacherSubjectId, teacherCourseId }, dispatch] =useStateValue();
   const [notices, setNotices] = useState([]);
 
   useEffect(() => {
