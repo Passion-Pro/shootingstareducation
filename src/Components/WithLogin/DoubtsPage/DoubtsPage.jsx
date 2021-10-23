@@ -26,27 +26,31 @@ function DoubtsPage() {
       user,
       userCourseId,
       userSubjectId,
-      signInAs
+      signInAs, 
+      course_Subject
     },
     dispatch,
   ] = useStateValue();
   const history = useHistory();
-  const [input, setInput] = useState();
+  const [input, setInput] = useState('');
   const [messages, setMessages] = useState([]);
   const [rooms, setRooms] = useState([]);
 
   useEffect(() => {
     if(user && userCourseId && userSubjectId && course_MainID && course_SubjectID){
-      db.collection("users")
+      db.collection("students")
       .doc(user?.uid)
       .collection("courses")
       .doc(userCourseId)
       .collection("subjects")
       .doc(userSubjectId)
       .collection("messagesToTeacher")
+      .orderBy("timestamp", "asc")
       .onSnapshot((snapshot) =>
         setMessages(snapshot.docs.map((doc) => doc.data()))
       );
+
+      setInput('');
 
     db.collection("Courses")
       .doc(course_MainID)
@@ -61,7 +65,9 @@ function DoubtsPage() {
         )
       );
     }
-  }, [user, userCourseId , userSubjectId ,course_MainID ,course_SubjectID ]);
+
+    console.log(messages)
+  }, [user, userCourseId , userSubjectId ,course_MainID ,course_SubjectID , messages.length]);
 
   const goToNoticesPage = (e) => {
     e.preventDefault();
@@ -92,9 +98,10 @@ function DoubtsPage() {
     e.preventDefault();
     console.log(signInAs)
     console.log(input);
+   if(signInAs.name && userCourseId && userSubjectId && input){
     console.log("User Course Id is" , userCourseId);
     console.log("User Subject Id is" , userSubjectId);
-    db.collection("users")
+    db.collection("students")
       .doc(user?.uid)
       .collection("courses")
       .doc(userCourseId)
@@ -184,8 +191,11 @@ function DoubtsPage() {
         console.log("Error getting documents: ", error);
       });
     }
-    setInput();
+    setInput('');
+  }
   };
+
+
 
   return (
     <>
@@ -215,7 +225,7 @@ function DoubtsPage() {
                   className="arrowBack_icon"
                   onClick={back_to_previous_page}
                 />
-                <p>Physics</p>
+                <p>{course_Subject}</p>
               </div>
               <button
                 className="ask_doubt_button"
@@ -226,8 +236,9 @@ function DoubtsPage() {
             </div>
             {openDoubtReplies === false ? (
               <div className="doubtBox_doubts">
-                <Doubt />
-                <Doubt />
+                {messages.map((message) => 
+                  <Doubt name = {message.name} message = {message.message} timestamp = {message.timestamp}/>
+                )}
               </div>
             ) : (
               <DoubtReplies />
@@ -238,7 +249,7 @@ function DoubtsPage() {
                   type="text"
                   placeholder="Type a message "
                   value={input}
-                  onChange={e => setInput(e.target.value)}
+                  onChange={e=>setInput(e.target.value)}
                 />
                 <div className="icons">
                   <AttachFileIcon className="attach_file_icon icon" />
@@ -266,7 +277,7 @@ const Container = styled.div`
   padding: 50px;
   padding-top: 20px;
   justify-content: space-around;
-  /* height: 88vh; */
+  height: 88vh;
   .notices {
     flex: 0.3;
     display: flex;
@@ -296,6 +307,7 @@ const Container = styled.div`
 
   @media (max-width: 500px) {
     padding: 0px;
+    height : 100vh;
   }
 `;
 
@@ -317,9 +329,14 @@ const DoubtBox = styled.div`
       margin-bottom: 0px;
       font-size: 17px;
       font-weight: 450;
+      text-transform: uppercase;
     }
     border-bottom: 1px solid lightgray;
-  }
+  } 
+
+   .arrowBack_icon{
+     display : none;
+   }
 
   .doubtBox_doubts {
     /* background-color: #eeeded; */
@@ -333,7 +350,7 @@ const DoubtBox = styled.div`
   .doubtBox_footer {
     background-color: #fff;
     width: 100%;
-    height: 60px;
+    height: 65px;
     padding: 5px;
     display: flex;
     flex-direction: row;

@@ -2,36 +2,19 @@ import React from "react";
 import styled from "styled-components";
 import {useStateValue} from "../../../StateProvider"
 import {actionTypes} from "../../../reducer"
-function Doubt() {
-  const[{ openDoubtReplies} , dispatch] = useStateValue();
-
-  const open_doubt_replies = (e) => {
-      e.preventDefault();
-      dispatch({
-          type : actionTypes.OPEN_DOUBT_REPLIES,
-          openDoubtReplies: true
-      })
-  }
+function Doubt({name , message , timestamp}) {
   return (
     <>
       <Container>
         <div className="doubt">
           <div className="doubt_name">
-            <p>Ronak</p>
+            <p>{name}</p>
           </div>
           <div className="doubt_message">
             <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-              reprehenderit in voluptate velit esse cillum dolore eu fugiat
-              nulla pariatur.
+              {message}
             </p>
           </div>
-          {/* <p className="view_replies" onClick = {open_doubt_replies}>
-              View Replies
-          </p> */}
         </div>
       </Container>
     </>
@@ -46,7 +29,8 @@ const Container = styled.div`
     margin-left: auto;
     margin-top: 10px;
     margin-bottom: 4px;
-    width: 60%;
+    max-width: 60%;
+    width : fit-content;
   }
 
   .doubt_message {
@@ -90,14 +74,10 @@ const Container = styled.div`
   }
 
   @media(max-width:500px) {
-    width : fit-content;
-      .doubt{
-          width : 70%;
-          height : fit-content;
-      }
-      .doubt_message{
-        width : 100%;
-      }
+     .doubt{
+       margin-bottom : 0px;
+       margin-bottom : 0px;
+     }
     }
 `;
 

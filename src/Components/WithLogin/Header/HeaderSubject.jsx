@@ -80,8 +80,6 @@ function HeaderSubject({ subject, course }) {
 
       }
       }
-  
-  console.log("object",course_SubjectID,course_Main,course_Subject,course_MainID)
   return (
     <div>
       <div onClick={selectSubject}>{subject}</div>
