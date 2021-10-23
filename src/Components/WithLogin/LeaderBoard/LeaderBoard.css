@@ -71,7 +71,105 @@
     flex-direction: column;
     overflow:scroll;
     height: 60vh;
-}
+}  .popupDelete {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #858484cc;
+    z-index: 1;
+  }
+  .popupDeleteIn {
+    max-width: 500px;
+    width: 80vw;
+    height: fit-content;
+    background-color: white;
+    border-radius: 8px;
+  }
+  .popupDeleteIntop {
+    display: flex;
+    height: fit-content;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 0px 12px 0;
+    margin-bottom: 10px;
+    border-bottom: 2px solid #2370e2;
+  }
+  .name {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: large;
+  }
+  .Backicon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-right: 12px;
+  }
+  .Backiconi {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .popupbody {
+    display: flex;
+    flex-direction: column;
+    padding: 0 12px 12px 12px;
+    font-weight: 500;
+    /* align-items: center; */
+    /* justify-content: center; */
+    height: fit-content;
+  }
+  .popupbody > input {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px;
+    color: #383434;
+    width: 100%;
+    border-radius: 6px;
+    height: 5vh;
+    border: none;
+    outline: none;
+    border: 1px solid lightgray;
+    resize: none;
+    margin: 12px 0 12px 0;
+  }
+  .popupbody>textarea{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px;
+    color: #383434;
+    width: 100%;
+    border-radius: 6px;
+    height: 30vh;
+    border: none;
+    outline: none;
+    border: 1px solid lightgray;
+    resize: none;
+    margin: 12px 0 12px 0;
+  }
+  .btn {
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
+  @media (max-width: 768px) {
+    .popupDeleteIn {
+      width: 95vw;
+    }
+  }
 @media(max-width:1085px){
     .LeaderBoard{
         width: 100vw;

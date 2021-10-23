@@ -1,8 +1,14 @@
 import { Divider } from '@mui/material';
 import React from 'react';
-import './LeaderBoardNumber.css'
+import './LeaderBoardNumber.css';
+import EditRoundedIcon from '@mui/icons-material/EditRounded';
+import { useStateValue } from '../../../StateProvider';
 
 function LeaderBoardNumber({name}) {
+    const[{signInAs,user, teacherSubjectId, teacherCourseId} , dispatch] = useStateValue();
+    const editLeaders=()=>{
+        // db.collection('Courses').doc(teacherCourseId).collection('Subjects').doc(teacherSubjectId).collection('leaderboard').update
+      }
     return (
         // <>
         <div className="LeaderBoardNumber">
@@ -18,7 +24,13 @@ function LeaderBoardNumber({name}) {
                 </div>
             </div>
             <div className="LeaderBoardNumber__Sec">
-            
+            <h6>
+            {signInAs.value=="teacher" && 
+            <div className="editLeaderboard" onClick={editLeaders}>
+              <EditRoundedIcon />
+            </div>
+            }
+            </h6>
             </div>
     <Divider/>
         </div>

@@ -9,6 +9,7 @@ function NoticesPage() {
     const back_to_previous_page = () => {
       history.goBack();
     }
+    
     return (
       <>
        <Container>
