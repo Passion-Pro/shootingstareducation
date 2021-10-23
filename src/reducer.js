@@ -20,6 +20,7 @@ export const initialState = {
   teacher:null,
   teacherSubjectId:null,
   teacherCourseId:null,
+  chatName : null,
 };
 
 export const actionTypes = {
@@ -42,6 +43,7 @@ export const actionTypes = {
   SET_TEACHER:'SET_TEACHER',
   SET_TEACHER_COURSE_ID:'SET_TEACHER_COURSE_ID',
   SET_TEACHER_SUBJECT_ID:'SET_TEACHER_SUBJECT_ID',
+  SET_CHATNAME : 'SET_CHATNAME',
 };
 
 const reducer = (state, action) => {
@@ -141,6 +143,11 @@ const reducer = (state, action) => {
       return{
         ...state,
         userSubjectId : action.userSubjectId,
+      }
+    case actionTypes.SET_CHATNAME:
+      return {
+        ...state,
+        chatName : action.chatName,
       }
     default:
       return state;
