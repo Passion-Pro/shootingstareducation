@@ -3,7 +3,7 @@ import styled from "styled-components"
 import CloseIcon from '@mui/icons-material/Close'
 import CancelIcon from '@mui/icons-material/Cancel';
 
-function Notice() {
+function Notice({notice}) {
     return (
         <>
          <Container>
@@ -11,9 +11,9 @@ function Notice() {
                 <CancelIcon className="close_icon"/>
             </div>
            <p className="notice">
-           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.  
+           {notice.data?.notice}  
            </p>
-           <p className="sent_by">MNK Sir</p>  
+           <p className="sent_by">{notice.data?.teacher}</p>  
          </Container>
         </>
     )
