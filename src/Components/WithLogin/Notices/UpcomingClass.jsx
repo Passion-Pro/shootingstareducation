@@ -1,15 +1,38 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import db from "../../../firebase";
+import { useStateValue } from "../../../StateProvider";
 
 function UpcomingClass() {
+  const [{ signInAs, user, course_Subject, course_Main,course_SubjectID,course_MainID }, dispatch] =useStateValue();
+    const [noticesHeader,setNoticesHeader]=useState([]);
+    
+    useEffect(() => {
+        if (course_MainID && course_SubjectID) {
+          db.collection("Courses")
+            .doc(course_MainID)
+            .collection("Subjects")
+            .doc(course_SubjectID)
+            .collection("noticesHeader")
+            .onSnapshot((snapshot) =>
+              setNoticesHeader(
+                snapshot.docs.map((doc) => ({
+                  data: doc.data(),
+                  id: doc.id,
+                }))
+              )
+            );
+        }
+      }, [course_MainID, course_SubjectID]);
+      // console.log(noticesHeader[0].data.)
   return (
     <>
       <Container>
         <div className="upcoming_class">
           <p className="upcoming_class_timing">
-            Upcoming Class at 14:33 on Monday
+            {noticesHeader && noticesHeader[0]?.data?.upcomingclass}
           </p>
-          <p className="upcoming_class_topic">Topic : Projectile Motion</p>
+          <p className="upcoming_class_topic">Topic : {noticesHeader && noticesHeader[0]?.data?.topic}</p>
         </div>
       </Container>
     </>

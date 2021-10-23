@@ -80,6 +80,7 @@ function HeaderSubject({ subject, course }) {
 
       }
       }
+  
   return (
     <div>
       <div onClick={selectSubject}>{subject}</div>

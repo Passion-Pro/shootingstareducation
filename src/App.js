@@ -46,7 +46,7 @@ function App() {
       } else {  }
     });
   }, []);
-
+console.log(user)
   useEffect(()=>{
   if(user?.uid){
      db.collection('users').doc(user?.uid).onSnapshot((snapshot)=>(
@@ -78,15 +78,14 @@ console.log(signInAs)
         <Route path="/notification">
           <Notification/>
         </Route>
-        <Route path="/mainteacher">
-          <MainTeacher />
-        </Route>
         <Route path="/leaderboard">
           <LeaderBoard />
         </Route>
         <Route path="/main">
-          <Main />
+          {signInAs && signInAs.value==='teacher' ? <MainTeacher /> : <Main /> }
         </Route>
+        {/* </Route> */}
+        {/* <Route path="/main"> */}
         <Route path="/profile">
           <Profile />
         </Route>
