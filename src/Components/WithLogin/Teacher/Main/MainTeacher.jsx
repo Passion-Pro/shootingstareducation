@@ -1,5 +1,6 @@
 import React from 'react';
 import Chat from '../../Chat/Chat';
+import ChatTeacher from '../ChatTeacher/ChatTeacher';
 import HeaderTeacher from '../HeaderTeacher/HeaderTeacher';
 import NoticesTeacher from '../Notice/NoticesTeacher';
 import './MainTeacher.css';
@@ -11,7 +12,7 @@ function MainTeacher() {
           <div className="mainBody">
                 <div className="mainBodyIN">
                 <div id="chat">
-                <Chat />
+                <ChatTeacher />
                 </div>
                 <div id="noti">
                 <NoticesTeacher/>

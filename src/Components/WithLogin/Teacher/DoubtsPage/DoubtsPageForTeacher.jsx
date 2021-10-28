@@ -1,7 +1,6 @@
 import React , {useState , useEffect} from "react";
 import styled from "styled-components";
 import { useHistory } from "react-router-dom";
-import HeaderMain from "../../Header/HeaderMain";
 import { useStateValue } from "../../../../StateProvider";
 import { actionTypes } from "../../../../reducer";
 import "./DoubtsPageForTeacher.css";
@@ -12,6 +11,7 @@ import AttachFileIcon from "@mui/icons-material/AttachFile";
 import Doubt from "../../DoubtsPage/Doubt";
 import DoubtReplies from "../../DoubtsPage/DoubtReplies";
 import db from "../../../../firebase";
+import HeaderTeacher from "../HeaderTeacher/HeaderTeacher";
 
 function DoubtsPageForTeacher() {
   const [{ openDoubtReplies ,  course_MainID,
@@ -34,7 +34,7 @@ function DoubtsPageForTeacher() {
   } ,[])
   return (
     <div className="doubtsPageforTeacher">
-      <HeaderMain />
+      <HeaderTeacher/>
       <Container>
         <DoubtBox>
           <div className="student_names">
