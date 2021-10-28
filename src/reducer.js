@@ -1,4 +1,3 @@
-
 export const initialState = {
   openSignInPopup: false,
   user: null,
@@ -20,10 +19,16 @@ export const initialState = {
   teacher:null,
   teacherSubjectId:null,
   teacherCourseId:null,
+  newteachercourse:null,
+  studentcourse:null,
+  newteachercoursesubject:null,
+  adduser:null,
+  studentcoursesubject:[],
   chatName : null,
 };
 
 export const actionTypes = {
+  SET_ADD_USER:'SET_ADD_USER',
   OPEN_SIGNINPOPUP: "OPEN_SIGNINPOPUP",
   SET_USER: "SET_USER",
   SIGN_IN_AS: "SIGN_IN_AS",
@@ -43,13 +48,42 @@ export const actionTypes = {
   SET_TEACHER:'SET_TEACHER',
   SET_TEACHER_COURSE_ID:'SET_TEACHER_COURSE_ID',
   SET_TEACHER_SUBJECT_ID:'SET_TEACHER_SUBJECT_ID',
+  SET_NEW_TEACHER_COURSE:'SET_NEW_TEACHER_COURSE',
+  SET_NEW_TEACHER_COURSE_SUBJECT:'SET_NEW_TEACHER_COURSE_SUBJECT',
+  SET_STUDENT_COURSE:'SET_STUDENT_COURSE',
+  SET_STUDENT_COURSE_SUBJECT:'SET_STUDENT_COURSE_SUBJECT',
   SET_CHATNAME : 'SET_CHATNAME',
 };
 
 const reducer = (state, action) => {
   console.log(action);
   switch (action.type) {
-    case actionTypes.SET_TEACHER_SUBJECT_ID:
+    case actionTypes.SET_STUDENT_COURSE_SUBJECT:
+      return {
+        ...state,
+        studentcoursesubject: action.studentcoursesubject,
+      };
+    case actionTypes.SET_ADD_USER:
+      return {
+        ...state,
+        adduser: action.adduser,
+      };
+    case actionTypes.SET_STUDENT_COURSE:
+      return {
+        ...state,
+        studentcourse: action.studentcourse,
+      };
+    case actionTypes.SET_NEW_TEACHER_COURSE:
+      return {
+        ...state,
+        newteachercourse: action.newteachercourse,
+      };
+      case actionTypes.SET_NEW_TEACHER_COURSE_SUBJECT:
+      return {
+        ...state,
+        newteachercoursesubject: action.newteachercoursesubject,
+      };
+      case actionTypes.SET_TEACHER_SUBJECT_ID:
       return {
         ...state,
         teacherSubjectId: action.teacherSubjectId,

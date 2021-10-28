@@ -29,7 +29,13 @@ import { actionTypes } from "./reducer";
 import db, { auth } from "./firebase";
 import { useEffect } from "react";
 import { useStateValue } from "./StateProvider";
-
+import ChatTeacher from "./Components/WithLogin/Teacher/ChatTeacher/ChatTeacher";
+import Admin from "./Components/WithLogin/Admin/Main/Main";
+import AddStudent from "./Components/WithLogin/Admin/AddStudent/AddStudent";
+import AddTeacher from "./Components/WithLogin/Admin/AddTeacher/AddTeacher";
+import AddAdmin from "./Components/WithLogin/Admin/AddAdmin/AddAdmin";
+import AddTeacherInfo from "./Components/WithLogin/Admin/AddTeacher/AddTeacherInfo";
+import AddCourse from "./Components/WithLogin/Admin/AddCourse/AddCourse";
 
 function App() {
 
@@ -46,7 +52,8 @@ function App() {
       } else {  }
     });
   }, []);
-console.log(user)
+
+
   useEffect(()=>{
   if(user?.uid){
      db.collection('users').doc(user?.uid).onSnapshot((snapshot)=>(
@@ -54,29 +61,42 @@ console.log(user)
         type:actionTypes.SIGN_IN_AS,
         signInAs:snapshot.data(),
        })
-      // console.log(snapshot.data())
      ))
   }
   },[user?.uid])
-  // useEffect(()=>{
-  //   if(){
-      
-  //   }
-  //   },[])
-console.log(signInAs)
+
+  
   return (
     <Router>
       <Switch>
-        <Route path="/mainChat">
+        <Route path="/mainchat">
           <div className="chat_Show">
-            <Chat />
+            {signInAs && signInAs.value==='teacher' ? <ChatTeacher/>:<Chat />}
           </div>
           <div className="chat_Show_Not">
-            <Main />
+          {signInAs && signInAs.value==='teacher' ? <MainTeacher /> : <Main /> }
           </div>
         </Route>
         <Route path="/notification">
           <Notification/>
+        </Route>
+        <Route path="/admin">
+          <Admin/>
+        </Route>
+        <Route path="/addcourse">
+        <AddCourse/>
+        </Route>
+        <Route path="/addteacher">
+        <Admin/>
+        </Route>
+        <Route path="/addstudent">
+        <Admin/>
+        </Route>
+        {/* <Route path="/addteacherinfo">
+        <AddTeacherInfo/>
+        </Route> */}
+        <Route path="/addadmin">
+        <Admin/>
         </Route>
         <Route path="/leaderboard">
           <LeaderBoard />
@@ -144,7 +164,7 @@ console.log(signInAs)
           <MessagesSectionForMobile/>
         </Route>
         <Route path="/">
-          <Home />
+          {!signInAs? <Home />: signInAs && signInAs.value==='teacher' ? <MainTeacher /> : <Main />  }
         </Route>
       </Switch>
     </Router>

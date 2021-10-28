@@ -25,7 +25,7 @@ function LeaderBoardNumber({name}) {
             </div>
             <div className="LeaderBoardNumber__Sec">
             <h6>
-            {signInAs.value=="teacher" && 
+            {signInAs && signInAs.value=="teacher" && 
             <div className="editLeaderboard" onClick={editLeaders}>
               <EditRoundedIcon />
             </div>

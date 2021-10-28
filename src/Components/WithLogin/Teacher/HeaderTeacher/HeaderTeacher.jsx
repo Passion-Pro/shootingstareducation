@@ -50,7 +50,7 @@ function HeaderTeacher() {
       });
     }
    },[signInAs?.courseName]);
-
+console.log(teacherSubjectId)
     return (
       <>
         <div className="headerMain">

@@ -13,6 +13,7 @@ import db from "../../../firebase";
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import Button from "@restart/ui/esm/Button";
 import { Stack } from "react-bootstrap";
+import HeaderTeacher from '../Teacher/HeaderTeacher/HeaderTeacher' 
 
 function LeaderBoard() {
   const[{signInAs,user, teacherSubjectId, teacherCourseId} , dispatch] = useStateValue();
@@ -59,15 +60,16 @@ function LeaderBoard() {
     },[teacherCourseId,teacherSubjectId]);
 const addInLeaderBoard=()=>{
   if(teacherCourseId && teacherSubjectId ){
-    // db.collection('Course').doc(teacherCourseId).collection('Subjects').doc(teacherSubjectId).collection("LeaderBoard").add({
-    //   name:
-    //   marks:
-    // })
+    db.collection('Course').doc(teacherCourseId).collection('Subjects').doc(teacherSubjectId).collection("LeaderBoard").add({
+      name:leaderName,
+    })
+    setLeaderName('')
   }else{
     alert("try again")
   }
 }
     console.log(leaders)
+
   return (
     <div className="LeaderBoard">
       {addName && (
@@ -86,7 +88,7 @@ const addInLeaderBoard=()=>{
                 </div>
               </div>
               <div className="popupbody">
-                <textarea
+                <input
                   placeholder="Notice "
                   value={leaderName}
                   onChange={(e) => setLeaderName(e.target.value)}
@@ -101,7 +103,7 @@ const addInLeaderBoard=()=>{
           </div>
         )}
       <div className="leaderboardHeader">
-      <HeaderMain />
+     { signInAs?.value==="student" ? <HeaderMain />:<HeaderTeacher/>}
       </div>
       <div className="LeaderBoard__Header">
       </div>
@@ -122,7 +124,6 @@ const addInLeaderBoard=()=>{
        value={date} onChange={e=>setDate(e.target.value)}
        min="2021-10-08" max={dateC} /> */}
        Today
-            
           </div>
           <LeaderSecHead />
           <Divider />
@@ -130,26 +131,7 @@ const addInLeaderBoard=()=>{
             <div className="Add_In_Leaderboard" >
               <AddRoundedIcon onClick={()=>setAddName(!addName)}/>
             </div>
-          <LeaderBoardNumber name={"Yo YO Honey Singh"} />
-          <LeaderBoardNumber />
-          <LeaderBoardNumber />
-          <LeaderBoardNumber />
-          <LeaderBoardNumber />
-          <LeaderBoardNumber />
-          <LeaderBoardNumber />
-          <LeaderBoardNumber />
-          <LeaderBoardNumber />
-          <LeaderBoardNumber />
-          <LeaderBoardNumber />
-          <LeaderBoardNumber />
-          <LeaderBoardNumber />
-          <LeaderBoardNumber />
-          <LeaderBoardNumber />
-          <LeaderBoardNumber />
-          <LeaderBoardNumber />
-          <LeaderBoardNumber />
-          <LeaderBoardNumber />
-          <LeaderBoardNumber />
+          <LeaderBoardNumber name={"Vidhi Sharma"} />
           </div>
          <div className="scroll">
          Scroll down to see more
