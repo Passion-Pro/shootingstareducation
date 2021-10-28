@@ -21,6 +21,11 @@ export const initialState = {
   teacherSubjectId:null,
   teacherCourseId:null,
   chatName : null,
+  assignmentStudentDetails : [],
+  assignmentTeacherDetails : [],
+  studentName : null,
+  openViewAssignmentPopup : false,
+  createAssignmentDetails : [],
 };
 
 export const actionTypes = {
@@ -44,6 +49,11 @@ export const actionTypes = {
   SET_TEACHER_COURSE_ID:'SET_TEACHER_COURSE_ID',
   SET_TEACHER_SUBJECT_ID:'SET_TEACHER_SUBJECT_ID',
   SET_CHATNAME : 'SET_CHATNAME',
+  SET_ASSIGNMENT_STUDENT_DETAILS : 'SET_ASSIGNMENT_STUDENT_DETAILS',
+  SET_ASSIGNMENT_TEACHER_DETAILS : 'SET_ASSIGNMENT_TEACHER_DETAILS',
+  SET_STUDENT_NAME : 'SET_STUDENT_NAME',
+  OPEN_VIEW_ASSIGNMENT_POPUP : 'OPEN_VIEW_ASSIGNMENT_POPUP',
+  CREATE_ASSIGNMENT_DETAILS : 'CREATE_ASSIGNMENT_DETAILS',
 };
 
 const reducer = (state, action) => {
@@ -149,6 +159,31 @@ const reducer = (state, action) => {
         ...state,
         chatName : action.chatName,
       }
+    case actionTypes.SET_ASSIGNMENT_STUDENT_DETAILS:
+      return {
+        ...state,
+        assignmentStudentDetails: action.assignmentStudentDetails,
+      }
+    case actionTypes.SET_ASSIGNMENT_TEACHER_DETAILS:
+      return {
+        ...state,
+        assignmentTeacherDetails : action.assignmentTeacherDetails,
+      }
+    case actionTypes.SET_STUDENT_NAME:
+      return {
+        ...state,
+        studentName : action.studentName,
+      }
+    case actionTypes.OPEN_VIEW_ASSIGNMENT_POPUP:
+      return{
+        ...state,
+        openViewAssignmentPopup : action.openViewAssignmentPopup,
+      }
+    case actionTypes.CREATE_ASSIGNMENT_DETAILS:
+       return {
+         ...state,
+         createAssignmentDetails: action.createAssignmentDetails,
+       }
     default:
       return state;
   }

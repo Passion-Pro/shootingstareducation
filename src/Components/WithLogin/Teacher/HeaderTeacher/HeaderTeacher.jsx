@@ -12,6 +12,7 @@ import db from '../../../../firebase';
 import { useStateValue } from '../../../../StateProvider';
 import { actionTypes } from '../../../../reducer';
 
+
 function HeaderTeacher() {
   const [{ signInAs, user,teacherSubjectId}, dispatch] =useStateValue();
   const [showDiv,setShowDiv]=useState(false);
@@ -50,6 +51,7 @@ function HeaderTeacher() {
       });
     }
    },[signInAs?.courseName]);
+   console.log(teacherSubjectId)
 
     return (
       <>

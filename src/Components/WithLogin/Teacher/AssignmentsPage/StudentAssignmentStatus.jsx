@@ -1,9 +1,16 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import CancelIcon from '@mui/icons-material/Cancel';
+import db from "../../../../firebase"
+import {useHistory} from "react-router-dom";
+import { actionTypes } from "../../../../reducer";
+import { useStateValue } from "../../../../StateProvider";
 
-function StudentAssignmentStatus() {
+function StudentAssignmentStatus({name , answerUrl , fileName}) {
   const [submissiondetails, setSubmissionDetails] = useState(false);
+  const history = useHistory();
+  const[{} , dispatch] = useStateValue();
+  
 
   useEffect(() => {}, [submissiondetails]);
   const view_details = (e) => {
@@ -14,11 +21,21 @@ function StudentAssignmentStatus() {
   const close_details = (e) => {
     e.preventDefault();
     setSubmissionDetails(false);
+  };
+
+  const goToUploadPage = (e) => {
+    e.preventDefault();
+    history.push("/uploadCorrectedAssignmentPage");
+    dispatch({
+      type : actionTypes.SET_STUDENT_NAME,
+      studentName :  name
+    })
+
   }
   return (
     <>
       <Container>
-        <p className = "student_name">Ronak</p>
+        <p className = "student_name">{name}</p>
         {submissiondetails === false ? (
           <span onClick={view_details}>View details</span>
         ) : (
@@ -28,13 +45,11 @@ function StudentAssignmentStatus() {
                 <CancelIcon className="cancel_icon" onClick = {close_details}/>
             </div>
              <div className="submitted_assignment_name">
-                 Ronak.pdf
+                 <a href={answerUrl}>
+                 {fileName}
+                 </a>
              </div>
-             <div className="marks">
-                 <p>Marks:</p>
-                 <input type="number" />
-             </div>
-             <button>Upload corrected assignment</button>
+             <button onClick = {goToUploadPage}>Upload corrected assignment</button>
           </div>
         )}
       </Container>

@@ -29,6 +29,9 @@ import { actionTypes } from "./reducer";
 import db, { auth } from "./firebase";
 import { useEffect } from "react";
 import { useStateValue } from "./StateProvider";
+import SubmitAssignment from "./Components/WithLogin/AssignmentsPage/SubmitAssignment";
+import UploadCorrectedAssignment from "./Components/WithLogin/Teacher/AssignmentsPage/UplaodCorrectedAssignment";
+import UploadCreatedAssignment  from "./Components/WithLogin/Teacher/AssignmentsPage/UploadCreatedAssignment"
 
 
 function App() {
@@ -84,8 +87,10 @@ console.log(signInAs)
         <Route path="/main">
           {signInAs && signInAs.value==='teacher' ? <MainTeacher /> : <Main /> }
         </Route>
-        {/* </Route> */}
-        {/* <Route path="/main"> */}
+        <Route path="/AssignmentsPage">
+          {signInAs && signInAs.value==='teacher' ? <AssignmentsPageForTeacher/> : <AssignmentsPage/> }
+        </Route>
+       
         <Route path="/profile">
           <Profile />
         </Route>
@@ -125,23 +130,26 @@ console.log(signInAs)
         <Route path="/signIn">
           <Login />
         </Route>
-        <Route path="/AssignmentsPage">
-          <AssignmentsPage />
-        </Route>
         <Route path="/NoticesPage">
           <NoticesPage />
         </Route>
         <Route path="/DoubtsPage">
           <DoubtsPage />
         </Route>
-        <Route path = "/AssignmentsPageForTeachers">
-          <AssignmentsPageForTeacher/>
-        </Route>
         <Route path = "/DoubtsPageForTeachers">
           <DoubtsPageForTeacher/>
         </Route>
         <Route path = "/doubtsMessagesPageForTeachers">
           <MessagesSectionForMobile/>
+        </Route>
+        <Route path = "/submitAssignment">
+          <SubmitAssignment/>
+        </Route>
+        <Route path = "/uploadCorrectedAssignmentPage">
+          <UploadCorrectedAssignment/>
+        </Route>
+        <Route path = "/uploadCreatedAssignment">
+          <UploadCreatedAssignment/>
         </Route>
         <Route path="/">
           <Home />

@@ -38,7 +38,7 @@ function Login() {
     console.log(user?.uid,signInAs)
   useEffect(()=>{
     if(signInAs?.value === "teacher"){
-      history.push("/mainteacher");
+      history.push("/main");
     }
     else if(signInAs?.value  === "student"){
       db.collection("students").doc(user?.uid).onSnapshot((snapshot) => {
@@ -61,7 +61,7 @@ function Login() {
             email : auth.user?.email,
             name : "Ronak"
           })
-          history.push("/AssignmentsPage");
+          history.push("/main");
         }
       })
       .catch((error) => alert(error.message));
