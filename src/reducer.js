@@ -23,7 +23,8 @@ export const initialState = {
   studentcourse:null,
   newteachercoursesubject:null,
   adduser:null,
-  studentcoursesubject:[]
+  studentcoursesubject:[],
+  chatName : null,
 };
 
 export const actionTypes = {
@@ -51,6 +52,7 @@ export const actionTypes = {
   SET_NEW_TEACHER_COURSE_SUBJECT:'SET_NEW_TEACHER_COURSE_SUBJECT',
   SET_STUDENT_COURSE:'SET_STUDENT_COURSE',
   SET_STUDENT_COURSE_SUBJECT:'SET_STUDENT_COURSE_SUBJECT',
+  SET_CHATNAME : 'SET_CHATNAME',
 };
 
 const reducer = (state, action) => {
@@ -175,6 +177,11 @@ const reducer = (state, action) => {
       return{
         ...state,
         userSubjectId : action.userSubjectId,
+      }
+    case actionTypes.SET_CHATNAME:
+      return {
+        ...state,
+        chatName : action.chatName,
       }
     default:
       return state;

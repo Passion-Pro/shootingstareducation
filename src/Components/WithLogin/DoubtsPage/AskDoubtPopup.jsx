@@ -42,97 +42,104 @@ function AskDoubtPopup() {
 
   const ask_doubt = (e) => {
     e.preventDefault();
-    db.collection("users")
-    .doc(user?.uid)
-    .collection("courses")
-    .doc(userCourseId)
-    .collection("subjects")
-    .doc(userSubjectId)
-    .collection("messagesToTeacher")
-    .add({
-      name: signInAs.name,
-      message: input,
-      timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-    });
-    let x = 0;
-    for (let i = 0; i < rooms.length; i++) {
-      if (rooms[i].data.name === signInAs.name) {
-        x = 1;
+
+    if(signInAs.name && userCourseId && userSubjectId && input){
+      db.collection("students")
+      .doc(user?.uid)
+      .collection("courses")
+      .doc(userCourseId)
+      .collection("subjects")
+      .doc(userSubjectId)
+      .collection("messagesToTeacher")
+      .add({
+        name: signInAs.name,
+        message: input,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+      });
+      let x = 0;
+      for (let i = 0; i < rooms.length; i++) {
+        if (rooms[i].data.name === signInAs.name) {
+          x = 1;
+        }
       }
-    }
-    if (x === 0) {
-      db.collection("Courses")
+      if (x === 0) {
+        db.collection("Courses")
+          .doc(course_MainID)
+          .collection("Subjects")
+          .doc(course_SubjectID)
+          .collection("doubtRooms")
+          .add({
+            name: signInAs.name,
+          })
+          .then(() => {
+            db.collection("Courses")
+              .doc(course_MainID)
+              .collection("Subjects")
+              .doc(course_SubjectID)
+              .collection("doubtRooms")
+              .where("name", "==",signInAs.name)
+              .get()
+              .then((querySnapshot) => {
+                querySnapshot.forEach((doc) => {
+                  // doc.data() is never undefined for query doc snapshots
+                  console.log(doc.id, " => ", doc.data());
+  
+                  db.collection("Courses")
+                    .doc(course_MainID)
+                    .collection("Subjects")
+                    .doc(course_SubjectID)
+                    .collection("doubtRooms")
+                    .doc(doc.id)
+                    .collection("messages")
+                    .add({
+                      name: signInAs.name,
+                      message: input,
+                      timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                    });
+                });
+              })
+              .catch((error) => {
+                console.log("Error getting documents: ", error);
+              });
+          });
+      }else{
+        db.collection("Courses")
         .doc(course_MainID)
         .collection("Subjects")
         .doc(course_SubjectID)
         .collection("doubtRooms")
-        .add({
-          name: signInAs.name,
-        })
-        .then(() => {
-          db.collection("Courses")
-            .doc(course_MainID)
-            .collection("Subjects")
-            .doc(course_SubjectID)
-            .collection("doubtRooms")
-            .where("name", "==",signInAs.name)
-            .get()
-            .then((querySnapshot) => {
-              querySnapshot.forEach((doc) => {
-                // doc.data() is never undefined for query doc snapshots
-                console.log(doc.id, " => ", doc.data());
-
-                db.collection("Courses")
-                  .doc(course_MainID)
-                  .collection("Subjects")
-                  .doc(course_SubjectID)
-                  .collection("doubtRooms")
-                  .doc(doc.id)
-                  .collection("messages")
-                  .add({
-                    name: signInAs.name,
-                    message: input,
-                    timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-                  });
+        .where("name", "==", signInAs.name)
+        .get()
+        .then((querySnapshot) => {
+          querySnapshot.forEach((doc) => {
+            // doc.data() is never undefined for query doc snapshots
+            console.log(doc.id, " => ", doc.data());
+  
+            db.collection("Courses")
+              .doc(course_MainID)
+              .collection("Subjects")
+              .doc(course_SubjectID)
+              .collection("doubtRooms")
+              .doc(doc.id)
+              .collection("messages")
+              .add({
+                name: signInAs.name,
+                message: input,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp(),
               });
-            })
-            .catch((error) => {
-              console.log("Error getting documents: ", error);
-            });
+          });
+        })
+        .catch((error) => {
+          console.log("Error getting documents: ", error);
         });
-    }else{
-      db.collection("Courses")
-      .doc(course_MainID)
-      .collection("Subjects")
-      .doc(course_SubjectID)
-      .collection("doubtRooms")
-      .where("name", "==", signInAs.name)
-      .get()
-      .then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-          // doc.data() is never undefined for query doc snapshots
-          console.log(doc.id, " => ", doc.data());
+      }
+      setInput();
 
-          db.collection("Courses")
-            .doc(course_MainID)
-            .collection("Subjects")
-            .doc(course_SubjectID)
-            .collection("doubtRooms")
-            .doc(doc.id)
-            .collection("messages")
-            .add({
-              name: signInAs.name,
-              message: input,
-              timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-            });
-        });
-      })
-      .catch((error) => {
-        console.log("Error getting documents: ", error);
+      dispatch({
+        type: actionTypes.OPEN_ASKDOUBT_POPUP,
+        openAskDoubtPopup: false,
       });
     }
-
-    setInput();
   };
   return (
     <>
@@ -154,7 +161,7 @@ function AskDoubtPopup() {
               value={input}
               onChange={(e) => setInput(e.target.value)}
             ></textarea>
-            <div className="ask_doubt_button">
+            <div className="ask_doubt_button_div">
               <button onClick={ask_doubt}>Ask</button>
             </div>
           </div>
@@ -200,10 +207,9 @@ const Container = styled.div`
       border: 0px;
     }
 
-    .ask_doubt_button {
+    .ask_doubt_button_div{
       display: flex;
       justify-content: flex-end;
-
       button {
         width: 80px;
         border-radius: 20px;

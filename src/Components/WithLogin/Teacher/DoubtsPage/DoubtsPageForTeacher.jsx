@@ -1,4 +1,4 @@
-import React , {useState , useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useHistory } from "react-router-dom";
 import { useStateValue } from "../../../../StateProvider";
@@ -12,26 +12,241 @@ import Doubt from "../../DoubtsPage/Doubt";
 import DoubtReplies from "../../DoubtsPage/DoubtReplies";
 import db from "../../../../firebase";
 import HeaderTeacher from "../HeaderTeacher/HeaderTeacher";
+// import firebase from "firebase";
 
 function DoubtsPageForTeacher() {
-  const [{ openDoubtReplies ,  course_MainID,
-    course_SubjectID  }, dispatch] = useStateValue();
-  const[rooms, setRooms] = useState([]);
+  const [
+    {
+      openDoubtReplies,
+      user,
+      course_Main,
+      course_MainID,
+      course_SubjectID,
+      userCourseId,
+      userSubjectId,
+      chatName,
+      signInAs,
+      course_Subject,
+    },
+    dispatch,
+  ] = useStateValue();
+  const [rooms, setRooms] = useState([]);
+  const [input, setInput] = useState("");
+  const [messages, setMessages] = useState([]);
 
   useEffect(() => {
-    db.collection("Courses")
-    .doc(course_MainID)
-    .collection("Subjects")
-    .doc(course_SubjectID)
-    .collection("doubtRooms")
-    .onSnapshot((snapshot) =>
-      setRooms(
-        snapshot.docs.map((doc) => ({
-          data: doc.data(),
-        }))
-      )
-    );
-  } ,[])
+    if (
+      user &&
+      course_MainID &&
+      course_SubjectID &&
+      userCourseId &&
+      userSubjectId
+    ) {
+      db.collection("Courses")
+        .doc(course_MainID)
+        .collection("Subjects")
+        .doc(course_SubjectID)
+        .collection("doubtRooms")
+        .where("name", "==", signInAs.name)
+        .get()
+        .then((querySnapshot) => {
+          querySnapshot.forEach((doc) => {
+            // doc.data() is never undefined for query doc snapshots
+            console.log(doc.id, " => ", doc.data());
+
+            db.collection("Courses")
+              .doc(course_MainID)
+              .collection("Subjects")
+              .doc(course_SubjectID)
+              .collection("doubtRooms")
+              .doc(doc.id)
+              .collection("messages")
+              .orderBy("timestamp", "asc")
+              .onSnapshot((snapshot) =>
+                setMessages(snapshot.docs.map((doc) => doc.data()))
+              );
+          });
+        })
+        .catch((error) => {
+          console.log("Error getting documents: ", error);
+        });
+
+      setInput("");
+
+      db.collection("Courses")
+        .doc(course_MainID)
+        .collection("Subjects")
+        .doc(course_SubjectID)
+        .collection("doubtRooms")
+        .onSnapshot((snapshot) =>
+          setRooms(
+            snapshot.docs.map((doc) => ({
+              data: doc.data(),
+            }))
+          )
+        );
+    }
+  }, [
+    user,
+    course_MainID,
+    course_SubjectID,
+    userCourseId,
+    userSubjectId,
+    messages.length,
+  ]);
+
+  useEffect(() => {
+    dispatch({
+      type: actionTypes.SET_CHATNAME,
+      chatName: rooms[0]?.data?.name,
+    });
+  }, [rooms.length]);
+
+  useEffect(() => {}, [chatName]);
+
+  const sendMessage = (e) => {
+    e.preventDefault();
+    if(input!== "")
+    { 
+      console.log(signInAs);
+      console.log(input);
+      if (signInAs.name && userCourseId && userSubjectId && input) {
+        console.log("User Course Id is", userCourseId);
+        console.log("User Subject Id is", userSubjectId);
+  
+        db.collection("students")
+          .where("name", "==", chatName)
+          .get()
+          .then((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+              // doc.data() is never undefined for query doc snapshots
+              console.log(doc.id, " => ", doc.data());
+              db.collection("students")
+                .doc(doc.id)
+                .collection("courses")
+                .where("name", "==", course_Main)
+                .get()
+                .then((querySnapshot) => {
+                  querySnapshot.forEach((doc1) => {
+                    // doc.data() is never undefined for query doc snapshots
+                    console.log(doc1.id, " => ", doc1.data());
+  
+                    db.collection("students")
+                      .doc(doc.id)
+                      .collection("courses")
+                      .doc(doc1.id)
+                      .collection("subjects")
+                      .where("name", "==", course_Subject)
+                      .get()
+                      .then((querySnapshot) => {
+                        querySnapshot.forEach((doc2) => {
+                          // doc.data() is never undefined for query doc snapshots
+                          console.log(doc2.id, " => ", doc2.data());
+                          db.collection("students")
+                            .doc(doc.id)
+                            .collection("courses")
+                            .doc(doc1.id)
+                            .collection("subjects")
+                            .doc(doc2.id)
+                            .collection("messagesToTeacher")
+                            .add({
+                              name: signInAs.name,
+                              message: input,
+                              timestamp:
+                                firebase.firestore.FieldValue.serverTimestamp(),
+                            });
+                        });
+                      });
+                  });
+                });
+            });
+          })
+          .catch((error) => {
+            console.log("Error getting documents: ", error);
+          });
+        let x = 0;
+        for (let i = 0; i < rooms.length; i++) {
+          if (rooms[i].data.name === signInAs.name) {
+            x = 1;
+          }
+        }
+        if (x === 0) {
+          db.collection("Courses")
+            .doc(course_MainID)
+            .collection("Subjects")
+            .doc(course_SubjectID)
+            .collection("doubtRooms")
+            .add({
+              name: signInAs.name,
+            })
+            .then(() => {
+              db.collection("Courses")
+                .doc(course_MainID)
+                .collection("Subjects")
+                .doc(course_SubjectID)
+                .collection("doubtRooms")
+                .where("name", "==", signInAs.name)
+                .get()
+                .then((querySnapshot) => {
+                  querySnapshot.forEach((doc) => {
+                    // doc.data() is never undefined for query doc snapshots
+                    console.log(doc.id, " => ", doc.data());
+  
+                    db.collection("Courses")
+                      .doc(course_MainID)
+                      .collection("Subjects")
+                      .doc(course_SubjectID)
+                      .collection("doubtRooms")
+                      .doc(doc.id)
+                      .collection("messages")
+                      .add({
+                        name: signInAs.name,
+                        message: input,
+                        timestamp:
+                          firebase.firestore.FieldValue.serverTimestamp(),
+                      });
+                  });
+                })
+                .catch((error) => {
+                  console.log("Error getting documents: ", error);
+                });
+            });
+        } else {
+          db.collection("Courses")
+            .doc(course_MainID)
+            .collection("Subjects")
+            .doc(course_SubjectID)
+            .collection("doubtRooms")
+            .where("name", "==", signInAs.name)
+            .get()
+            .then((querySnapshot) => {
+              querySnapshot.forEach((doc) => {
+                // doc.data() is never undefined for query doc snapshots
+                console.log(doc.id, " => ", doc.data());
+  
+                db.collection("Courses")
+                  .doc(course_MainID)
+                  .collection("Subjects")
+                  .doc(course_SubjectID)
+                  .collection("doubtRooms")
+                  .doc(doc.id)
+                  .collection("messages")
+                  .add({
+                    name: signInAs.name,
+                    message: input,
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                  });
+              });
+            })
+            .catch((error) => {
+              console.log("Error getting documents: ", error);
+            });
+        }
+        setInput("");
+      }
+    }
+  };
+
   return (
     <div className="doubtsPageforTeacher">
       <HeaderTeacher/>
@@ -40,32 +255,37 @@ function DoubtsPageForTeacher() {
           <div className="student_names">
             <p className="names_heading">Students</p>
             <div className="names_div">
-              <StudentName />
-              <StudentName />
-              <StudentName />
+              {rooms.map((room) => (
+                <StudentName name={room.data.name} />
+              ))}
             </div>
           </div>
           <div className="doubt_section">
             <div className="doubt_section_header">
-              <p>Ronak</p>
+              <p>{chatName}</p>
             </div>
-            {openDoubtReplies === false ? (
               <div className="doubt_section_doubts_messages">
-                <Doubt />
-                <Doubt />
-                <Doubt />
-                <Doubt />
+                {console.log(messages)}
+                {messages.map((message) => (
+                  <Doubt
+                    name={message.name}
+                    message={message.message}
+                    timestamp={message.timestamp}
+                  />
+                ))}
               </div>
-            ) : (
-              <DoubtReplies />
-            )}
             <div className="doubtBox_footer">
               <div className="send_Message_box">
-                <input type="text" placeholder="Type a message " />
+                <input
+                  type="text"
+                  placeholder="Type a message "
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                />
                 <div className="icons">
                   <AttachFileIcon className="attach_file_icon icon" />
                   <InsertEmoticonIcon className="emoji_icon icon" />
-                  <SendIcon className="send_icon icon" />
+                  <SendIcon className="send_icon icon" onClick={sendMessage} />
                 </div>
               </div>
             </div>
@@ -107,6 +327,31 @@ const DoubtBox = styled.div`
     }
   }
 
+  .doubtBox_footer {
+    background-color: #fff;
+    width: 100%;
+    height: 65px;
+    padding: 5px;
+    display: flex;
+    flex-direction: row;
+  }
+
+  .send_Message_box {
+    width: 100%;
+    height: 100%;
+    border: 1px solid lightgray;
+    display: flex;
+    flex-direction: column;
+    padding: 5px;
+    input {
+      border: 0;
+      outline-width: 0px;
+      width: 100%;
+      padding: 5px;
+      height: 50%;
+    }
+  }
+
   .names_heading {
     padding-left: 20px;
     padding-top: 5px;
@@ -142,6 +387,7 @@ const DoubtBox = styled.div`
     flex-direction: column;
     overflow-y: scroll;
     background-color: #5094ee;
+    padding-bottom : 10px;
   }
 `;
 
