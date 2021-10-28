@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useHistory } from "react-router-dom";
-import HeaderMain from "../../Header/HeaderMain";
 import { useStateValue } from "../../../../StateProvider";
 import { actionTypes } from "../../../../reducer";
 import "./DoubtsPageForTeacher.css";
@@ -14,6 +13,8 @@ import DoubtReplies from "../../DoubtsPage/DoubtReplies";
 import db from "../../../../firebase";
 import firebase from "firebase";
 import HeaderTeacher from "../HeaderTeacher/HeaderTeacher"
+import HeaderTeacher from "../HeaderTeacher/HeaderTeacher";
+// import firebase from "firebase";
 
 function DoubtsPageForTeacher() {
   const [

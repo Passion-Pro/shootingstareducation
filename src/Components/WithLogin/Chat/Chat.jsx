@@ -8,23 +8,33 @@ import Chatmsg from "./Chatmsg";
 import { useStateValue } from "../../../StateProvider";
 
 function Chat() {
-  const [{ signInAs, user, course_Subject, course_Main,course_SubjectID,course_MainID }, dispatch] =useStateValue();
+  const [{ signInAs, user, course_Subject, course_Main,course_SubjectID,course_MainID ,teacherCourseId,teacherSubjectId}, dispatch] =useStateValue();
   const [input, setInput] = useState("");
+  const [shareImage, setShareImage] = useState('');
   const [messages,setMessages]=useState([]);
   const history=useHistory()
   var today = new Date();
   var dateC=today.getDate()+'-'+(today.getMonth()+1)+'-'+today.getFullYear();
+
+  const handleChange = (e) => {
+    const image = e.target.files[0];
+
+    if (image === '' || image === undefined) {
+        alert(`not an image, the file is a ${typeof image}`);
+        return;
+    }
+    setShareImage(image);
+};
+
   const sendMessage=()=>{
-        if(course_MainID && course_SubjectID){
+        if(course_MainID && course_SubjectID && input){
           db.collection("Courses").doc(course_MainID).collection("Subjects").doc(course_SubjectID).collection('chat').add({
             message:input,
             name:user?.email,
             date:dateC,
           }).then(()=>{
-            setInput('')
+            setInput('');
           })
-        }else{
-      alert("Try again ... ")
         }
   }
   // useEffect(() => {
@@ -63,7 +73,7 @@ function Chat() {
             </IconButton>
          </div>
          <div className="chat__headerFirst__account">
-            WEB DEVELOPMENT
+           {course_Subject && course_Subject }
          </div>
        </div>
       </div>
@@ -78,7 +88,7 @@ function Chat() {
             <div className="send_Message_box">
               <input type="text" placeholder="Type a message... " value={input} onChange={e=>setInput(e.target.value)} />
               <div className="icons">
-                <AttachFileIcon className="attach_file_icon icon" />
+                {/* <AttachFileIcon className="attach_file_icon icon" onClick={} /> */}
                 <SendIcon className="send_icon icon" onClick={sendMessage}/>
               </div>
             </div>
