@@ -29,7 +29,7 @@ function AddTeacher() {
       {!adduser?.email ?<>
         <div className="addTeacher">
           <div className="addTeacherIn">
-            <div className="addTeacher__logo">LOGIN WITH TEACHER's ACCOUNT</div>
+            <div className="addTeacher__logo">LOGIN WITH TEACHER'S ACCOUNT</div>
             <div className="addTeacherHeader">
               <input
                 placeholder="Email "
