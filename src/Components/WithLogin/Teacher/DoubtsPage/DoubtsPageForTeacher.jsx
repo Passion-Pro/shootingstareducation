@@ -12,7 +12,7 @@ import Doubt from "../../DoubtsPage/Doubt";
 import DoubtReplies from "../../DoubtsPage/DoubtReplies";
 import db from "../../../../firebase";
 import HeaderTeacher from "../HeaderTeacher/HeaderTeacher";
-// import firebase from "firebase";
+import firebase from "firebase";
 
 function DoubtsPageForTeacher() {
   const [

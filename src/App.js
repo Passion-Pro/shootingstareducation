@@ -36,6 +36,7 @@ import AddTeacher from "./Components/WithLogin/Admin/AddTeacher/AddTeacher";
 import AddAdmin from "./Components/WithLogin/Admin/AddAdmin/AddAdmin";
 import AddTeacherInfo from "./Components/WithLogin/Admin/AddTeacher/AddTeacherInfo";
 import AddCourse from "./Components/WithLogin/Admin/AddCourse/AddCourse";
+import AdminSign from "./Components/WithLogin/Admin/Main/AdminSign";
 
 function App() {
 
@@ -43,14 +44,7 @@ function App() {
 
   useEffect(() => {
     // will only run once when the app component loads...
-    auth.onAuthStateChanged((auth) => {
-      if (auth) { 
-        dispatch({
-          type : actionTypes.SET_USER,
-          user: auth,
-        });
-      } else {  }
-    });
+    
   }, []);
 
 
@@ -91,6 +85,9 @@ function App() {
         </Route>
         <Route path="/addstudent">
         <Admin/>
+        </Route>
+        <Route path="/adminsign">
+        <AdminSign/>
         </Route>
         {/* <Route path="/addteacherinfo">
         <AddTeacherInfo/>
