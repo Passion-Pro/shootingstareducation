@@ -4,7 +4,7 @@ import { actionTypes } from "../../../reducer";
 import { useStateValue } from "../../../StateProvider";
 
 function HeaderSubject({ subject, course }) {
-  const [{ signInAs, user, course_Subject, course_Main, course_SubjectID,course_MainID}, dispatch]=useStateValue();
+  const [{ showDiv, user, course_Subject, course_Main, course_SubjectID,course_MainID}, dispatch]=useStateValue();
   const selectSubject=()=> {
     dispatch({
       type: actionTypes.SET_COURSE,
@@ -76,9 +76,11 @@ function HeaderSubject({ subject, course }) {
         .catch((error) => {
           console.log("Error getting documents: ", error);
         });
-
-
       }
+      dispatch({
+        type:actionTypes.SET_SHOW_DIV,
+        showDiv:false,
+      })
       }
   
   return (
