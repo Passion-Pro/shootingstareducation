@@ -100,122 +100,127 @@ function UploadCorrectedAssignment() {
         async () => {
           const downloadURL = await upload.snapshot.ref.getDownloadURL();
           const fileUrl = downloadURL;
+          if (marks && fileUrl && fileName) {
+            db.collection("students")
+              .where("name", "==", studentName)
+              .get()
+              .then((querySnapshot) => {
+                querySnapshot.forEach((doc) => {
+                  // doc.data() is never undefined for query doc snapshots
+                  console.log(doc.id, " => ", doc.data());
+                  console.log(signInAs);
+                  db.collection("students")
+                    .doc(doc.id)
+                    .collection("courses")
+                    .where("name", "==", signInAs.courseName)
+                    .get()
+                    .then((querySnapshot) => {
+                      querySnapshot.forEach((doc1) => {
+                        // doc.data() is never undefined for query doc snapshots
+                        console.log(doc1.id, " => ", doc1.data());
 
-          db.collection("students")
-            .where("name", "==", studentName)
-            .get()
-            .then((querySnapshot) => {
-              querySnapshot.forEach((doc) => {
-                // doc.data() is never undefined for query doc snapshots
-                console.log(doc.id, " => ", doc.data());
-                console.log(signInAs);
-                db.collection("students")
-                  .doc(doc.id)
-                  .collection("courses")
-                  .where("name", "==", signInAs.courseName)
-                  .get()
-                  .then((querySnapshot) => {
-                    querySnapshot.forEach((doc1) => {
-                      // doc.data() is never undefined for query doc snapshots
-                      console.log(doc1.id, " => ", doc1.data());
+                        db.collection("students")
+                          .doc(doc.id)
+                          .collection("courses")
+                          .doc(doc1.id)
+                          .collection("subjects")
+                          .where("name", "==", signInAs.courseSubject)
+                          .get()
+                          .then((querySnapshot) => {
+                            querySnapshot.forEach((doc2) => {
+                              // doc.data() is never undefined for query doc snapshots
+                              console.log(doc2.id, " => ", doc2.data());
+                              console.log("REACHED", doc.id, doc1.id, doc2.id);
 
-                      db.collection("students")
-                        .doc(doc.id)
-                        .collection("courses")
-                        .doc(doc1.id)
-                        .collection("subjects")
-                        .where("name", "==", signInAs.courseSubject)
-                        .get()
-                        .then((querySnapshot) => {
-                          querySnapshot.forEach((doc2) => {
-                            // doc.data() is never undefined for query doc snapshots
-                            console.log(doc2.id, " => ", doc2.data());
-                            console.log("REACHED", doc.id, doc1.id, doc2.id);
-
-                            db.collection("students")
-                              .doc(doc.id)
-                              .collection("courses")
-                              .doc(doc1.id)
-                              .collection("subjects")
-                              .doc(doc2.id)
-                              .collection("assignments")
-                              .where(
-                                "name",
-                                "==",
-                                assignmentTeacherDetails.name
-                              )
-                              .get()
-                              .then((querySnapshot) => {
-                                querySnapshot.forEach((doc3) => {
-                                  console.log(doc3.id, "=>", doc3.data());
-                                  db.collection("students")
-                                    .doc(doc.id)
-                                    .collection("courses")
-                                    .doc(doc1.id)
-                                    .collection("subjects")
-                                    .doc(doc2.id)
-                                    .collection("assignments")
-                                    .doc(doc3.id)
-                                    .update({
-                                      correctedAssignmentUrl: fileUrl,
-                                      marks: marks,
-                                    });
+                              db.collection("students")
+                                .doc(doc.id)
+                                .collection("courses")
+                                .doc(doc1.id)
+                                .collection("subjects")
+                                .doc(doc2.id)
+                                .collection("assignments")
+                                .where(
+                                  "name",
+                                  "==",
+                                  assignmentTeacherDetails.name
+                                )
+                                .get()
+                                .then((querySnapshot) => {
+                                  querySnapshot.forEach((doc3) => {
+                                    console.log(doc3.id, "=>", doc3.data());
+                                    db.collection("students")
+                                      .doc(doc.id)
+                                      .collection("courses")
+                                      .doc(doc1.id)
+                                      .collection("subjects")
+                                      .doc(doc2.id)
+                                      .collection("assignments")
+                                      .doc(doc3.id)
+                                      .update({
+                                        correctedAssignmentUrl: fileUrl,
+                                        marks: marks,
+                                        correctedAssignmentName: fileName,
+                                      });
+                                  });
                                 });
-                              });
+                            });
                           });
-                        });
+                      });
                     });
-                  });
+                });
+              })
+              .catch((error) => {
+                console.log("Error getting documents: ", error);
               });
-            })
-            .catch((error) => {
-              console.log("Error getting documents: ", error);
-            });
-          db.collection("Courses")
-            .doc(teacherCourseId)
-            .collection("Subjects")
-            .doc(teacherSubjectId)
-            .collection("assignments")
-            .where("name", "==", assignmentTeacherDetails.name)
-            .get()
-            .then((querySnapshot) => {
-              querySnapshot.forEach((doc) => {
-                // doc.data() is never undefined for query doc snapshots
-                console.log(doc.id, " => ", doc.data());
+            db.collection("Courses")
+              .doc(teacherCourseId)
+              .collection("Subjects")
+              .doc(teacherSubjectId)
+              .collection("assignments")
+              .where("name", "==", assignmentTeacherDetails.name)
+              .get()
+              .then((querySnapshot) => {
+                querySnapshot.forEach((doc) => {
+                  // doc.data() is never undefined for query doc snapshots
+                  console.log(doc.id, " => ", doc.data());
 
-                db.collection("Courses")
-                  .doc(teacherCourseId)
-                  .collection("Subjects")
-                  .doc(teacherSubjectId)
-                  .collection("assignments")
-                  .doc(doc.id)
-                  .collection("answers")
-                  .where("name", "==", studentName)
-                  .get()
-                  .then((querySnapshot) => {
-                    querySnapshot.forEach((doc1) => {
-                      console.log(doc1.id, "=>", doc1.data());
-                      db.collection("Courses")
-                        .doc(teacherCourseId)
-                        .collection("Subjects")
-                        .doc(teacherSubjectId)
-                        .collection("assignments")
-                        .doc(doc.id)
-                        .collection("answers")
-                        .doc(doc1.id)
-                        .update({
-                          correctedAssignmentUrl: fileUrl,
-                          marks: marks,
-                        });
+                  db.collection("Courses")
+                    .doc(teacherCourseId)
+                    .collection("Subjects")
+                    .doc(teacherSubjectId)
+                    .collection("assignments")
+                    .doc(doc.id)
+                    .collection("answers")
+                    .where("name", "==", studentName)
+                    .get()
+                    .then((querySnapshot) => {
+                      querySnapshot.forEach((doc1) => {
+                        console.log(doc1.id, "=>", doc1.data());
+                        db.collection("Courses")
+                          .doc(teacherCourseId)
+                          .collection("Subjects")
+                          .doc(teacherSubjectId)
+                          .collection("assignments")
+                          .doc(doc.id)
+                          .collection("answers")
+                          .doc(doc1.id)
+                          .update({
+                            correctedAssignmentUrl: fileUrl,
+                            marks: marks,
+                            correctedAssignmentName: fileName,
+                          });
+                      });
                     });
-                  });
+                });
+              })
+              .catch((error) => {
+                console.log("Error getting documents: ", error);
               });
-            })
-            .catch((error) => {
-              console.log("Error getting documents: ", error);
-            });
 
-          console.log(fileUrl);
+            console.log(fileUrl);
+          } else {
+            alert("Please re-enter all the details ");
+          }
         }
       );
 
@@ -224,7 +229,7 @@ function UploadCorrectedAssignment() {
         openAsignmentPopup: false,
       });
 
-      history.push("/AssignmentsPageForTeachers");
+      history.push("/AssignmentsPage");
     } else {
       alert("Please upload the file");
     }

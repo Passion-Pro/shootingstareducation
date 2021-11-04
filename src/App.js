@@ -40,7 +40,7 @@ import AddTeacher from "./Components/WithLogin/Admin/AddTeacher/AddTeacher";
 import AddAdmin from "./Components/WithLogin/Admin/AddAdmin/AddAdmin";
 import AddTeacherInfo from "./Components/WithLogin/Admin/AddTeacher/AddTeacherInfo";
 import AddCourse from "./Components/WithLogin/Admin/AddCourse/AddCourse";
-
+import ViewAssignmentPage from "./Components/WithLogin/Teacher/AssignmentsPage/ViewAssignmentPage";
 function App() {
 
   const[{signInAs,user} , dispatch] = useStateValue();
@@ -155,10 +155,7 @@ function App() {
           <NoticesPage />
         </Route>
         <Route path="/DoubtsPage">
-          <DoubtsPage />
-        </Route>
-        <Route path = "/DoubtsPageForTeachers">
-          <DoubtsPageForTeacher/>
+        {signInAs && signInAs.value==='teacher' ? <DoubtsPageForTeacher /> : <DoubtsPage/> }
         </Route>
         <Route path = "/doubtsMessagesPageForTeachers">
           <MessagesSectionForMobile/>
@@ -172,6 +169,9 @@ function App() {
         <Route path = "/uploadCreatedAssignment">
           <UploadCreatedAssignment/>
         </Route>
+         <Route  path = "/ViewAssignment/:assignmentId">
+            <ViewAssignmentPage/>
+         </Route>
         <Route path="/">
           {!signInAs? <Home />: signInAs && signInAs.value==='teacher' ? <MainTeacher /> : <Main />  }
         </Route>

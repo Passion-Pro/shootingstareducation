@@ -37,6 +37,7 @@ function AssignmentsPageForTeacher() {
           setAssignments(
             snapshot.docs.map((doc) => ({
               data: doc.data(),
+              id: doc.id
             }))
           );
         });
@@ -63,7 +64,7 @@ function AssignmentsPageForTeacher() {
           <div className="assignmentout">
             <div className="assignments_div">
             {assignments.map((assignment) => 
-             <Assignment name = {assignment.data.name} description = {assignment.data.description} date = {assignment.data.submissionDate}/>
+             <Assignment name = {assignment.data.name} description = {assignment.data.description} date = {assignment.data.submissionDate} assignmentUrl = {assignment.data.assignmentUrl} assignmentUploadedName = {assignment.data.assignmentUploadedName} id = {assignment.id} />
             )}
             </div>
           </div>

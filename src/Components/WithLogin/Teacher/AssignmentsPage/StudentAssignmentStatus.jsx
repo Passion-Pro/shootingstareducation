@@ -1,18 +1,72 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import CancelIcon from '@mui/icons-material/Cancel';
-import db from "../../../../firebase"
-import {useHistory} from "react-router-dom";
+import CancelIcon from "@mui/icons-material/Cancel";
+import db from "../../../../firebase";
+import { useHistory } from "react-router-dom";
 import { actionTypes } from "../../../../reducer";
 import { useStateValue } from "../../../../StateProvider";
 
-function StudentAssignmentStatus({name , answerUrl , fileName}) {
+function StudentAssignmentStatus({
+  name,
+  answerUrl,
+  fileName,
+  assignmentName,
+}) {
   const [submissiondetails, setSubmissionDetails] = useState(false);
   const history = useHistory();
-  const[{} , dispatch] = useStateValue();
-  
+  const [
+    { teacherCourseId, teacherSubjectId, user, assignmentTeacherDetails },
+    dispatch,
+  ] = useStateValue();
+  const [checkedAssignmentDetails, setCheckedAssignmentDetails] = useState([]);
 
-  useEffect(() => {}, [submissiondetails]);
+  useEffect(() => {
+    if (user && teacherSubjectId && teacherCourseId && name && assignmentName) {
+      db.collection("Courses")
+        .doc(teacherCourseId)
+        .collection("Subjects")
+        .doc(teacherSubjectId)
+        .collection("assignments")
+        .where("name", "==", assignmentName)
+        .get()
+        .then((querySnapshot) => {
+          querySnapshot.forEach((doc) => {
+            // doc.data() is never undefined for query doc snapshots
+            console.log(doc.id, " => ", doc.data());
+
+            db.collection("Courses")
+              .doc(teacherCourseId)
+              .collection("Subjects")
+              .doc(teacherSubjectId)
+              .collection("assignments")
+              .doc(doc.id)
+              .collection("answers")
+              .where("name", "==", name)
+              .get()
+              .then((querySnapshot) => {
+                querySnapshot.forEach((doc1) => {
+                  console.log(doc1.id, "=>", doc1.data());
+                  db.collection("Courses")
+                    .doc(teacherCourseId)
+                    .collection("Subjects")
+                    .doc(teacherSubjectId)
+                    .collection("assignments")
+                    .doc(doc.id)
+                    .collection("answers")
+                    .doc(doc1.id)
+                    .onSnapshot((snapshot) =>
+                      setCheckedAssignmentDetails(snapshot.data())
+                    );
+                });
+              });
+          });
+        })
+        .catch((error) => {
+          console.log("Error getting documents: ", error);
+        });
+    }
+    console.log(checkedAssignmentDetails);
+  }, [submissiondetails, checkedAssignmentDetails.length]);
   const view_details = (e) => {
     e.preventDefault();
     setSubmissionDetails(true);
@@ -27,29 +81,35 @@ function StudentAssignmentStatus({name , answerUrl , fileName}) {
     e.preventDefault();
     history.push("/uploadCorrectedAssignmentPage");
     dispatch({
-      type : actionTypes.SET_STUDENT_NAME,
-      studentName :  name
-    })
-
-  }
+      type: actionTypes.SET_STUDENT_NAME,
+      studentName: name,
+    });
+  };
   return (
     <>
       <Container>
-        <p className = "student_name">{name}</p>
+        <p className="student_name">{name}</p>
         {submissiondetails === false ? (
           <span onClick={view_details}>View details</span>
         ) : (
           <div className="submission_details">
             <div className="submission_details_close">
-            <p className = "submitted_assignment">Submitted Assignment:</p>
-                <CancelIcon className="cancel_icon" onClick = {close_details}/>
+              <p className="submitted_assignment">Submitted Assignment:</p>
+              <CancelIcon className="cancel_icon" onClick={close_details} />
             </div>
-             <div className="submitted_assignment_name">
-                 <a href={answerUrl}>
-                 {fileName}
-                 </a>
+            <div className="submitted_assignment_name">
+              <a href={answerUrl}>{fileName}</a>
+            </div>
+            {checkedAssignmentDetails?.correctedAssignmentUrl ? (
+             <div className = "corrected_assignment_details">
+               <p>Corrected Assignment:</p>
+               <a href={checkedAssignmentDetails?.correctedAssignmentUrl}>{checkedAssignmentDetails?.correctedAssignmentName}</a>
              </div>
-             <button onClick = {goToUploadPage}>Upload corrected assignment</button>
+            ) : (
+              <button onClick={goToUploadPage}>
+              Upload corrected assignment
+            </button>
+             )}
           </div>
         )}
       </Container>
@@ -64,9 +124,8 @@ const Container = styled.div`
   width: 100%;
   margin-bottom: 10px;
   padding: 5px;
-  border-radius: 5px;
-  background-color: #e4e4e4;
-  .student_name{
+
+  .student_name {
     margin-bottom: 0px;
   }
   span {
@@ -78,74 +137,96 @@ const Container = styled.div`
       color: black;
     }
   }
-  .submission_details{
-     display: flex;
-     flex-direction : column;
-     background-color: white;
-     padding : 5px;
-     margin-top : 5px;
-     border-radius : 5px;
+  .submission_details {
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    padding: 5px;
+    margin-top: 5px;
+    border-radius: 5px;
 
-     .submitted_assignment{
-         font-size: 12px;
-         margin-bottom: 0px;
-     }
+    .submitted_assignment {
+      font-size: 12px;
+      margin-bottom: 0px;
+    }
 
-    .submitted_assignment_name{
-        font-size : 15px;
-      
-        &:hover {
-           color : blue;
-           cursor: pointer;
-       }
-     }
+    .submitted_assignment_name {
+      font-size: 15px;
 
-     button{
-         width : fit-content;
-         font-size : 13px;
-         margin-left : auto;
-         margin-right : auto;
-         margin-top : 10px;
-         margin-bottom : 5px;
-         background-color : #1183e0;
-         color : white;
-         border-radius : 15px;
-         &:hover{
-              cursor : pointer;
-              background-color : #63b3f5;
-          }
-     }
+      &:hover {
+        color: blue;
+        cursor: pointer;
+      }
 
-     .submission_details_close{
-         display : flex;
-         justify-content : space-between;
-     }
+      span {
+        padding: 0px !important;
+      }
+    }
 
-     .cancel_icon{
-     font-size : 19px;
-     &:hover{
-         cursor : pointer;
-         color : #6d6969;
-     }
-     }
+    button {
+      width: fit-content;
+      font-size: 13px;
+      margin-left: auto;
+      margin-right: auto;
+      margin-top: 10px;
+      margin-bottom: 5px;
+      background-color: #1183e0;
+      color: white;
+      border-radius: 15px;
+      &:hover {
+        cursor: pointer;
+        background-color: #63b3f5;
+      }
+    }
 
-     .marks{
-         display : flex;
-         justify-content : space-between;
-         width :90%;
-         p{
-             font-size : 14px;
-         }
-         input{
-             height : 25px;
-             border-radius : 5px;
-             border : 1px solid gray;
-             outline-width: 0px;
-             padding-left: 8px;
-             padding-top : 3px;
-             padding-bottom :3px;
-         }
-     }
+    .submission_details_close {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .cancel_icon {
+      font-size: 19px;
+      &:hover {
+        cursor: pointer;
+        color: #6d6969;
+      }
+    }
+
+    .marks {
+      display: flex;
+      justify-content: space-between;
+      width: 90%;
+      p {
+        font-size: 14px;
+      }
+      input {
+        height: 25px;
+        border-radius: 5px;
+        border: 1px solid gray;
+        outline-width: 0px;
+        padding-left: 8px;
+        padding-top: 3px;
+        padding-bottom: 3px;
+      }
+    }
+  }
+
+  .corrected_assignment_details{
+    margin-top : 5px;
+   p{
+    font-size: 12px;
+     margin-bottom: 0px;
+   }
+   a{
+    font-size: 15px;
+
+&:hover {
+  color: blue;
+  cursor: pointer;
+}
+   }
+
+
   }
 `;
 

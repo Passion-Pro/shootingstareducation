@@ -54,10 +54,10 @@ function AssignmentPopup() {
       type: actionTypes.OPEN_ASSIGNMENT_POPUP_FOR_TEACHER,
       openAsignmentPopupForTeacher: false,
     });
-  //   dispatch({
-  //     type : actionTypes.SET_ASSIGNMENT_TEACHER_DETAILS,
-  //     assignmentTeacherDetails : []
-  // })
+    dispatch({
+      type : actionTypes.SET_ASSIGNMENT_TEACHER_DETAILS,
+      assignmentTeacherDetails : []
+  })
   };
   return (
     <>
@@ -76,13 +76,17 @@ function AssignmentPopup() {
               <div className = "assignment_description">
                 {assignmentTeacherDetails?.description}
               </div>
-              <div className="assignment_attached">
-                  Ronak.pdf
+             {assignmentTeacherDetails?.assignmentUrl && (
+                <div className="assignment_attatched">
+                <a href = {assignmentTeacherDetails?.assignmentUrl}>
+                  {assignmentTeacherDetails?.assignmentUploadedName}
+                </a>
               </div>
+             )}
               </div>
               <div className="students_assignment_report">
                {answers.map((answer) => 
-                <StudentAssignmentStatus name  = {answer.data.name} answerUrl = {answer.data.answerUrl} fileName = {answer.data.fileName}/>
+                <StudentAssignmentStatus name  = {answer.data.name} answerUrl = {answer.data.answerUrl} fileName = {answer.data.fileName} assignmentName = {assignmentTeacherDetails?.name}/>
                )}
               </div>
             </div>
@@ -157,6 +161,25 @@ const Container = styled.div`
     border-radius: 10px;
     margin-bottom : 10px;
   }
+  }
+
+  .assignment_attatched {
+    background-color: lightgray;
+    padding: 7px;
+    padding-left: 15px;
+    width: 90%;
+    border-radius: 10px;
+    margin-bottom: 10px;
+
+    a{
+      text-decoration: none;
+      color : black;
+       
+    }
+
+    &:hover {
+      background-color : #e2e0e0;
+    }
   }
 
   .students_assignment_report{

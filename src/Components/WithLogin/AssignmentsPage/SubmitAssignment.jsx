@@ -125,7 +125,7 @@ function SubmitAssignment() {
               .update({
                 answerUrl: fileUrl,
                 status : "submitted",
-                fileName : fileName,
+                answerFileName : fileName,
               });
           });
         })

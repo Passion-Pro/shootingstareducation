@@ -26,10 +26,10 @@ export const initialState = {
   studentcoursesubject:[],
   chatName : null,
   assignmentStudentDetails : [],
-  assignmentTeacherDetails : [],
   studentName : null,
   openViewAssignmentPopup : false,
   createAssignmentDetails : [],
+  studentAssignmentName : null,
 };
 
 export const actionTypes = {
@@ -59,10 +59,10 @@ export const actionTypes = {
   SET_STUDENT_COURSE_SUBJECT:'SET_STUDENT_COURSE_SUBJECT',
   SET_CHATNAME : 'SET_CHATNAME',
   SET_ASSIGNMENT_STUDENT_DETAILS : 'SET_ASSIGNMENT_STUDENT_DETAILS',
-  SET_ASSIGNMENT_TEACHER_DETAILS : 'SET_ASSIGNMENT_TEACHER_DETAILS',
   SET_STUDENT_NAME : 'SET_STUDENT_NAME',
   OPEN_VIEW_ASSIGNMENT_POPUP : 'OPEN_VIEW_ASSIGNMENT_POPUP',
   CREATE_ASSIGNMENT_DETAILS : 'CREATE_ASSIGNMENT_DETAILS',
+  SET_STUDENT_ASSIGNMENT_NAME : 'SET_STUDENT_ASSIGNMENT_NAME',
 };
 
 const reducer = (state, action) => {
@@ -198,11 +198,6 @@ const reducer = (state, action) => {
         ...state,
         assignmentStudentDetails: action.assignmentStudentDetails,
       }
-    case actionTypes.SET_ASSIGNMENT_TEACHER_DETAILS:
-      return {
-        ...state,
-        assignmentTeacherDetails : action.assignmentTeacherDetails,
-      }
     case actionTypes.SET_STUDENT_NAME:
       return {
         ...state,
@@ -218,6 +213,11 @@ const reducer = (state, action) => {
          ...state,
          createAssignmentDetails: action.createAssignmentDetails,
        }
+    case actionTypes.SET_STUDENT_ASSIGNMENT_NAME:
+      return {
+        ...state,
+        studentAssignmentName: action.studentAssignmentName,
+      }
     default:
       return state;
   }

@@ -3,7 +3,7 @@ import styled from "styled-components"
 import {useStateValue} from  "../../../StateProvider"
 import {actionTypes} from "../../../reducer"
 
-function Assignment({name , description , date , status}) {
+function Assignment({name , description , date , status , assignmentUrl , assignmentUploadedName}) {
     const[{openAsignmentPopup} , dispatch] = useStateValue();
     const open_assignment_details = (e) => {
       e.preventDefault();
@@ -11,6 +11,27 @@ function Assignment({name , description , date , status}) {
           type : actionTypes.OPEN_ASSIGNMENT_POPUP,
           openAsignmentPopup : true,
       });
+      if(assignmentUrl){
+        dispatch({
+            type : actionTypes.SET_ASSIGNMENT_STUDENT_DETAILS,
+            assignmentStudentDetails : {
+                name : name,
+                description : description,
+                date : date,
+                assignmentUrl : assignmentUrl,
+                assignmentUploadedName : assignmentUploadedName,
+            }
+        })
+    }else{
+        dispatch({
+            type : actionTypes.SET_ASSIGNMENT_STUDENT_DETAILS,
+            assignmentStudentDetails : {
+                name : name,
+                description : description,
+                date : date,
+            }
+        })
+    }
 
     };
 
@@ -20,14 +41,27 @@ function Assignment({name , description , date , status}) {
             type : actionTypes.OPEN_VIEW_ASSIGNMENT_POPUP,
             openViewAssignmentPopup : true,
         });
-        dispatch({
-            type : actionTypes.SET_ASSIGNMENT_STUDENT_DETAILS,
-            assignmentStudentDetails : {
-                name : name,
-                description : description,
-                date : date
-            }
-        })
+        if(assignmentUrl){
+            dispatch({
+                type : actionTypes.SET_ASSIGNMENT_STUDENT_DETAILS,
+                assignmentStudentDetails : {
+                    name : name,
+                    description : description,
+                    date : date,
+                    assignmentUrl : assignmentUrl,
+                    assignmentUploadedName : assignmentUploadedName,
+                }
+            })
+        }else{
+            dispatch({
+                type : actionTypes.SET_ASSIGNMENT_STUDENT_DETAILS,
+                assignmentStudentDetails : {
+                    name : name,
+                    description : description,
+                    date : date,
+                }
+            })
+        }
     }
      return (
         <div className = 'assignment'>

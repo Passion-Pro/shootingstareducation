@@ -12,18 +12,16 @@ import HeaderMain from "../Header/HeaderMain";
 import db from "../../../firebase";
 import VewAssignmentPopup from "./VewAssignmentPopup";
 function AssignmentsPage() {
-  const [
-    { openAsignmentPopup, user, userCourseId, userSubjectId ,  },
-    dispatch,
-  ] = useStateValue();
+  const [{ openAsignmentPopup, user, userCourseId, userSubjectId }, dispatch] =
+    useStateValue();
   const history = useHistory();
   const [assignments, setAssignments] = useState([]);
   const [dueAssignments, setDueAssignments] = useState([]);
-  const[submittedAssignments , setSubmittedAssignments] = useState([]);
+  const [submittedAssignments, setSubmittedAssignments] = useState([]);
 
   useEffect(() => {
     console.log(user);
-    console.log(userCourseId , "&&&" , userSubjectId)
+    console.log(userCourseId, "&&&", userSubjectId);
     if (user && userCourseId && userSubjectId) {
       db.collection("students")
         .doc(user.uid)
@@ -39,24 +37,9 @@ function AssignmentsPage() {
             }))
           );
         });
-    }
-  }, [user , userCourseId , userSubjectId, assignments.length]);
-
-  useEffect(() => {
-    if(assignments.length > 0) {
-      for(let i = 0; i < assignments.length; i++) {
-        if(assignments[i].data.status === "pending"){
-           dueAssignments.push({
-             data : assignments[i].data,
-           })
-        }else{
-          submittedAssignments.push({
-            data : assignments[i].data,
-          })
-        }
-      }
-    }
-  } , [assignments.length])
+    };
+    console.log("Assignments are" , assignments)
+  }, [user, userCourseId, userSubjectId, assignments.length]);
 
   const open_noticesPopup = (e) => {
     e.preventDefault();
@@ -91,15 +74,43 @@ function AssignmentsPage() {
         <Assignments>
           <p className="due_assignments">Due Assignments</p>
           <div className="due_assignments_div">
-            {assignments.map((assignment) => 
-             <Assignment name = {assignment.data.name} description={assignment.data.description} date = {assignment.data.submissionDate} status = {assignment.data.status}/>
-            )}
+            {console.log("Assignments are" , assignments)}
+            {assignments.map((assignment) => (
+              <>
+                {assignment.data.status === "pending" && (
+                  <Assignment
+                    name={assignment.data.name}
+                    description={assignment.data.description}
+                    date={assignment.data.submissionDate}
+                    status={assignment.data.status}
+                    assignmentUrl={assignment.data.assignmentUrl}
+                    assignmentUploadedName={
+                      assignment.data.assignmentUploadedName
+                    }
+                  />
+                )}
+              </>
+            ))}
           </div>
           <p className="submitted_assignments">Submitted Assignments</p>
           <div className="submitted_assignments_div">
-            {/* <Assignment />
-            <Assignment />
-            <Assignment /> */}
+            {console.log(assignments)}
+          {assignments.map((assignment) => (
+              <>
+                {assignment.data.status === "submitted" && (
+                  <Assignment
+                    name={assignment.data.name}
+                    description={assignment.data.description}
+                    date={assignment.data.submissionDate}
+                    status={assignment.data.status}
+                    assignmentUrl={assignment.data.assignmentUrl}
+                    assignmentUploadedName={
+                      assignment.data.assignmentUploadedName
+                    }
+                  />
+                )}
+              </>
+            ))}
           </div>
         </Assignments>
         <div className="notices">
@@ -108,7 +119,7 @@ function AssignmentsPage() {
       </Container>
       <AssignmentPopup />
       <NoticePopup />
-      <VewAssignmentPopup/>
+      <VewAssignmentPopup />
     </div>
   );
 }
@@ -118,6 +129,9 @@ const Container = styled.div`
   flex-direction: row;
   height: 100%;
   padding-top: 10px;
+  background-color: #7db3ff;
+  
+  
 
   .notices {
     flex: 0.3;
@@ -160,6 +174,8 @@ const Assignments = styled.div`
     flex-wrap: wrap;
     justify-content: center;
     margin-bottom: 10px;
+    height : 260px;
+    overflow-y : scroll;
   }
 
   .submitted_assignments {

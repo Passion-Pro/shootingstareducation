@@ -39,11 +39,17 @@ function AssignmentPopup() {
             <p className="assignment_details_description">
               {assignmentStudentDetails?.description}
             </p>
+           {assignmentStudentDetails?.assignmentUrl && (
+              <div className="assignment_attatched">
+              <a href = {assignmentStudentDetails?.assignmentUrl}>
+                {assignmentStudentDetails?.assignmentUploadedName}
+              </a>
+            </div>
+           )}
             <div className="attach_assignment">
               <AttachFileIcon className="attach_file_icon" />
               <p onClick = { e => history.push("/submitAssignment")}>Attatch file</p>
             </div>
-            <div className="assignment_attatched">Ronak.pdf</div>
           </div>
         </Container>
       )}
@@ -96,8 +102,8 @@ const Container = styled.div`
   .assignment_details_description {
     font-size: 13px;
     padding: 10px;
-    margin-bottom: 5px;
     margin-left: 15px;
+    margin-bottom : 0px;
   }
 
   .attach_assignment {
@@ -127,6 +133,17 @@ const Container = styled.div`
     padding-left: 15px;
     width: 90%;
     border-radius: 10px;
+    margin-bottom: 10px;
+
+    a{
+      text-decoration: none;
+      color : black;
+       
+    }
+
+    &:hover {
+      background-color : #e2e0e0;
+    }
   }
 
   .assignment_submit {

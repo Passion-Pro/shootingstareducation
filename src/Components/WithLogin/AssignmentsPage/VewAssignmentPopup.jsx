@@ -17,8 +17,7 @@ function VewAssignmentPopup() {
     },
     dispatch,
   ] = useStateValue();
-  const [submittedAssignmentUrl, setSubmittedAssignmentUrl] = useState();
-  const [correctedAssignmentUrl, setCorrectedAssignmentUrl] = useState();
+  const[submittedAssignmentDetails , setSubmittedAssignmentDetails] = useState([]);
 
   useEffect(() => {
     if (
@@ -40,8 +39,7 @@ function VewAssignmentPopup() {
           querySnapshot.forEach((doc) => {
             // doc.data() is never undefined for query doc snapshots
             console.log(doc.id, " => ", doc.data());
-            setSubmittedAssignmentUrl(doc.data().answerUrl);
-            setCorrectedAssignmentUrl(doc.data().correctedAssignmentUrl);
+           setSubmittedAssignmentDetails(doc.data())
           });
         })
         .catch((error) => {
@@ -52,9 +50,8 @@ function VewAssignmentPopup() {
     user,
     userCourseId,
     userSubjectId,
-    submittedAssignmentUrl,
-    correctedAssignmentUrl,
     assignmentStudentDetails,
+    submittedAssignmentDetails
   ]);
 
   const close_assignment_details = () => {
@@ -85,19 +82,33 @@ function VewAssignmentPopup() {
             <p className="assignment_details_description">
               {assignmentStudentDetails?.description}
             </p>
-            <div className="assignment_attatched">Ronak.pdf</div>
-            <p className="submitted_assignment">Submitted Assignment:</p>
-            <div className="assigment_submitted">
-              <a href={submittedAssignmentUrl}>Ronak.pdf</a>
-              <div className="marks_container">
-                <p>Marks:</p>
-                <span>65</span>
-              </div>
-              <div className="corrected_assignment assignment_submitted">
-                <p>Assignment Returned:</p>
-                <a href={correctedAssignmentUrl}>Ronak.pdf</a>
-              </div>
+            {submittedAssignmentDetails?.assignmentUrl && (
+              <div className="assignment_attatched">
+              <a href = {submittedAssignmentDetails?.assignmentUrl}>
+                 {submittedAssignmentDetails?.assignmentUploadedName}
+              </a>
             </div>
+            )}
+            <div className="assigment_submitted">
+            <p className="submitted_assignment">Submitted Assignment:</p>
+              <a href={submittedAssignmentDetails?.answerUrl}>
+                {submittedAssignmentDetails?.answerFileName}
+              </a>
+            </div>
+           {submittedAssignmentDetails?.marks && (
+                <div className="marks_container">
+                <p>Marks:</p>
+                <span>{submittedAssignmentDetails?.marks}</span>
+              </div>
+           )}
+              {submittedAssignmentDetails?.correctedAssignmentUrl && (
+                <div>
+                <p className="submitted_assignment">Assignment Returned:</p>
+                <a href = {submittedAssignmentDetails?.correctedAssignmentUrl}>
+                  {submittedAssignmentDetails?.correctedAssignmentName}
+                </a>
+              </div>
+              )}
           </div>
         </Container>
       )}
@@ -151,6 +162,12 @@ const Container = styled.div`
     padding-left: 15px;
     width: 90%;
     border-radius: 10px;
+
+    a{
+      text-decoration: none;
+      color : black; 
+      width : 100%;  
+    }
   }
 
   .submitted_assignment {
@@ -158,7 +175,7 @@ const Container = styled.div`
     margin-bottom: 0px;
   }
 
-  .assignment_submitted {
+  .assignment_submitted{
     font-size: 15px;
 
     &:hover {
@@ -172,18 +189,14 @@ const Container = styled.div`
     margin-top: 10px;
     span {
       margin-left: 3px;
+      padding : 0px;
     }
     p {
       margin-bottom: 0px;
     }
   }
 
-  .corrected_assignment {
-    margin-top: 10px;
-    p {
-      margin-bottom: 0px;
-    }
-  }
+  
 `;
 
 export default VewAssignmentPopup;

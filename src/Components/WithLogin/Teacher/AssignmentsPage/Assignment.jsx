@@ -2,23 +2,15 @@ import React from 'react'
 import styled from "styled-components"
 import {useStateValue} from  "../../../../StateProvider"
 import {actionTypes} from "../../../../reducer"
+import {useHistory} from "react-router-dom"
 
-function Assignment({name , description , date}) {
+function Assignment({name , description , date ,  assignmentUrl , assignmentUploadedName , id}) {
     const[{openAsignmentPopupForTeacher} , dispatch] = useStateValue();
+    const history = useHistory();
     const open_assignment_details = (e) => {
         e.preventDefault();
-        dispatch({
-            type : actionTypes.OPEN_ASSIGNMENT_POPUP_FOR_TEACHER,
-            openAssignmentPopupForTeacher : true,
-        })
-        dispatch({
-            type : actionTypes.SET_ASSIGNMENT_TEACHER_DETAILS,
-            assignmentTeacherDetails : {
-                name : name,
-                description : description,
-                date : date,
-            }
-        })
+        console.log("Id is" , id)
+        history.push(`/ViewAssignment/${id}`)
       }
     return (
        <>
