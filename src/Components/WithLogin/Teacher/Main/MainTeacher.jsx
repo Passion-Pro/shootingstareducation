@@ -5,7 +5,7 @@ import HeaderTeacher from '../HeaderTeacher/HeaderTeacher';
 import NoticesTeacher from '../Notice/NoticesTeacher';
 import './MainTeacher.css';
 
-function MainTeacher() {
+function MainTeacher() { 
     return (
         <div className="mainteacher">
           <HeaderTeacher/>

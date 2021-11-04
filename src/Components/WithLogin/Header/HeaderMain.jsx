@@ -47,7 +47,8 @@ function HeaderMain() {
   }, [user]);
 
   useEffect(() => {
-    if (course_Subject === null) {
+    if (!course_Subject) {
+      // set by default course and subject
       dispatch({
         type: actionTypes.SET_COURSE,
         course_Subject: coursesArray[0]?.data?.subjects[0],
@@ -56,6 +57,7 @@ function HeaderMain() {
         type: actionTypes.SET_COURSE_MAIN,
         course_Main: coursesArray[0]?.data?.name,
       });
+      // set bydefault subjectid and course id
       if (coursesArray[0]?.data?.name) {
         db.collection("Courses")
           .where("name", "==", coursesArray[0]?.data?.name)
@@ -63,6 +65,7 @@ function HeaderMain() {
           .then((querySnapshot) => {
             querySnapshot.forEach((doc) => {
               console.log("doc?.id", doc?.id);
+              // dispacth course name id
               dispatch({
                 type: actionTypes.SET_COURSE_MAIN_ID,
                 course_MainID: doc.id,
@@ -74,6 +77,7 @@ function HeaderMain() {
                 .get()
                 .then((querySnapshot) => {
                   querySnapshot.forEach((doc1) => {
+                    // dispatch student course subject id
                     dispatch({
                       type: actionTypes.SET_COURSE_SUBJECT_ID,
                       course_SubjectID: doc1.id,
@@ -89,42 +93,7 @@ function HeaderMain() {
             console.log("Error getting documents: ", error);
           });
 
-        db.collection("students")
-          .doc(user.uid)
-          .collection("courses")
-          .where("name", "==", coursesArray[0]?.data?.name)
-          .get()
-          .then((querySnapshot) => {
-            querySnapshot.forEach((doc) => {
-              console.log("doc?.id", doc?.id);
-              dispatch({
-                type: actionTypes.SET_USER_COURSEID,
-                userCourseId: doc.id,
-              });
-              db.collection("students")
-                .doc(user.uid)
-                .collection("courses")
-                .doc(doc.id)
-                .collection("subjects")
-                .where("name", "==", coursesArray[0]?.data?.subjects[0])
-                .get()
-                .then((querySnapshot) => {
-                  querySnapshot.forEach((doc1) => {
-                    dispatch({
-                      type: actionTypes.SET_USER_SUBJECTID,
-                      userSubjectId: doc1.id,
-                    });
-                  });
-                })
-                .catch((error) => {
-                  console.log("Error getting documents: ", error);
-                });
-            });
-          })
-          .catch((error) => {
-            console.log("Error getting documents: ", error);
-          });
-      }
+        }
     }
   }, [coursesArray]);
 
@@ -248,7 +217,7 @@ function HeaderMain() {
             <div className="HeaderMain__Selectcourse">
               <div className="HeaderMain__Selectcourse__Name">
                 {course_Subject}
-                {" , "}
+                {", "}
                 {course_Main}
               </div>
               <div

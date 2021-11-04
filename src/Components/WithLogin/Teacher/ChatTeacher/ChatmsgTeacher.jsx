@@ -3,9 +3,9 @@ import React from 'react'
 function ChatmsgTeacher({message}) {
     return (
         // <div className="chatmsg">
-            <div className="chat__message__my">
-              <h6>{message.data?.name}</h6>
-              <div className="chat__message_div">
+            <div className="chatTeacher__message__my">
+              <h6>{message.data?.sendby && message.data?.sendby}</h6>
+              <div className="chatTeacher__message_div">
               <h5>
                  {message.data?.message}
               </h5>

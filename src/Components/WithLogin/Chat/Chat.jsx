@@ -2,10 +2,12 @@ import React, { useState,useEffect } from "react";
 import "./Chat.css";
 import SendIcon from "@mui/icons-material/Send";import { IconButton } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { useHistory } from "react-router";import AttachFileIcon from "@mui/icons-material/AttachFile";
+import { useHistory } from "react-router";
+import AttachFileIcon from "@mui/icons-material/AttachFile";
 import db from "../../../firebase";
 import Chatmsg from "./Chatmsg";
 import { useStateValue } from "../../../StateProvider";
+import firebase from 'firebase'
 
 function Chat() {
   const [{ signInAs, user, course_Subject, course_Main,course_SubjectID,course_MainID ,teacherCourseId,teacherSubjectId}, dispatch] =useStateValue();
@@ -14,6 +16,7 @@ function Chat() {
   const [messages,setMessages]=useState([]);
   const history=useHistory()
   var today = new Date();
+  var datetime = today.toLocaleString()
   var dateC=today.getDate()+'-'+(today.getMonth()+1)+'-'+today.getFullYear();
 
   const handleChange = (e) => {
@@ -26,16 +29,19 @@ function Chat() {
     setShareImage(image);
 };
 
-  const sendMessage=()=>{
+  const sendMessage=(e)=>{
+    e.preventDefault();
         if(course_MainID && course_SubjectID && input){
           db.collection("Courses").doc(course_MainID).collection("Subjects").doc(course_SubjectID).collection('chat').add({
             message:input,
             name:user?.email,
-            date:dateC,
+            date:datetime,
+            sendby:signInAs?.name,
+            timestamp:firebase.firestore.FieldValue.serverTimestamp(),
           }).then(()=>{
             setInput('');
           })
-        }
+      }
   }
   // useEffect(() => {
   //   if (user?.uid) {
@@ -54,7 +60,7 @@ function Chat() {
   // }, [user]);
   useEffect(()=>{
     if(course_SubjectID && course_MainID &&  course_Main){
-    db.collection("Courses").doc(course_MainID).collection("Subjects").doc(course_SubjectID).collection('chat').onSnapshot((snapshot)=>{
+    db.collection("Courses").doc(course_MainID).collection("Subjects").doc(course_SubjectID).collection('chat').orderBy("timestamp", "desc").onSnapshot((snapshot)=>{
       setMessages(snapshot.docs.map((doc)=>({
         data:doc.data(),
         id:doc.id,
@@ -84,15 +90,17 @@ function Chat() {
           </div>
             ))}
       </div>
+      <form>
       <div className="doubtBox_footer">
             <div className="send_Message_box">
               <input type="text" placeholder="Type a message... " value={input} onChange={e=>setInput(e.target.value)} />
               <div className="icons">
-                {/* <AttachFileIcon className="attach_file_icon icon" onClick={} /> */}
-                <SendIcon className="send_icon icon" onClick={sendMessage}/>
+                <AttachFileIcon className="attach_file_icon icon"  />
+                <button type="submit" className="send_icon icon" onClick={sendMessage}><SendIcon/></button>
               </div>
             </div>
           </div>
+      </form>
     </div>
   );
 }

@@ -1,4 +1,4 @@
-.chat {
+.chatTeacher {
   display: flex;
   flex: 0.7;
   flex-direction: column;
@@ -7,45 +7,47 @@
   height: 80vh;
   background-color: white;
 }
-.chat__header {
+/* .notshowtypeFileDiv {
+   display: none;
+} */
+.chatTeacher__header {
   display: flex;
   height: 60px;
-  border-bottom: 1px solid lightgray;
-  z-index: 1;
+  border-bottom: 1px solid lightgray; 
   background-color: rgb(241, 241, 241);
   width: 100%;
   align-items: center;
   justify-content: space-between;
   padding: 12px;
 }
-.chat__headerFirst {
+.chatTeacher__headerFirst {
   display: flex;
   align-items: center;
   /* justify-content: center; */
 }
-.chat__headerFirst__back {
+.chatTeacher__headerFirst__back {
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 0 0px 0 12px;
 }
-.chat__headerFirst__account {
+.chatTeacher__headerFirst__account {
   padding: 0 12px 0 12px;
   color: rgba(0, 0, 0, 0.876);
   font-weight: 700;
   font-size: large;
 }
-.chat__headerSecond {
+.chatTeacher__headerSecond {
   display: flex;
   align-items: center;
   justify-content: center;
 }
-.chat__body {
+.chatTeacher__body {
   height: 70vh;
   background-color: #5094ee;
   overflow: scroll;
 }
-.chat__input {
+.chatTeacher__input {
   display: flex;
   height: 7vh;
   /* border-top: 2px solid rgba(2, 22, 41, 0.255); */
@@ -54,7 +56,7 @@
   background-color: lightgray;
   padding-left: 10px;
 }
-.chat__input > input {
+.chatTeacher__input > input {
   width: 100%;
   margin: 0 12px 0 0;
   outline: none;
@@ -81,14 +83,14 @@
   /* border: 1px solid lightgray; */
   border-radius: 6px;
 }
-.chat__message_div {
+.chatTeacher__message_div {
   display: flex;
   flex-direction: column;
   word-break: break-all;
   border-radius: 6px;
   background-color: white;
 }
-.chat__message_div > p {
+.chatTeacher__message_div > p {
   padding-bottom: 0;
   margin-bottom: 0;
   color: black;
@@ -98,7 +100,7 @@
   padding: 0 12px 0 0;
   font-size: 12px;
 }
-.chat__message__my > h6 {
+.chatTeacher__message__my > h6 {
   margin: 0;
   padding: 2px 0px 3px 0px !important ;
   color: black;
@@ -106,10 +108,10 @@
   font-size: 13px;
   font-weight: 700;
 }
-.chat__message_div {
+.chatTeacher__message_div {
   padding: 0 6px 0 6px;
 }
-.chat__message_div > h5 {
+.chatTeacher__message_div > h5 {
   word-break: break-all;
   color: black;
   margin: 0;
@@ -117,13 +119,13 @@
   font-weight: 400;
   font-size: 14px;
 }
-.chat__msgBox {
+.chatTeacher__msgBox {
   display: flex;
   flex-direction: column;
   padding: 12px;
   align-items: flex-end;
 }
-.chat__msgBoxNot {
+.chatTeacher__msgBoxNot {
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -138,7 +140,7 @@
 .doubtBox_footer {
   background-color: #fff;
   width: 100%;
-  height: 60px;
+  height: 80px;
   padding: 5px;
   display: flex;
   flex-direction: row;
@@ -163,19 +165,106 @@
   margin-left: 10px;
 }
 
-.icons {
+.iconsTeacher {
   display: flex;
   justify-content: flex-end;
-  margin-left: 5px;
+  /* margin-left: 5px; */
+  height: 100%;
+}
+.iconsTeacher>button{
+  border: none;
+  background-color: none;
+  /* color: rgb(52, 128, 52); */
 }
 
 .icon {
-  font-size: 18px;
-  transition: 0.5s;
+  /* font-size: 18px; */
+  height: fit-content;
+  /* transition: 0.5s; */
 }
 .icon:hover {
   cursor: pointer;
   color: #6d6969;
+}
+.popupbody_Image{
+  width: 100%;
+  height: 400px;
+}
+.button{
+ display: flex;
+ padding: 8px 2px 6px 0px;
+ border: 0;
+}
+.button>input{
+  width: 100%;
+  padding: 4px;
+  border: 1px solid gray;
+  border-radius: 3px;
+}
+.sendDiv{
+  margin: 0;
+  padding: 0;
+}
+#sendicon{
+  color: navy;
+  padding: 5px 0 5px 5px;
+}
+.popupImage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #858484cc;
+  z-index: 1;
+}
+.popupImageIn {
+  max-width: 500px;
+  width: 80vw;
+  height: fit-content;
+  background-color: white;
+  border-radius: 8px;
+}
+.popupImageIntop {
+  display: flex;
+  height: fit-content;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 0px 12px 0;
+  margin-bottom: 10px;
+  border-bottom: 2px solid #2370e2;
+}
+.nameImage {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: large;
+}
+.BackiconImage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-right: 12px;
+}
+.BackiconiImage {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.popupbodyImage {
+  display: flex;
+  flex-direction: column;
+  font-weight: 500;
+  /* align-items: center; */
+  /* justify-content: center; */
+  height: fit-content;
+  padding: 12px;
 }
 @media (prefers-reduced-motion: no-preference) {
   .showtypeFile {
@@ -189,7 +278,7 @@
   }
   to {
     top: -24vh;
-    height: fit-content;
+    /* height: fit-content; */
   }
 }
 .showtypeFile {
@@ -201,9 +290,6 @@
   left: 32px;
   border-radius: 12px;
   color: rgb(85, 79, 79);
-}
-.notshowtypeFile {
-  display: none;
 }
 .show_typeImage {
   display: flex;
@@ -242,18 +328,21 @@
   justify-content: center;
   cursor: pointer;
 }
+.Backicon{
+  cursor: pointer;
+}
 @media (max-width: 1085px) {
-  .chat__header {
+  .chatTeacher__header {
     padding: 0px;
   }
-  .chat {
+  .chatTeacher {
     flex: 1;
     height: 100vh;
     border: none;
     padding: 0;
     margin: 0;
   }
-  .chat__body {
+  .chatTeacher__body {
     height: 90vh;
   }
 }

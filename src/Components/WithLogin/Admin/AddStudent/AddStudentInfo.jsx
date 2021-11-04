@@ -8,6 +8,7 @@ import { useStateValue } from "../../../../StateProvider";
 function AddStudentInfo() {
   const[{studentcourse,studentcoursesubject,user,adduser} , dispatch] = useStateValue();
   const [name, setName] = useState("");
+  const [address, setAddress] = useState("");
   const [courses,setCourses]=useState([]);
 
   useEffect(()=>{
@@ -25,11 +26,13 @@ function AddStudentInfo() {
       name:name,
       value:'student', 
       email:adduser.email,
+      address:address,
     }).then(()=>{
-      db.collection('students').doc(adduser.uid).collection('courses').add({
-        name:studentcourse,
+      db.collection('students').doc(adduser.uid).set({
+        name:name,
         subjects:studentcoursesubject,
         email:adduser.email,
+        address:address,
       })
     })
   };
@@ -44,6 +47,12 @@ function AddStudentInfo() {
             value={name}
             type="text"
             onChange={(e) => setName(e.target.value)}
+          />
+          <input
+            placeholder="Enter Student Address "
+            value={address}
+            type="text"
+            onChange={(e) => setAddress(e.target.value)}
           />
           <div className="addTeacherCourse">
               <div className="Selectcourse">

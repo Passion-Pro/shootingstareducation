@@ -73,7 +73,7 @@ function App() {
   return (
     <Router>
       <Switch>
-        <Route path="/mainchat">
+        <Route path="/chat">
           <div className="chat_Show">
             {signInAs && signInAs.value==='teacher' ? <ChatTeacher/>:<Chat />}
           </div>
@@ -81,8 +81,17 @@ function App() {
           {signInAs && signInAs.value==='teacher' ? <MainTeacher /> : <Main /> }
           </div>
         </Route>
+        {/* for check docuemnt 3/11/2021 */}
+
+        <Route path="/checkdocument">
+        <Profile/>
+        </Route>
+
         <Route path="/notification">
           <Notification/>
+        </Route>
+        <Route path="/update">
+          <Profile/>
         </Route>
         <Route path="/admin">
           <Admin/>
