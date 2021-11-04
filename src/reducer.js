@@ -219,6 +219,31 @@ const reducer = (state, action) => {
         ...state,
         chatName: action.chatName,
       }
+    case actionTypes.SET_ASSIGNMENT_STUDENT_DETAILS:
+      return {
+        ...state,
+        assignmentStudentDetails: action.assignmentStudentDetails,
+      }
+    case actionTypes.SET_STUDENT_NAME:
+      return {
+        ...state,
+        studentName : action.studentName,
+      }
+    case actionTypes.OPEN_VIEW_ASSIGNMENT_POPUP:
+      return{
+        ...state,
+        openViewAssignmentPopup : action.openViewAssignmentPopup,
+      }
+    case actionTypes.CREATE_ASSIGNMENT_DETAILS:
+       return {
+         ...state,
+         createAssignmentDetails: action.createAssignmentDetails,
+       }
+    case actionTypes.SET_STUDENT_ASSIGNMENT_NAME:
+      return {
+        ...state,
+        studentAssignmentName: action.studentAssignmentName,
+      }
     default:
       return state;
   }

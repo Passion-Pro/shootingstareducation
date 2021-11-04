@@ -29,6 +29,10 @@ import { actionTypes } from "./reducer";
 import db, { auth } from "./firebase";
 import { useEffect } from "react";
 import { useStateValue } from "./StateProvider";
+import SubmitAssignment from "./Components/WithLogin/AssignmentsPage/SubmitAssignment";
+import UploadCorrectedAssignment from "./Components/WithLogin/Teacher/AssignmentsPage/UplaodCorrectedAssignment";
+import UploadCreatedAssignment  from "./Components/WithLogin/Teacher/AssignmentsPage/UploadCreatedAssignment"
+
 import ChatTeacher from "./Components/WithLogin/Teacher/ChatTeacher/ChatTeacher";
 import Admin from "./Components/WithLogin/Admin/Main/Main";
 import AddStudent from "./Components/WithLogin/Admin/AddStudent/AddStudent";
@@ -36,7 +40,7 @@ import AddTeacher from "./Components/WithLogin/Admin/AddTeacher/AddTeacher";
 import AddAdmin from "./Components/WithLogin/Admin/AddAdmin/AddAdmin";
 import AddTeacherInfo from "./Components/WithLogin/Admin/AddTeacher/AddTeacherInfo";
 import AddCourse from "./Components/WithLogin/Admin/AddCourse/AddCourse";
-
+import ViewAssignmentPage from "./Components/WithLogin/Teacher/AssignmentsPage/ViewAssignmentPage";
 function App() {
 
   const[{signInAs,user} , dispatch] = useStateValue();
@@ -104,8 +108,10 @@ function App() {
         <Route path="/main">
           {signInAs && signInAs.value==='teacher' ? <MainTeacher /> : <Main /> }
         </Route>
-        {/* </Route> */}
-        {/* <Route path="/main"> */}
+        <Route path="/AssignmentsPage">
+          {signInAs && signInAs.value==='teacher' ? <AssignmentsPageForTeacher/> : <AssignmentsPage/> }
+        </Route>
+       
         <Route path="/profile">
           <Profile />
         </Route>
@@ -145,24 +151,27 @@ function App() {
         <Route path="/signIn">
           <Login />
         </Route>
-        <Route path="/AssignmentsPage">
-          <AssignmentsPage />
-        </Route>
         <Route path="/NoticesPage">
           <NoticesPage />
         </Route>
         <Route path="/DoubtsPage">
-          <DoubtsPage />
-        </Route>
-        <Route path = "/AssignmentsPageForTeachers">
-          <AssignmentsPageForTeacher/>
-        </Route>
-        <Route path = "/DoubtsPageForTeachers">
-          <DoubtsPageForTeacher/>
+        {signInAs && signInAs.value==='teacher' ? <DoubtsPageForTeacher /> : <DoubtsPage/> }
         </Route>
         <Route path = "/doubtsMessagesPageForTeachers">
           <MessagesSectionForMobile/>
         </Route>
+        <Route path = "/submitAssignment">
+          <SubmitAssignment/>
+        </Route>
+        <Route path = "/uploadCorrectedAssignmentPage">
+          <UploadCorrectedAssignment/>
+        </Route>
+        <Route path = "/uploadCreatedAssignment">
+          <UploadCreatedAssignment/>
+        </Route>
+         <Route  path = "/ViewAssignment/:assignmentId">
+            <ViewAssignmentPage/>
+         </Route>
         <Route path="/">
           {!signInAs? <Home />: signInAs && signInAs.value==='teacher' ? <MainTeacher /> : <Main />  }
         </Route>
