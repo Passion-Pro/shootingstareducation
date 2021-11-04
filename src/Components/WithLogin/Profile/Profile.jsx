@@ -4,12 +4,22 @@ import "./Profile.css";
 import AccountCircleRoundedIcon from "@mui/icons-material/AccountCircleRounded";
 import HeaderTeacher from "../Teacher/HeaderTeacher/HeaderTeacher";
 import { useStateValue } from "../../../StateProvider";
+import { auth } from "../../../firebase";
+import { useHistory } from "react-router-dom";
 
 function Profile() {
+  const history=useHistory();
   const [{ signInAs, user, coursesArray }, dispatch] = useStateValue();
   const UpdateProfile = (e) => {
     e.preventDefault();
+    history.push('/update');
   };
+  const LogOut=(e)=>{
+    e.preventDefault();
+    if(user){
+      auth.signOut();
+    }
+  }
 
   return (
     <div className="profile">
@@ -28,13 +38,13 @@ function Profile() {
             </div>
             <div className="update__profile">
               <button onClick={UpdateProfile}>Update </button>
-              <button onClick={UpdateProfile}>LogOut</button>
+              <button onClick={LogOut}>LogOut</button>
             </div>
           </div>
           <div className="profile__Name">
             <div className="profile__Name__In">
-              <h6>{"6396894587"}</h6>
-              <h6>{"Kailashpur, Mehuwala, Dehradun, 248001"}</h6>
+              <h6>{signInAs?.contact}</h6>
+              <h6>{signInAs?.address}</h6>
               <h5 className="Courses__div">
                 Courses
                 <ul>

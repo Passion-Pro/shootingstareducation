@@ -31,9 +31,14 @@ export const initialState = {
   teacherSubject: null,
   // course dispatch variable 
   coursesArray: [],
+  // image chat
+  selectImageChat:null,
 };
 
 export const actionTypes = {
+  // image chat acion
+  SET_CHAT_SELECT_IMAGE:'SET_CHAT_SELECT_IMAGE',
+
   // course dispatch variable 
   SET_COURSES_ARRAY: "SET_COURSES_ARRAY",
   SET_SHOW_DIV: 'SET_SHOW_DIV',
@@ -76,6 +81,12 @@ const reducer = (state, action) => {
       return {
         ...state,
         coursesArray: action.coursesArray,
+      };
+      // CHAT SELECT IMAGE
+    case actionTypes.SET_CHAT_SELECT_IMAGE:
+      return {
+        ...state,
+        selectImageChat: action.selectImageChat,
       };
     case actionTypes.SET_TEACHER_COURSE:
       return {

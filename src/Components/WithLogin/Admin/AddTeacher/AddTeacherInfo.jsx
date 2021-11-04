@@ -8,7 +8,9 @@ import { useStateValue } from "../../../../StateProvider";
 function AddTeacherInfo() {
   const[{newteachercourse,newteachercoursesubject,user} , dispatch] = useStateValue();
   const [name, setName] = useState("");
+  const [address, setAddress] = useState("");
   const [courses,setCourses]=useState([]);
+  const [contact,setContact]=useState('');
 
   useEffect(()=>{ 
     db.collection('CoursesName').onSnapshot((snapshot)=>(
@@ -21,12 +23,22 @@ function AddTeacherInfo() {
 
   const AddTeacherInfo = (e) => {
     e.preventDefault();
-    db.collection('users').add({
+    db.collection('users').doc(user?.uid).set({
       name:name,
       value:'teacher',
-      courseName:newteachercourse,
-      courseSubject:newteachercoursesubject,
+      // courseName:newteachercourse,
+      // courseSubject:newteachercoursesubject,
       email:user.email,
+      address:address,
+      contact:contact,
+    }).then(()=>{
+      db.collection('teachers').doc(user.uid).set({
+        name:name,
+        // subjects:newteachercoursesubject,
+        email:user.email,
+        address:address,
+        contact:contact,
+      })
     })
   };
 
@@ -40,6 +52,18 @@ function AddTeacherInfo() {
             value={name}
             type="text"
             onChange={(e) => setName(e.target.value)}
+          />
+          <input
+            placeholder="Name "
+            value={address}
+            type="text"
+            onChange={(e) => setAddress(e.target.value)}
+          />
+          <input
+            placeholder="Name "
+            value={contact}
+            type="number"
+            onChange={(e) => setContact(e.target.value)}
           />
           <div className="addTeacherCourse">
               Select Course
