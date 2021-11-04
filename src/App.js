@@ -36,7 +36,7 @@ import AddTeacher from "./Components/WithLogin/Admin/AddTeacher/AddTeacher";
 import AddAdmin from "./Components/WithLogin/Admin/AddAdmin/AddAdmin";
 import AddTeacherInfo from "./Components/WithLogin/Admin/AddTeacher/AddTeacherInfo";
 import AddCourse from "./Components/WithLogin/Admin/AddCourse/AddCourse";
-import UpdatePage from "./Components/WithLogin/Profile/UpdatePage";
+// import UpdatePage from "./Components/WithLogin/Profile/UpdatePage";
 // import CheckDocument from "./Components/WithLogin/Teacher/ChatTeacher/CheckDocument";
 
 function App() {
@@ -89,7 +89,7 @@ function App() {
           <Notification/>
         </Route>
         <Route path="/update">
-          <UpdatePage/>
+          <Profile/>
         </Route>
         <Route path="/admin">
           <Admin/>
