@@ -8,6 +8,7 @@
     background-color: white;
     align-items: center;
     justify-content: center;
+    height: 10vh;
 }
 .chat__headerFirst__back{
     display: none;

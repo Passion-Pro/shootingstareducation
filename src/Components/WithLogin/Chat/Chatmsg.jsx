@@ -1,10 +1,9 @@
 import React from 'react'
 
 function Chatmsg({message}) {
-    return (
-        // <div className="chatmsg">
+    return ( 
             <div className="chat__message__my">
-              <h6>{message.data?.name}</h6>
+              <h6>{message.data?.sendby && message.data?.sendby}</h6>
               <div className="chat__message_div">
               <h5>
                  {message.data?.message}
@@ -12,7 +11,6 @@ function Chatmsg({message}) {
               <p>{message.data?.date}</p>
               </div>
               </div>
-        // </div>
     )
 }
 

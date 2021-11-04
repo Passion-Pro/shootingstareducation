@@ -32,7 +32,6 @@ function HeaderTeacher() {
             //   id: doc.id,
             // }))
           // )
-
          {
           dispatch({
             type: actionTypes.SET_COURSES_ARRAY,
@@ -147,7 +146,7 @@ function HeaderTeacher() {
             <div className="HeaderMain__Selectcourse">
               <div className="HeaderMain__Selectcourse__Name">
                 {teacherCourse}
-                {" , "}
+                {", "}
                 {teacherSubject}
               </div>
               <div
@@ -188,7 +187,7 @@ function HeaderTeacher() {
       <div className="HeaderMain__For__Mobile">
         <div
           className="headerMain__chat"
-          onClick={() => history.push("/mainchat")}
+          onClick={() => history.push("/chat")}
         >
           <IconButton>
             <ChatIcon />

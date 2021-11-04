@@ -16,7 +16,7 @@ function NoticeTeacher({ notice}) {
     useStateValue();
   const [popupshowD, setPopupshowD] = useState(false);
   const [popupshowU, setPopupshowU] = useState(false);
-console.log("yoyoy:- ",notice.id)
+
   const deleteNotice = (e) => {
     e.preventDefault();
     if(teacherCourseId){
@@ -202,6 +202,7 @@ const Container = styled.div`
     padding-right: 12px;
   }
   .Backiconi {
+    cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;

@@ -41,6 +41,9 @@ import AddAdmin from "./Components/WithLogin/Admin/AddAdmin/AddAdmin";
 import AddTeacherInfo from "./Components/WithLogin/Admin/AddTeacher/AddTeacherInfo";
 import AddCourse from "./Components/WithLogin/Admin/AddCourse/AddCourse";
 import ViewAssignmentPage from "./Components/WithLogin/Teacher/AssignmentsPage/ViewAssignmentPage";
+import UpdatePage from "./Components/WithLogin/Profile/UpdatePage";
+import CheckDocument from "./Components/WithLogin/Teacher/ChatTeacher/CheckDocument";
+
 function App() {
 
   const[{signInAs,user} , dispatch] = useStateValue();
@@ -73,7 +76,7 @@ function App() {
   return (
     <Router>
       <Switch>
-        <Route path="/mainchat">
+        <Route path="/chat">
           <div className="chat_Show">
             {signInAs && signInAs.value==='teacher' ? <ChatTeacher/>:<Chat />}
           </div>
@@ -81,8 +84,17 @@ function App() {
           {signInAs && signInAs.value==='teacher' ? <MainTeacher /> : <Main /> }
           </div>
         </Route>
+        {/* for check docuemnt 3/11/2021 */}
+        
+        <Route path="/checkdocument">
+          <CheckDocument/>
+        </Route>
+
         <Route path="/notification">
           <Notification/>
+        </Route>
+        <Route path="/update">
+          <UpdatePage/>
         </Route>
         <Route path="/admin">
           <Admin/>
