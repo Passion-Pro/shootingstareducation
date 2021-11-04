@@ -37,7 +37,6 @@ import AddAdmin from "./Components/WithLogin/Admin/AddAdmin/AddAdmin";
 import AddTeacherInfo from "./Components/WithLogin/Admin/AddTeacher/AddTeacherInfo";
 import AddCourse from "./Components/WithLogin/Admin/AddCourse/AddCourse";
 
-
 function App() {
 
   const[{signInAs,user} , dispatch] = useStateValue();
@@ -81,7 +80,7 @@ function App() {
         {/* for check docuemnt 3/11/2021 */}
 
         <Route path="/checkdocument">
-          <CheckDocument/>
+        <Profile/>
         </Route>
 
         <Route path="/notification">
