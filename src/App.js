@@ -37,7 +37,7 @@ import AddAdmin from "./Components/WithLogin/Admin/AddAdmin/AddAdmin";
 import AddTeacherInfo from "./Components/WithLogin/Admin/AddTeacher/AddTeacherInfo";
 import AddCourse from "./Components/WithLogin/Admin/AddCourse/AddCourse";
 import UpdatePage from "./Components/WithLogin/Profile/UpdatePage";
-import CheckDocument from "./Components/WithLogin/Teacher/ChatTeacher/CheckDocument";
+// import CheckDocument from "./Components/WithLogin/Teacher/ChatTeacher/CheckDocument";
 
 function App() {
 
@@ -80,7 +80,7 @@ function App() {
           </div>
         </Route>
         {/* for check docuemnt 3/11/2021 */}
-        
+
         <Route path="/checkdocument">
           <CheckDocument/>
         </Route>
