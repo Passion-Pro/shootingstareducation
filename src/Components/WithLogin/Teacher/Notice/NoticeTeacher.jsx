@@ -8,12 +8,31 @@ import ClearRoundedIcon from "@mui/icons-material/ClearRounded";
 import Button from "@mui/material/Button";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Stack from "@mui/material/Stack";
+import db from "../../../../firebase";
+import { useStateValue } from "../../../../StateProvider";
 
-function NoticeTeacher({notice}) {
+function NoticeTeacher({ notice}) {
+  const [{ signInAs, user, teacherSubjectId, teacherCourseId }, dispatch] =
+    useStateValue();
   const [popupshowD, setPopupshowD] = useState(false);
   const [popupshowU, setPopupshowU] = useState(false);
-
-  const UpdatePOPUP = () => {};
+console.log("yoyoy:- ",notice.id)
+  const deleteNotice = (e) => {
+    e.preventDefault();
+    if(teacherCourseId){
+      db.collection("Courses")
+      .doc(teacherCourseId)
+      .collection("Subjects")
+      .doc(teacherSubjectId)
+      .collection("notices")
+      .doc(notice.id)
+      .delete()
+      
+    }else{
+      alert('Something went wrong please try again ! ')
+    }
+    setPopupshowD(false)
+  };
 
   const [content, setContent] = useState("");
   console.log(notice);
@@ -27,20 +46,20 @@ function NoticeTeacher({notice}) {
                 <div className="name">Notice</div>
                 <div
                   className="Backicon"
-                  onClick={() => 
-                    setPopupshowD(!popupshowD)
-                  }
+                  onClick={() => setPopupshowD(!popupshowD)}
                 >
                   <ClearRoundedIcon className="Backiconi" />
                 </div>
               </div>
               <div className="popupbody">
-                <div className="popupbody_text">
-                 {notice?.data?.notice}
-                </div>
+                <div className="popupbody_text">{notice?.data?.notice}</div>
                 <div className="btn">
                   <Stack direction="row" spacing={2}>
-                    <Button variant="outlined" startIcon={<DeleteIcon/>}>
+                    <Button
+                      variant="outlined"
+                      startIcon={<DeleteIcon />}
+                      onClick={deleteNotice}
+                    >
                       Delete
                     </Button>
                   </Stack>
@@ -49,7 +68,7 @@ function NoticeTeacher({notice}) {
             </div>
           </div>
         )}
-        
+
         {popupshowU && (
           <div className="popupDelete">
             <div className="popupDeleteIn">
@@ -73,13 +92,10 @@ function NoticeTeacher({notice}) {
             </div>
           </div>
         )}
-        <div className="close_notice">
-        </div>
-        <div className="notice">
-        {notice?.data?.notice}
-        </div>
+        <div className="close_notice"></div>
+        <div className="notice">{notice?.data?.notice}</div>
         <div className="For__Teacher">
-        <div className="sent_by">{notice.data?.teacher}</div>
+          <div className="sent_by">{notice.data?.teacher}</div>
           <div
             className="Update"
             onClick={() => {
@@ -87,7 +103,7 @@ function NoticeTeacher({notice}) {
             }}
           >
             <IconButton>
-              <DeleteRoundedIcon id="update"/>
+              <DeleteRoundedIcon id="update" />
             </IconButton>
           </div>
         </div>
@@ -140,7 +156,7 @@ const Container = styled.div`
     align-items: center;
     width: 40px;
   }
-  #update{
+  #update {
     color: #464749;
   }
   .popupDelete {
@@ -199,8 +215,8 @@ const Container = styled.div`
     height: fit-content;
     padding: 12px;
   }
-  .popupbody_text{
-    padding:0 0 12px 0
+  .popupbody_text {
+    padding: 0 0 12px 0;
   }
   .popupbody > textarea {
     display: flex;

@@ -14,8 +14,19 @@ import { useStateValue } from "../../../StateProvider";
 import { actionTypes } from "../../../reducer";
 
 function HeaderMain() {
-  const [{ signInAs, user, course_Subject, course_Main,course_SubjectID,course_MainID }, dispatch] =useStateValue();
-  const [showDiv, setShowDiv] = useState(false);
+  const [
+    {
+      signInAs,
+      showDiv,
+      user,
+      course_Subject,
+      course_Main,
+      course_SubjectID,
+      course_MainID,
+    },
+    dispatch,
+  ] = useStateValue();
+  // const [showDiv, setShowDiv] = useState(false);
   const history = useHistory();
   const [coursesArray, setCoursesArray] = useState([]);
 
@@ -35,81 +46,159 @@ function HeaderMain() {
     }
   }, [user]);
 
- useEffect(()=>{
-  if(course_Subject==null){
-    dispatch({
-      type: actionTypes.SET_COURSE,
-      course_Subject: coursesArray[0]?.data?.subjects[0],
-    });
-    dispatch({
-      type: actionTypes.SET_COURSE_MAIN,
-      course_Main: coursesArray[0]?.data?.name,
-    });
-  if(coursesArray[0]?.data?.name){
-    db.collection("Courses")
-    .where("name", "==",coursesArray[0]?.data?.name)
-    .get()
-    .then((querySnapshot) => {
-      querySnapshot.forEach((doc) => {
-          console.log("doc?.id",doc?.id)
-        dispatch({
-          type:actionTypes.SET_COURSE_MAIN_ID,
-          course_MainID:doc.id,
-        })
-        db.collection("Courses").doc(doc.id).collection('Subjects')
-        .where("name", "==",coursesArray[0]?.data?.subjects[0])
+  useEffect(() => {
+    if (course_Subject === null) {
+      dispatch({
+        type: actionTypes.SET_COURSE,
+        course_Subject: coursesArray[0]?.data?.subjects[0],
+      });
+      dispatch({
+        type: actionTypes.SET_COURSE_MAIN,
+        course_Main: coursesArray[0]?.data?.name,
+      });
+      if (coursesArray[0]?.data?.name) {
+        db.collection("Courses")
+          .where("name", "==", coursesArray[0]?.data?.name)
+          .get()
+          .then((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+              console.log("doc?.id", doc?.id);
+              dispatch({
+                type: actionTypes.SET_COURSE_MAIN_ID,
+                course_MainID: doc.id,
+              });
+              db.collection("Courses")
+                .doc(doc.id)
+                .collection("Subjects")
+                .where("name", "==", coursesArray[0]?.data?.subjects[0])
+                .get()
+                .then((querySnapshot) => {
+                  querySnapshot.forEach((doc1) => {
+                    dispatch({
+                      type: actionTypes.SET_COURSE_SUBJECT_ID,
+                      course_SubjectID: doc1.id,
+                    });
+                  });
+                })
+                .catch((error) => {
+                  console.log("Error getting documents: ", error);
+                });
+            });
+          })
+          .catch((error) => {
+            console.log("Error getting documents: ", error);
+          });
+
+        db.collection("students")
+          .doc(user.uid)
+          .collection("courses")
+          .where("name", "==", coursesArray[0]?.data?.name)
+          .get()
+          .then((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+              console.log("doc?.id", doc?.id);
+              dispatch({
+                type: actionTypes.SET_USER_COURSEID,
+                userCourseId: doc.id,
+              });
+              db.collection("students")
+                .doc(user.uid)
+                .collection("courses")
+                .doc(doc.id)
+                .collection("subjects")
+                .where("name", "==", coursesArray[0]?.data?.subjects[0])
+                .get()
+                .then((querySnapshot) => {
+                  querySnapshot.forEach((doc1) => {
+                    dispatch({
+                      type: actionTypes.SET_USER_SUBJECTID,
+                      userSubjectId: doc1.id,
+                    });
+                  });
+                })
+                .catch((error) => {
+                  console.log("Error getting documents: ", error);
+                });
+            });
+          })
+          .catch((error) => {
+            console.log("Error getting documents: ", error);
+          });
+      }
+    }
+  }, [coursesArray]);
+
+  useEffect(() => {
+    if (course_Main && course_Subject) {
+      db.collection("Courses")
+        .where("name", "==", course_Main)
         .get()
         .then((querySnapshot) => {
-          querySnapshot.forEach((doc1) => {
+          querySnapshot.forEach((doc) => {
+            console.log("doc?.id", doc?.id);
             dispatch({
-                type:actionTypes.SET_COURSE_SUBJECT_ID,
-                course_SubjectID:doc1.id,
-            })
+              type: actionTypes.SET_COURSE_MAIN_ID,
+              course_MainID: doc.id,
+            });
+            db.collection("Courses")
+              .doc(doc.id)
+              .collection("Subjects")
+              .where("name", "==", course_Subject)
+              .get()
+              .then((querySnapshot) => {
+                querySnapshot.forEach((doc1) => {
+                  dispatch({
+                    type: actionTypes.SET_COURSE_SUBJECT_ID,
+                    course_SubjectID: doc1.id,
+                  });
+                });
+              })
+              .catch((error) => {
+                console.log("Error getting documents: ", error);
+              });
           });
         })
         .catch((error) => {
           console.log("Error getting documents: ", error);
         });
-      });
-    })
-    .catch((error) => {
-      console.log("Error getting documents: ", error);
-    });
 
-    db.collection("students").doc(user.uid).collection("courses")
-    .where("name", "==",coursesArray[0]?.data?.name)
-    .get()
-    .then((querySnapshot) => {
-      querySnapshot.forEach((doc) => {
-          console.log("doc?.id",doc?.id)
-        dispatch({
-          type:actionTypes.SET_USER_COURSEID,
-          userCourseId:doc.id,
-        })
-        db.collection("students").doc(user.uid).collection("courses").doc(doc.id).collection("subjects")
-        .where("name", "==",coursesArray[0]?.data?.subjects[0])
+      db.collection("students")
+        .doc(user.uid)
+        .collection("courses")
+        .where("name", "==", course_Main)
         .get()
         .then((querySnapshot) => {
-          querySnapshot.forEach((doc1) => {
+          querySnapshot.forEach((doc) => {
+            console.log("doc?.id", doc?.id);
             dispatch({
-               type : actionTypes.SET_USER_SUBJECTID,
-               userSubjectId : doc1.id,
-            })
+              type: actionTypes.SET_USER_COURSEID,
+              userCourseId: doc.id,
+            });
+            db.collection("students")
+              .doc(user.uid)
+              .collection("courses")
+              .doc(doc.id)
+              .collection("subjects")
+              .where("name", "==", course_Subject)
+              .get()
+              .then((querySnapshot) => {
+                querySnapshot.forEach((doc1) => {
+                  dispatch({
+                    type: actionTypes.SET_USER_SUBJECTID,
+                    userSubjectId: doc1.id,
+                  });
+                });
+              })
+              .catch((error) => {
+                console.log("Error getting documents: ", error);
+              });
           });
         })
         .catch((error) => {
           console.log("Error getting documents: ", error);
         });
-      });
-    })
-    .catch((error) => {
-      console.log("Error getting documents: ", error);
-    });
-
-
-  }
-  }
- },[coursesArray]);
+    }
+  }, [course_Subject]);
 
   return (
     <>
@@ -158,11 +247,18 @@ function HeaderMain() {
           <div className="HeaderMain__Right__Div">
             <div className="HeaderMain__Selectcourse">
               <div className="HeaderMain__Selectcourse__Name">
-                {course_Subject}{" , "}{ course_Main}
+                {course_Subject}
+                {" , "}
+                {course_Main}
               </div>
               <div
                 className="HeaderMain__SelectCourse_icon"
-                onClick={() => setShowDiv(!showDiv)}
+                onClick={() => {
+                  dispatch({
+                    type: actionTypes.SET_SHOW_DIV,
+                    showDiv: !showDiv,
+                  });
+                }}
               >
                 <ArrowDropDownRoundedIcon />
               </div>

@@ -34,8 +34,8 @@ function NoticesTeacher() {
       <Container>
         <UpdateNoticeTeacher />
         <div className="all_notices">
-          {notices.map((notice) => (
-            <NoticeTeacher notice={notice} />
+          {notices.map((notice,id) => (
+            <NoticeTeacher notice={notice} id={id}/>
           ))}
         </div>
       </Container>
@@ -71,6 +71,11 @@ const Container = styled.div`
     padding: 8px;
     background-color: white;
     border-radius: 8px;
+    cursor: pointer;
+  }
+  .addNotice_2{
+    cursor: pointer;
+
   }
   .plusText {
     display: flex;

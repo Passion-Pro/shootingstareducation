@@ -7,33 +7,37 @@ export const initialState = {
   openDoubtReplies: false,
   openAskDoubtPopup: false,
   openAssignmentPopupForTeacher: false,
-  openCreateAssignmentPopup : false,
+  openCreateAssignmentPopup: false,
   course_Subject: null,
-  course_SubjectID:null,
+  course_SubjectID: null,
   course_Main: null,
-  course_MainID:null,
+  course_MainID: null,
   openAskDoubtPopup: false,
-  userInfo : [],
-  userCourseId : null,
-  userSubjectId : null,
-  teacher:null,
-  teacherSubjectId:null,
-  teacherCourseId:null,
-  newteachercourse:null,
-  studentcourse:null,
-  newteachercoursesubject:null,
-  adduser:null,
-  studentcoursesubject:[],
-  chatName : null,
-  assignmentStudentDetails : [],
-  studentName : null,
-  openViewAssignmentPopup : false,
-  createAssignmentDetails : [],
-  studentAssignmentName : null,
+  userInfo: [],
+  userCourseId: null,
+  userSubjectId: null,
+  teacher: null,
+  teacherSubjectId: null,
+  teacherCourseId: null,
+  newteachercourse: null,
+  studentcourse: null,
+  newteachercoursesubject: null,
+  adduser: null,
+  studentcoursesubject: [],
+  chatName: null,
+  showDiv: false,
+  // for teacher header to change teacher course and subject
+  teacherCourse: null,
+  teacherSubject: null,
+  // course dispatch variable 
+  coursesArray: [],
 };
 
 export const actionTypes = {
-  SET_ADD_USER:'SET_ADD_USER',
+  // course dispatch variable 
+  SET_COURSES_ARRAY: "SET_COURSES_ARRAY",
+  SET_SHOW_DIV: 'SET_SHOW_DIV',
+  SET_ADD_USER: 'SET_ADD_USER',
   OPEN_SIGNINPOPUP: "OPEN_SIGNINPOPUP",
   SET_USER: "SET_USER",
   SIGN_IN_AS: "SIGN_IN_AS",
@@ -42,32 +46,54 @@ export const actionTypes = {
   OPEN_DOUBT_REPLIES: "OPEN_DOUBT_REPLIES",
   OPEN_ASKDOUBT_POPUP: "OPEN_ASKDOUBT_POPUP",
   SET_COURSE: "SET_COURSE",
-  SET_COURSE_SUBJECT_ID:"SET_COURSE_SUBJECT_ID",
+  SET_COURSE_SUBJECT_ID: "SET_COURSE_SUBJECT_ID",
   OPEN_ASSIGNMENT_POPUP_FOR_TEACHER: "OPEN_ASSIGNMENT_POPUP_FOR_TEACHER",
-  OPEN_CREATE_ASSIGNMENT_POPUP : "OPEN_CREATE_ASSIGNMENT_POPUP",
+  OPEN_CREATE_ASSIGNMENT_POPUP: "OPEN_CREATE_ASSIGNMENT_POPUP",
   SET_COURSE_MAIN: "SET_COURSE_MAIN",
-  SET_USER_INFO : "SET_USER_INFO",
-  SET_USER_COURSEID : "SET_USER_COURSEID",
-  SET_USER_SUBJECTID : "SET_USER_SUBJECTID",
-  SET_COURSE_MAIN_ID:"SET_COURSE_MAIN_ID",
-  SET_TEACHER:'SET_TEACHER',
-  SET_TEACHER_COURSE_ID:'SET_TEACHER_COURSE_ID',
-  SET_TEACHER_SUBJECT_ID:'SET_TEACHER_SUBJECT_ID',
-  SET_NEW_TEACHER_COURSE:'SET_NEW_TEACHER_COURSE',
-  SET_NEW_TEACHER_COURSE_SUBJECT:'SET_NEW_TEACHER_COURSE_SUBJECT',
-  SET_STUDENT_COURSE:'SET_STUDENT_COURSE',
-  SET_STUDENT_COURSE_SUBJECT:'SET_STUDENT_COURSE_SUBJECT',
-  SET_CHATNAME : 'SET_CHATNAME',
-  SET_ASSIGNMENT_STUDENT_DETAILS : 'SET_ASSIGNMENT_STUDENT_DETAILS',
-  SET_STUDENT_NAME : 'SET_STUDENT_NAME',
-  OPEN_VIEW_ASSIGNMENT_POPUP : 'OPEN_VIEW_ASSIGNMENT_POPUP',
-  CREATE_ASSIGNMENT_DETAILS : 'CREATE_ASSIGNMENT_DETAILS',
-  SET_STUDENT_ASSIGNMENT_NAME : 'SET_STUDENT_ASSIGNMENT_NAME',
+  SET_USER_INFO: "SET_USER_INFO",
+  SET_USER_COURSEID: "SET_USER_COURSEID",
+  SET_USER_SUBJECTID: "SET_USER_SUBJECTID",
+  SET_COURSE_MAIN_ID: "SET_COURSE_MAIN_ID",
+  SET_TEACHER: 'SET_TEACHER',
+  // for teacher header to change teacher course and subject
+  SET_TEACHER_COURSE: 'SET_TEACHER_COURSE',
+  SET_TEACHER_SUBJECT: 'SET_TEACHER_SUBJECT',
+  SET_TEACHER_COURSE_ID: 'SET_TEACHER_COURSE_ID',
+  SET_TEACHER_SUBJECT_ID: 'SET_TEACHER_SUBJECT_ID',
+  // 
+  SET_NEW_TEACHER_COURSE: 'SET_NEW_TEACHER_COURSE',
+  SET_NEW_TEACHER_COURSE_SUBJECT: 'SET_NEW_TEACHER_COURSE_SUBJECT',
+  SET_STUDENT_COURSE: 'SET_STUDENT_COURSE',
+  SET_STUDENT_COURSE_SUBJECT: 'SET_STUDENT_COURSE_SUBJECT',
+  SET_CHATNAME: 'SET_CHATNAME',
 };
 
 const reducer = (state, action) => {
   console.log(action);
+  // teacherSubject
   switch (action.type) {
+    case actionTypes.SET_COURSES_ARRAY:
+      return {
+        ...state,
+        coursesArray: action.coursesArray,
+      };
+    case actionTypes.SET_TEACHER_COURSE:
+      return {
+        ...state,
+        teacherCourse: action.teacherCourse,
+      };
+    // teacherSubject
+    case actionTypes.SET_TEACHER_SUBJECT:
+      return {
+        ...state,
+        teacherSubject: action.teacherSubject,
+      };
+
+    case actionTypes.SET_SHOW_DIV:
+      return {
+        ...state,
+        showDiv: action.showDiv,
+      };
     case actionTypes.SET_STUDENT_COURSE_SUBJECT:
       return {
         ...state,
@@ -88,37 +114,37 @@ const reducer = (state, action) => {
         ...state,
         newteachercourse: action.newteachercourse,
       };
-      case actionTypes.SET_NEW_TEACHER_COURSE_SUBJECT:
+    case actionTypes.SET_NEW_TEACHER_COURSE_SUBJECT:
       return {
         ...state,
         newteachercoursesubject: action.newteachercoursesubject,
       };
-      case actionTypes.SET_TEACHER_SUBJECT_ID:
+    case actionTypes.SET_TEACHER_SUBJECT_ID:
       return {
         ...state,
         teacherSubjectId: action.teacherSubjectId,
       };
-      case actionTypes.SET_TEACHER_COURSE_ID:
+    case actionTypes.SET_TEACHER_COURSE_ID:
       return {
         ...state,
         teacherCourseId: action.teacherCourseId,
       };
-      case actionTypes.SET_COURSE_SUBJECT_ID:
+    case actionTypes.SET_COURSE_SUBJECT_ID:
       return {
         ...state,
         course_SubjectID: action.course_SubjectID,
       };
-      case actionTypes.SET_TEACHER:
+    case actionTypes.SET_TEACHER:
       return {
         ...state,
         teacher: action.teacher,
       };
-      case actionTypes.SET_COURSE_MAIN_ID:
+    case actionTypes.SET_COURSE_MAIN_ID:
       return {
         ...state,
         course_MainID: action.course_MainID,
       };
-      case actionTypes.SET_COURSE:
+    case actionTypes.SET_COURSE:
       return {
         ...state,
         course_Subject: action.course_Subject,
@@ -164,7 +190,7 @@ const reducer = (state, action) => {
         openAssignmentPopupForTeacher: action.openAssignmentPopupForTeacher,
       };
     case actionTypes.OPEN_CREATE_ASSIGNMENT_POPUP:
-      return{
+      return {
         ...state,
         openCreateAssignmentPopup: action.openCreateAssignmentPopup,
       }
@@ -175,23 +201,23 @@ const reducer = (state, action) => {
       }
     case actionTypes.SET_USER_INFO:
       return {
-         ...state,
-         userInfo : action.userInfo,
+        ...state,
+        userInfo: action.userInfo,
       }
     case actionTypes.SET_USER_COURSEID:
-      return{
+      return {
         ...state,
-        userCourseId : action.userCourseId,
+        userCourseId: action.userCourseId,
       }
     case actionTypes.SET_USER_SUBJECTID:
-      return{
+      return {
         ...state,
-        userSubjectId : action.userSubjectId,
+        userSubjectId: action.userSubjectId,
       }
     case actionTypes.SET_CHATNAME:
       return {
         ...state,
-        chatName : action.chatName,
+        chatName: action.chatName,
       }
     case actionTypes.SET_ASSIGNMENT_STUDENT_DETAILS:
       return {
