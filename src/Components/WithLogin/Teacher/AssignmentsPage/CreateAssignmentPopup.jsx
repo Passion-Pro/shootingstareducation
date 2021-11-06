@@ -423,6 +423,17 @@ const Container = styled.div`
         }
       }
     }
+
+    .assignment_attatched{
+      max-width: 90%;
+
+      a{
+        max-width: 90%;
+        overflow: hidden;
+        display : flex;
+        flex-wrap: wrap;
+      }
+    }
   }
 `;
 

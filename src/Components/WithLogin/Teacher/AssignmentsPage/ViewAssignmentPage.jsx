@@ -58,6 +58,19 @@ function ViewAssignmentPage() {
   const goBack = (e) => {
     e.preventDefault();
     history.goBack();
+  };
+
+  const view_pdf = (e) => {
+    e.preventDefault();
+    history.push("/viewPdf");
+    dispatch({
+      type : actionTypes.SET_VIEW_PDF,
+      viewPdf : true
+    });
+    dispatch({
+      type : actionTypes.SET_PDF_URL,
+      pdfUrl : assignmentTeacherDetails?.assignmentUrl
+    })
   }
 
 
@@ -72,18 +85,12 @@ function ViewAssignmentPage() {
                  </div>
                   <div className = "assignment_description">
                   {assignmentTeacherDetails?.description}
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-              reprehenderit in voluptate velit esse cillum dolore eu fugiat
-              nulla pariatur.
                   </div>
                   {assignmentTeacherDetails?.assignmentUrl && (
-                <div className="assignment_attatched">
-                <a href = {assignmentTeacherDetails?.assignmentUrl}>
-                  {assignmentTeacherDetails?.assignmentUploadedName}
-                </a>
+                <div className="assignment_attatched" onClick = {view_pdf}>
+                <p>
+                  {assignmentTeacherDetails?.assignmentUploadedName?.length <= 38 ? <>{assignmentTeacherDetails?.assignmentUploadedName}</> : <>{assignmentTeacherDetails?.assignmentUploadedName?.slice(0, 38)}</>}
+                </p>
               </div>
              )}
                </div>
@@ -159,18 +166,13 @@ const ViewAssignments = styled.div`
     background-color: lightgray;
     padding: 7px;
     padding-left: 15px;
-    width: 90%;
+    max-width: 90%;
     border-radius: 10px;
     margin-bottom: 10px;
 
-    a{
-      text-decoration: none;
-      color : black;
-       
-    }
-
     &:hover {
       background-color : #e2e0e0;
+      cursor : pointer;
     }
   }
 
@@ -182,6 +184,13 @@ const ViewAssignments = styled.div`
       flex-direction: column;
       flex : 0.5;
       overflow-y : scroll;
+  }
+
+  .arrow_back_icon{
+    &:hover {
+      color: #6d6969;
+      cursor: pointer;
+    }
   }
 
  

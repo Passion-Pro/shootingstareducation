@@ -17,7 +17,11 @@ function VewAssignmentPopup() {
     },
     dispatch,
   ] = useStateValue();
-  const[submittedAssignmentDetails , setSubmittedAssignmentDetails] = useState([]);
+  const [submittedAssignmentDetails, setSubmittedAssignmentDetails] = useState(
+    []
+  );
+
+  const history = useHistory();
 
   useEffect(() => {
     if (
@@ -39,7 +43,7 @@ function VewAssignmentPopup() {
           querySnapshot.forEach((doc) => {
             // doc.data() is never undefined for query doc snapshots
             console.log(doc.id, " => ", doc.data());
-           setSubmittedAssignmentDetails(doc.data())
+            setSubmittedAssignmentDetails(doc.data());
           });
         })
         .catch((error) => {
@@ -51,7 +55,7 @@ function VewAssignmentPopup() {
     userCourseId,
     userSubjectId,
     assignmentStudentDetails,
-    submittedAssignmentDetails
+    submittedAssignmentDetails.length,
   ]);
 
   const close_assignment_details = () => {
@@ -64,6 +68,45 @@ function VewAssignmentPopup() {
       assignmentStudentDetails: [],
     });
   };
+
+  const view_given_assignment_pdf = (e) => {
+    e.preventDefault();
+    history.push("/viewPdf");
+    dispatch({
+      type : actionTypes.SET_VIEW_PDF,
+      viewPdf : true
+    });
+    dispatch({
+      type : actionTypes.SET_PDF_URL,
+      pdfUrl : assignmentStudentDetails?.assignmentUrl
+    })
+  };
+  
+  const view_submitted_assignment_pdf = (e) => {
+    e.preventDefault();
+    history.push("/viewPdf")
+    dispatch({
+      type : actionTypes.SET_VIEW_PDF,
+      viewPdf : true
+    });
+    dispatch({
+      type : actionTypes.SET_PDF_URL,
+      pdfUrl : submittedAssignmentDetails?.correctedAssignmentUrl
+    })
+  };
+
+  const view_corrected_assignmnent_pdf = (e) => {
+    e.preventDefault();
+    history.push("/viewPdf")
+    dispatch({
+      type : actionTypes.SET_VIEW_PDF,
+      viewPdf : true
+    });
+    dispatch({
+      type : actionTypes.SET_PDF_URL,
+      pdfUrl : submittedAssignmentDetails?.answerUrl
+    })
+  }
 
   return (
     <>
@@ -83,32 +126,29 @@ function VewAssignmentPopup() {
               {assignmentStudentDetails?.description}
             </p>
             {submittedAssignmentDetails?.assignmentUrl && (
-              <div className="assignment_attatched">
-              <a href = {submittedAssignmentDetails?.assignmentUrl}>
-                 {submittedAssignmentDetails?.assignmentUploadedName}
-              </a>
-            </div>
+              <div
+                className="assignment_attatched"
+                onClick={view_given_assignment_pdf}
+              >
+                <p>{assignmentStudentDetails?.assignmentUploadedName}</p>
+              </div>
             )}
-            <div className="assigment_submitted">
-            <p className="submitted_assignment">Submitted Assignment:</p>
-              <a href={submittedAssignmentDetails?.answerUrl}>
-                {submittedAssignmentDetails?.answerFileName}
-              </a>
+            <div className="assignment_submitted">
+              <p className="submitted_assignment">Submitted Assignment:</p>
+                <p className = "file_name" onClick = {view_submitted_assignment_pdf}>{submittedAssignmentDetails?.answerFileName}</p>
             </div>
-           {submittedAssignmentDetails?.marks && (
-                <div className="marks_container">
+            {submittedAssignmentDetails?.marks && (
+              <div className="marks_container">
                 <p>Marks:</p>
                 <span>{submittedAssignmentDetails?.marks}</span>
               </div>
-           )}
-              {submittedAssignmentDetails?.correctedAssignmentUrl && (
-                <div>
+            )}
+            {submittedAssignmentDetails?.correctedAssignmentUrl && (
+              <div>
                 <p className="submitted_assignment">Assignment Returned:</p>
-                <a href = {submittedAssignmentDetails?.correctedAssignmentUrl}>
-                  {submittedAssignmentDetails?.correctedAssignmentName}
-                </a>
+                  <p className = "file_name" onClick = {view_corrected_assignmnent_pdf}>{submittedAssignmentDetails?.correctedAssignmentName}</p>
               </div>
-              )}
+            )}
           </div>
         </Container>
       )}
@@ -162,12 +202,19 @@ const Container = styled.div`
     padding-left: 15px;
     width: 90%;
     border-radius: 10px;
-
-    a{
-      text-decoration: none;
-      color : black; 
-      width : 100%;  
+    
+    p{
+      max-width : 100%;
+      overflow-x : hidden;
+      margin-bottom : 0px;
     }
+
+    &:hover {
+      background-color : #e2e0e0;
+      cursor: pointer;
+    }
+
+
   }
 
   .submitted_assignment {
@@ -178,9 +225,17 @@ const Container = styled.div`
   .assignment_submitted{
     font-size: 15px;
 
-    &:hover {
+    .file_name{
+      max-width : 90%;
+      overflow-x : hidden;
+      margin-bottom : 0px;
+      text-decoration : underline;
+
+      &:hover {
       color: blue;
       cursor: pointer;
+    }
+
     }
   }
 
@@ -189,14 +244,12 @@ const Container = styled.div`
     margin-top: 10px;
     span {
       margin-left: 3px;
-      padding : 0px;
+      padding: 0px;
     }
     p {
       margin-bottom: 0px;
     }
   }
-
-  
 `;
 
 export default VewAssignmentPopup;
