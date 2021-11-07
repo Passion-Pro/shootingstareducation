@@ -12,7 +12,6 @@ export const initialState = {
   course_SubjectID: null,
   course_Main: null,
   course_MainID: null,
-  openAskDoubtPopup: false,
   userInfo: [],
   userCourseId: null,
   userSubjectId: null,
