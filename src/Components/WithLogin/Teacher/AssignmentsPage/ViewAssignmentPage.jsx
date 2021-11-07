@@ -96,7 +96,7 @@ function ViewAssignmentPage() {
                </div>
                <div className="students_assignment_report">
                {answers.map((answer) => 
-                <StudentAssignmentStatus name  = {answer.data.name} answerUrl = {answer.data.answerUrl} fileName = {answer.data.fileName} assignmentName = {assignmentTeacherDetails?.name}/>
+                <StudentAssignmentStatus name  = {answer.data.name} answerUrl = {answer.data.answerUrl} fileName = {answer.data.fileName} assignmentName = {assignmentTeacherDetails?.name} submissionDate  = {assignmentTeacherDetails?.submissionDate}/>
                )}  
                </div>
            </ViewAssignments>  

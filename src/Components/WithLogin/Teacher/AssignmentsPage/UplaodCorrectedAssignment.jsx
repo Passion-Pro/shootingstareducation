@@ -23,7 +23,9 @@ function UploadCorrectedAssignment() {
       signInAs,
       assignmentTeacherDetails,
       studentName,
-      uploadCorrectedAssignment
+      uploadCorrectedAssignment,
+      teacherCourse, 
+      teacherSubject
     },
     dispatch,
   ] = useStateValue();
@@ -115,7 +117,7 @@ function UploadCorrectedAssignment() {
                   db.collection("students")
                     .doc(doc.id)
                     .collection("courses")
-                    .where("name", "==", signInAs.courseName)
+                    .where("name", "==", teacherCourse)
                     .get()
                     .then((querySnapshot) => {
                       querySnapshot.forEach((doc1) => {
@@ -127,7 +129,7 @@ function UploadCorrectedAssignment() {
                           .collection("courses")
                           .doc(doc1.id)
                           .collection("subjects")
-                          .where("name", "==", signInAs.courseSubject)
+                          .where("name", "==", teacherSubject)
                           .get()
                           .then((querySnapshot) => {
                             querySnapshot.forEach((doc2) => {

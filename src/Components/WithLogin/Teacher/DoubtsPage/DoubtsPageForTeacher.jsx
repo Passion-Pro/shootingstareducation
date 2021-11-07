@@ -30,6 +30,8 @@ function DoubtsPageForTeacher() {
       userSubjectId,
       chatName,
       sendPdf,
+      teacherCourse,
+      teacherSubject
     },
     dispatch,
   ] = useStateValue();
@@ -136,7 +138,7 @@ function DoubtsPageForTeacher() {
               db.collection("students")
                 .doc(doc.id)
                 .collection("courses")
-                .where("name", "==", signInAs.courseName)
+                .where("name", "==", teacherCourse)
                 .get()
                 .then((querySnapshot) => {
                   querySnapshot.forEach((doc1) => {
@@ -148,7 +150,7 @@ function DoubtsPageForTeacher() {
                       .collection("courses")
                       .doc(doc1.id)
                       .collection("subjects")
-                      .where("name", "==", signInAs.courseSubject)
+                      .where("name", "==", teacherSubject)
                       .get()
                       .then((querySnapshot) => {
                         querySnapshot.forEach((doc2) => {

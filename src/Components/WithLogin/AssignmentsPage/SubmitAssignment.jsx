@@ -40,6 +40,8 @@ function SubmitAssignment() {
   // onchange event
   const fileType = ["application/pdf"];
 
+  let submitted_date
+
   useEffect(() => {
     console.log(assignmentStudentDetails);
   }, [assignmentStudentDetails]);
@@ -83,8 +85,26 @@ function SubmitAssignment() {
 
   const submit_assignment = async (e) => {
     e.preventDefault();
-    console.log(pdfFile);
-    console.log(signInAs)
+    // console.log(pdfFile);
+    console.log(signInAs);
+    console.log(submitted_date);
+
+    var now = new Date();
+    var now_date = parseInt(now.getDate());
+    var now_month = parseInt(now.getMonth());
+
+    now_month++;
+    if (now_month < 10) {
+      now_month = "0" + now_month;
+    }
+    if(now_date < 10){
+      now_date = "0" + now_date
+    }
+    var now_year = parseInt(now.getFullYear());
+
+    submitted_date = now_year + "-" + now_month + "-" + now_date;
+
+
     const upload = storage.ref(`files/${fileName}`).put(file);
     upload.on(
       "state_changed",
@@ -138,7 +158,7 @@ function SubmitAssignment() {
         .collection("Subjects")
         .doc(course_SubjectID)
         .collection("assignments")
-        .where("name", "==", assignmentStudentDetails.name)
+        .where("name", "==", assignmentStudentDetails?.name)
         .get()
         .then((querySnapshot) => {
           querySnapshot.forEach((doc) => {
@@ -155,7 +175,7 @@ function SubmitAssignment() {
                 name: signInAs.name,
                 answerUrl: fileUrl,
                 fileName : fileName,
-                timestamp : firebase.firestore.FieldValue.serverTimestamp(),
+                timestamp : submitted_date
               });
           });
         })

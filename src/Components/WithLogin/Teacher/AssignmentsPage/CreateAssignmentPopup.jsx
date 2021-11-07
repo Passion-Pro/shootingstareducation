@@ -17,6 +17,8 @@ function CreateAssignmentPopup() {
       teacherSubjectId,
       signInAs,
       createAssignmentDetails,
+      teacherCourse,
+      teacherSubject
     },
     dispatch,
   ] = useStateValue();
@@ -56,6 +58,7 @@ function CreateAssignmentPopup() {
     setInput2("");
     setInput3();
     console.log(assignments);
+    console.log(signInAs)
   }, [students.length, user, teacherCourseId, openCreateAssignmentPopup , teacherSubjectId]);
   const close_popup = (e) => {
     e.preventDefault();
@@ -109,7 +112,7 @@ function CreateAssignmentPopup() {
                 db.collection("students")
                   .doc(doc.id)
                   .collection("courses")
-                  .where("name", "==", signInAs.courseName)
+                  .where("name", "==", teacherCourse)
                   .get()
                   .then((querySnapshot) => {
                     querySnapshot.forEach((doc1) => {
@@ -121,7 +124,7 @@ function CreateAssignmentPopup() {
                         .collection("courses")
                         .doc(doc1.id)
                         .collection("subjects")
-                        .where("name", "==", signInAs.courseSubject)
+                        .where("name", "==", teacherSubject)
                         .get()
                         .then((querySnapshot) => {
                           querySnapshot.forEach((doc2) => {
@@ -178,7 +181,7 @@ function CreateAssignmentPopup() {
                 db.collection("students")
                   .doc(doc.id)
                   .collection("courses")
-                  .where("name", "==", signInAs.courseName)
+                  .where("name", "==", teacherCourse)
                   .get()
                   .then((querySnapshot) => {
                     querySnapshot.forEach((doc1) => {
@@ -190,7 +193,7 @@ function CreateAssignmentPopup() {
                         .collection("courses")
                         .doc(doc1.id)
                         .collection("subjects")
-                        .where("name", "==", signInAs.courseSubject)
+                        .where("name", "==", teacherSubject)
                         .get()
                         .then((querySnapshot) => {
                           querySnapshot.forEach((doc2) => {
