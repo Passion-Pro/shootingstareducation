@@ -23,6 +23,7 @@ function UploadCorrectedAssignment() {
       signInAs,
       assignmentTeacherDetails,
       studentName,
+      uploadCorrectedAssignment
     },
     dispatch,
   ] = useStateValue();
@@ -41,8 +42,10 @@ function UploadCorrectedAssignment() {
   const fileType = ["application/pdf"];
 
   useEffect(() => {
-    console.log(assignmentTeacherDetails);
-  }, [assignmentTeacherDetails]);
+      if(uploadCorrectedAssignment === false) {
+        history.push("/AssignmentsPage")
+      }
+  }, [assignmentTeacherDetails , uploadCorrectedAssignment]);
 
   const defaultLayoutPluginInstance = defaultLayoutPlugin();
 
@@ -78,7 +81,7 @@ function UploadCorrectedAssignment() {
   };
 
   const back_to_previous_page = () => {
-    history.goBack();
+    history.push("/AssignmentsPage")
   };
 
   const submit_assignment = async (e) => {

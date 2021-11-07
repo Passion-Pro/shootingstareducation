@@ -84,6 +84,10 @@ function StudentAssignmentStatus({
       type: actionTypes.SET_STUDENT_NAME,
       studentName: name,
     });
+    dispatch({
+      type : actionTypes.UPLOAD_CORRECTED_ASSIGNMENT,
+       uploadCorrectedAssignment : true,
+    });
   };
 
   const view_pdf = (e) => {

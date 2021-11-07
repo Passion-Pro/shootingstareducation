@@ -91,7 +91,7 @@ function VewAssignmentPopup() {
     });
     dispatch({
       type : actionTypes.SET_PDF_URL,
-      pdfUrl : submittedAssignmentDetails?.correctedAssignmentUrl
+      pdfUrl : submittedAssignmentDetails?.answerUrl
     })
   };
 
@@ -104,7 +104,7 @@ function VewAssignmentPopup() {
     });
     dispatch({
       type : actionTypes.SET_PDF_URL,
-      pdfUrl : submittedAssignmentDetails?.answerUrl
+      pdfUrl : submittedAssignmentDetails?.correctedAssignmentUrl
     })
   }
 
@@ -144,7 +144,7 @@ function VewAssignmentPopup() {
               </div>
             )}
             {submittedAssignmentDetails?.correctedAssignmentUrl && (
-              <div>
+              <div className="assignment_submitted">
                 <p className="submitted_assignment">Assignment Returned:</p>
                   <p className = "file_name" onClick = {view_corrected_assignmnent_pdf}>{submittedAssignmentDetails?.correctedAssignmentName}</p>
               </div>

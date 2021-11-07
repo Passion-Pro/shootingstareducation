@@ -37,6 +37,9 @@ export const initialState = {
   viewPdf : false,
   pdfUrl : null,
   openViewAssignmentPopup : false,
+  studentName : null,
+  assignmentTeacherDetails : null,
+  uploadCorrectedAssignment : false,
 };
 
 export const actionTypes = {
@@ -81,6 +84,9 @@ export const actionTypes = {
   OPEN_VIEW_ASSIGNMENT_POPUP: 'OPEN_VIEW_ASSIGNMENT_POPUP',
   CREATE_ASSIGNMENT_DETAILS : "CREATE_ASSIGNMENT_DETAILS",
   SET_ASSIGNMENT_STUDENT_DETAILS : "SET_ASSIGNMENT_STUDENT_DETAILS",
+  SET_STUDENT_NAME : "SET_STUDENT_NAME",
+  SET_ASSIGNMENT_TEACHER_DETAILS : "SET_ASSIGNMENT_TEACHER_DETAILS",
+  UPLOAD_CORRECTED_ASSIGNMENT : "UPLOAD_CORRECTED_ASSIGNMENT",
 };
 
 const reducer = (state, action) => {
@@ -284,6 +290,21 @@ const reducer = (state, action) => {
       return {
         ...state,
         openViewAssignmentPopup: action.openViewAssignmentPopup,
+      }
+    case actionTypes.SET_STUDENT_NAME:
+      return {
+        ...state,
+        studentName : action.studentName,
+      }
+    case actionTypes.SET_ASSIGNMENT_TEACHER_DETAILS:
+      return {
+        ...state,
+        assignmentTeacherDetails : action.assignmentTeacherDetails,
+      }
+    case actionTypes.UPLOAD_CORRECTED_ASSIGNMENT:
+      return {
+        ...state,
+        uploadCorrectedAssignment: action.uploadCorrectedAssignment,
       }
     default:
       return state;

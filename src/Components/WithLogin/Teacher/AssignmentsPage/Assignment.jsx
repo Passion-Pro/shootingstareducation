@@ -10,7 +10,16 @@ function Assignment({name , description , date ,  assignmentUrl , assignmentUplo
     const open_assignment_details = (e) => {
         e.preventDefault();
         console.log("Id is" , id)
-        history.push(`/ViewAssignment/${id}`)
+        history.push(`/ViewAssignment/${id}`);
+        dispatch({
+            type : actionTypes.SET_ASSIGNMENT_TEACHER_DETAILS,
+            assignmentTeacherDetails : {
+                name : name,
+                description : description,
+                assignmentUrl : assignmentUrl,
+                id : id
+            }
+        })
       }
     return (
        <>
