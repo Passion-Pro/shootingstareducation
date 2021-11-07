@@ -58,6 +58,7 @@ function App() {
           user: auth,
         });
       } else {
+        
       }
     });
   }, []);
@@ -95,10 +96,7 @@ function App() {
           </div>
         </Route>
         {/* for check docuemnt 3/11/2021 */}
-
-        <Route path="/checkdocument">
-          <CheckDocument />
-        </Route>
+ 
 
         <Route path="/notification">
           <Notification />
@@ -134,6 +132,8 @@ function App() {
             <Main />
           )}
         </Route>
+        {/* </Route> */}
+        {/* <Route path="/main"> */}
         <Route path="/AssignmentsPage">
           {signInAs && signInAs.value === "teacher" ? (
             <AssignmentsPageForTeacher />
@@ -181,10 +181,23 @@ function App() {
         <Route path="/signIn">
           <Login />
         </Route>
+        <Route path="/AssignmentsPage">
+          <AssignmentsPage />
+        </Route>
         <Route path="/NoticesPage">
           <NoticesPage />
         </Route>
         <Route path="/DoubtsPage">
+          <DoubtsPage />
+        </Route>
+        <Route path = "/AssignmentsPageForTeachers">
+          <AssignmentsPageForTeacher/>
+        </Route>
+        <Route path = "/DoubtsPageForTeachers">
+          <DoubtsPageForTeacher/>
+        </Route>
+        <Route path = "/doubtsMessagesPageForTeachers">
+          <MessagesSectionForMobile/>
           {signInAs && signInAs.value === "teacher" ? (
             <DoubtsPageForTeacher />
           ) : (

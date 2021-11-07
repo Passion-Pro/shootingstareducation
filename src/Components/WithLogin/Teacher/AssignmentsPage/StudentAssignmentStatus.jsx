@@ -1,10 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import CancelIcon from "@mui/icons-material/Cancel";
-import db from "../../../../firebase";
-import { useHistory } from "react-router-dom";
-import { actionTypes } from "../../../../reducer";
-import { useStateValue } from "../../../../StateProvider";
+import CancelIcon from '@mui/icons-material/Cancel';
 
 function StudentAssignmentStatus({
   name,
@@ -165,7 +161,7 @@ function StudentAssignmentStatus({
   return (
     <>
       <Container>
-        <p className="student_name">{name}</p>
+        <p className = "student_name">Ronak</p>
         {submissiondetails === false ? (
           <span onClick={view_details}>View details</span>
         ) : (
@@ -208,8 +204,9 @@ const Container = styled.div`
   width: 100%;
   margin-bottom: 10px;
   padding: 5px;
-
-  .student_name {
+  border-radius: 5px;
+  background-color: #e4e4e4;
+  .student_name{
     margin-bottom: 0px;
   }
   span {

@@ -1,14 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
 import { useStateValue } from "../../../../StateProvider";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 import CloseIcon from "@mui/icons-material/Close";
 import { actionTypes } from "../../../../reducer";
-import db from "../../../../firebase";
-import firebase from "firebase";
-import { useHistory } from "react-router-dom";
 
 function CreateAssignmentPopup() {
+  const [{ openCreateAssignmentPopup }, dispatch] = useStateValue();
+
   const [
     {
       openCreateAssignmentPopup,
@@ -249,46 +248,18 @@ function CreateAssignmentPopup() {
             </div>
             <div className="set_assignment_name">
               <p>Assignment Name:</p>
-              <input
-                type="text"
-                placeholder="Set assignment name"
-                value={input1}
-                onChange={(e) => setInput1(e.target.value)}
-              />
+              <input type="text" placeholder="Set assignment name" />
             </div>
             <div className="set_assignment_description">
-              <p>Assignment description:</p>
-              <textarea
-                name=""
-                id=""
-                cols="30"
-                rows="10"
-                placeholder="Type assignment description"
-                value={input2}
-                onChange={(e) => setInput2(e.target.value)}
-              ></textarea>
-            </div>
-            <div className="attach_assignment">
-              <AttachFileIcon className="attach_file_icon" />
-              <p onClick={(e) => history.push("uploadCreatedAssignment")}>
-                Attatch file
-              </p>
-            </div>
-            <div className="assignment_attatched">
-              <a href={createAssignmentDetails?.url}>
-                {createAssignmentDetails?.name}
-              </a>
+              <p>Assignmnet description:</p>
+              <textarea name="" id="" cols="30" rows="10" placeholder = "Type assignment description"></textarea>
             </div>
             <div className="set_assignment_due_date">
-              <p>Assignment Submission date:</p>
-              <input
-                type="date"
-                value={input3}
-                onChange={(e) => setInput3(e.target.value)}
-              />
+                <p>Assignment Submission date:</p>
+                <input type="date" />
             </div>
             <div className="create_assignment_button_div">
-              <button onClick={create_assignment}>Create</button>
+                <button>Create</button>
             </div>
           </div>
         </Container>
@@ -321,7 +292,7 @@ const Container = styled.div`
     flex-direction: column;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.24);
     padding: 10px;
-    padding-left: 15px;
+    padding-left : 15px;
 
     .popup_close {
       display: flex;
@@ -367,17 +338,16 @@ const Container = styled.div`
         border: 1px solid lightgray;
         border-radius: 5px;
         padding: 5px;
-        padding-left: 10px;
-        padding-right: 10px;
-        margin-bottom: 10px;
+        padding-left : 10px;
+        padding-right : 10px;
       }
     }
 
-    .set_assignment_due_date {
+    .set_assignment_due_date{
       display: flex;
       justify-content: space-between;
       width: 90%;
-      margin-top: 20px;
+      margin-top : 20px; 
 
       input {
         border-radius: 6px;
@@ -385,59 +355,28 @@ const Container = styled.div`
         padding-right: 5px;
         border: 1px solid gray;
         outline-width: 0px;
-        width: 50%;
+        width : 50%;
       }
       p {
         margin-top: 5px;
       }
     }
 
-    .attach_assignment {
-      display: flex;
-      margin-left: 15px;
-      p {
-        text-decoration: underline;
-        font-size: 15px;
-        font-style: italic;
-        &:hover {
-          color: blue;
-          cursor: pointer;
-        }
-      }
-    }
-
-    .attach_file_icon {
-      color: blue;
-      font-style: italic;
-      font-size: 21px;
-    }
-
-    .create_assignment_button_div {
+    .create_assignment_button_div{
       display: flex;
       justify-content: flex-end;
-      margin-top: 20px;
+      margin-top : 20px;
       margin-right: 10px;
-      button {
-        width: 100px;
-        border-radius: 20px;
-        background-color: #1183e0;
-        color: white;
-        &:hover {
-          cursor: pointer;
-          background-color: #63b3f5;
-        }
-      }
-    }
-
-    .assignment_attatched{
-      max-width: 90%;
-
-      a{
-        max-width: 90%;
-        overflow: hidden;
-        display : flex;
-        flex-wrap: wrap;
-      }
+      button{
+        width : 100px;
+          border-radius : 20px;
+          background-color : #1183e0;
+          color : white;
+          &:hover{
+              cursor : pointer;
+              background-color : #63b3f5;
+          }
+      }  
     }
   }
 `;

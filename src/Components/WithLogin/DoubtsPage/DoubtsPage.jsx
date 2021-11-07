@@ -47,12 +47,7 @@ function DoubtsPage() {
       .collection("messagesToTeacher")
       .orderBy("timestamp", "asc")
       .onSnapshot((snapshot) =>
-      setMessages(
-        snapshot.docs.map((doc) => ({
-          data: doc.data(),
-          id : doc.id
-        }))
-      )
+        setMessages(snapshot.docs.map((doc) => doc.data()))
       );
 
       setInput('');
@@ -242,15 +237,7 @@ function DoubtsPage() {
             {openDoubtReplies === false ? (
               <div className="doubtBox_doubts">
                 {messages.map((message) => 
-                  <Doubt
-                  name={message.data.name}
-                  message={message.data.message}
-                  timestamp={message.data.timestamp}
-                  type = {message.data.type}
-                  fileName = {message.data.fileName}
-                  fileUrl = {message.data.fileUrl}
-                  id = {message.id}
-                />
+                  <Doubt name = {message.name} message = {message.message} timestamp = {message.timestamp}/>
                 )}
               </div>
             ) : (
