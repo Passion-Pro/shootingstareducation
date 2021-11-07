@@ -84,7 +84,40 @@ function StudentAssignmentStatus({
       type: actionTypes.SET_STUDENT_NAME,
       studentName: name,
     });
+    dispatch({
+      type : actionTypes.UPLOAD_CORRECTED_ASSIGNMENT,
+       uploadCorrectedAssignment : true,
+    });
   };
+
+  const view_pdf = (e) => {
+    e.preventDefault();
+    history.push("/viewPdf");
+    dispatch({
+      type : actionTypes.SET_VIEW_PDF,
+      viewPdf : true
+    });
+    dispatch({
+      type : actionTypes.SET_PDF_URL,
+      pdfUrl : checkedAssignmentDetails?.correctedAssignmentName
+    })
+  };
+
+  const view_answer_pdf = (e) => {
+    e.preventDefault();
+    history.push("/viewPdf");
+    dispatch({
+      type : actionTypes.SET_VIEW_PDF,
+      viewPdf : true
+    });
+    dispatch({
+      type : actionTypes.SET_PDF_URL,
+      pdfUrl : answerUrl
+    })
+  };
+  
+
+
   return (
     <>
       <Container>
@@ -98,12 +131,12 @@ function StudentAssignmentStatus({
               <CancelIcon className="cancel_icon" onClick={close_details} />
             </div>
             <div className="submitted_assignment_name">
-              <a href={answerUrl}>{fileName}</a>
+              <p className = "file_name" onClick = {view_answer_pdf}>{fileName}</p>
             </div>
             {checkedAssignmentDetails?.correctedAssignmentUrl ? (
              <div className = "corrected_assignment_details">
                <p>Corrected Assignment:</p>
-               <a href={checkedAssignmentDetails?.correctedAssignmentUrl}>{checkedAssignmentDetails?.correctedAssignmentName}</a>
+               <p className = "file_name" onClick = {view_pdf}>{checkedAssignmentDetails?.correctedAssignmentName}</p>
              </div>
             ) : (
               <button onClick={goToUploadPage}>
@@ -153,11 +186,17 @@ const Container = styled.div`
     .submitted_assignment_name {
       font-size: 15px;
 
-      &:hover {
-        color: blue;
-        cursor: pointer;
-      }
+      .file_name{
+      max-width : 90%;
+      overflow-x : hidden;
+      margin-bottom : 0px;
+      text-decoration : underline;
 
+      &:hover {
+      color: blue;
+      cursor: pointer;
+    }
+  }
       span {
         padding: 0px !important;
       }
@@ -217,14 +256,17 @@ const Container = styled.div`
     font-size: 12px;
      margin-bottom: 0px;
    }
-   a{
-    font-size: 15px;
+   .file_name{
+      max-width : 90%;
+      overflow-x : hidden;
+      margin-bottom : 0px;
+      text-decoration : underline;
 
-&:hover {
-  color: blue;
-  cursor: pointer;
-}
-   }
+      &:hover {
+      color: blue;
+      cursor: pointer;
+    }
+  }
 
 
   }

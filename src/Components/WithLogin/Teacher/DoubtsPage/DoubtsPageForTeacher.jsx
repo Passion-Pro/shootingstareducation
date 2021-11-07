@@ -13,7 +13,10 @@ import DoubtReplies from "../../DoubtsPage/DoubtReplies";
 import db from "../../../../firebase";
 import firebase from "firebase";
 import HeaderTeacher from "../HeaderTeacher/HeaderTeacher";
-import firebase from "firebase";
+import ImageIcon from "@mui/icons-material/Image";
+import VideocamIcon from "@mui/icons-material/Videocam";
+import InsertDriveFileRoundedIcon from "@mui/icons-material/InsertDriveFileRounded";
+import UploadPdf from "./UploadPdf";
 
 function DoubtsPageForTeacher() {
   const [
@@ -26,6 +29,7 @@ function DoubtsPageForTeacher() {
       userCourseId,
       userSubjectId,
       chatName,
+      sendPdf,
     },
     dispatch,
   ] = useStateValue();
@@ -34,11 +38,7 @@ function DoubtsPageForTeacher() {
   const [messages, setMessages] = useState([]);
 
   useEffect(() => {
-    if (
-      user &&
-      teacherCourseId &&
-      teacherSubjectId
-    ) {
+    if (user && teacherCourseId && teacherSubjectId) {
       console.log(teacherCourseId);
 
       setInput("");
@@ -64,39 +64,51 @@ function DoubtsPageForTeacher() {
     userSubjectId,
     messages.length,
   ]);
-   
-  useEffect(() => {
-    if(user && teacherCourseId && teacherSubjectId && chatName){
-      db.collection("Courses")
-    .doc(teacherCourseId)
-    .collection("Subjects")
-    .doc(teacherSubjectId)
-    .collection("doubtRooms")
-    .where("name", "==", chatName)
-    .get()
-    .then((querySnapshot) => {
-      querySnapshot.forEach((doc) => {
-        // doc.data() is never undefined for query doc snapshots
-        console.log(doc.id, " => ", doc.data());
 
-        db.collection("Courses")
-          .doc(teacherCourseId)
-          .collection("Subjects")
-          .doc(teacherSubjectId)
-          .collection("doubtRooms")
-          .doc(doc.id)
-          .collection("messages")
-          .orderBy("timestamp", "asc")
-          .onSnapshot((snapshot) =>
-            setMessages(snapshot.docs.map((doc) => doc.data()))
-          );
-      });
-    })
-    .catch((error) => {
-      console.log("Error getting documents: ", error);
-    });
+  useEffect(() => {
+    if (user && teacherCourseId && teacherSubjectId && chatName) {
+      db.collection("Courses")
+        .doc(teacherCourseId)
+        .collection("Subjects")
+        .doc(teacherSubjectId)
+        .collection("doubtRooms")
+        .where("name", "==", chatName)
+        .get()
+        .then((querySnapshot) => {
+          querySnapshot.forEach((doc) => {
+            // doc.data() is never undefined for query doc snapshots
+            console.log(doc.id, " => ", doc.data());
+
+            db.collection("Courses")
+              .doc(teacherCourseId)
+              .collection("Subjects")
+              .doc(teacherSubjectId)
+              .collection("doubtRooms")
+              .doc(doc.id)
+              .collection("messages")
+              .orderBy("timestamp", "asc")
+              .onSnapshot((snapshot) =>
+                setMessages(
+                  snapshot.docs.map((doc) => ({
+                    data: doc.data(),
+                    id : doc.id
+                  }))
+                )
+              );
+          });
+        })
+        .catch((error) => {
+          console.log("Error getting documents: ", error);
+        });
     }
-  }, [chatName])
+  }, [chatName, sendPdf]);
+
+  useEffect(() => {
+    dispatch({
+      type: actionTypes.SET_SEND_PDF,
+      sendPdf: false,
+    });
+  } , [chatName])
 
   useEffect(() => {
     dispatch({
@@ -109,12 +121,10 @@ function DoubtsPageForTeacher() {
 
   const sendMessage = (e) => {
     e.preventDefault();
-    if(input!== "")
-    { 
+    if (input !== "") {
       console.log(signInAs);
       console.log(input);
       if (chatName && input) {
-  
         db.collection("students")
           .where("name", "==", chatName)
           .get()
@@ -122,7 +132,7 @@ function DoubtsPageForTeacher() {
             querySnapshot.forEach((doc) => {
               // doc.data() is never undefined for query doc snapshots
               console.log(doc.id, " => ", doc.data());
-              console.log(signInAs)
+              console.log(signInAs);
               db.collection("students")
                 .doc(doc.id)
                 .collection("courses")
@@ -132,7 +142,7 @@ function DoubtsPageForTeacher() {
                   querySnapshot.forEach((doc1) => {
                     // doc.data() is never undefined for query doc snapshots
                     console.log(doc1.id, " => ", doc1.data());
-  
+
                     db.collection("students")
                       .doc(doc.id)
                       .collection("courses")
@@ -144,7 +154,7 @@ function DoubtsPageForTeacher() {
                         querySnapshot.forEach((doc2) => {
                           // doc.data() is never undefined for query doc snapshots
                           console.log(doc2.id, " => ", doc2.data());
-                          console.log("REACHED" , doc.id , doc1.id , doc2.id)
+                          console.log("REACHED", doc.id, doc1.id, doc2.id);
 
                           db.collection("students")
                             .doc(doc.id)
@@ -156,6 +166,7 @@ function DoubtsPageForTeacher() {
                             .add({
                               name: chatName,
                               message: input,
+                              type : "text",
                               timestamp:
                                 firebase.firestore.FieldValue.serverTimestamp(),
                             });
@@ -168,44 +179,53 @@ function DoubtsPageForTeacher() {
           .catch((error) => {
             console.log("Error getting documents: ", error);
           });
-          db.collection("Courses")
-            .doc(teacherCourseId)
-            .collection("Subjects")
-            .doc(teacherSubjectId)
-            .collection("doubtRooms")
-            .where("name", "==", chatName)
-            .get()
-            .then((querySnapshot) => {
-              querySnapshot.forEach((doc) => {
-                // doc.data() is never undefined for query doc snapshots
-                console.log(doc.id, " => ", doc.data());
-  
-                db.collection("Courses")
-                  .doc(teacherCourseId)
-                  .collection("Subjects")
-                  .doc(teacherSubjectId)
-                  .collection("doubtRooms")
-                  .doc(doc.id)
-                  .collection("messages")
-                  .add({
-                    name: chatName,
-                    message: input,
-                    timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-                  });
-              });
-            })
-            .catch((error) => {
-              console.log("Error getting documents: ", error);
+        db.collection("Courses")
+          .doc(teacherCourseId)
+          .collection("Subjects")
+          .doc(teacherSubjectId)
+          .collection("doubtRooms")
+          .where("name", "==", chatName)
+          .get()
+          .then((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+              // doc.data() is never undefined for query doc snapshots
+              console.log(doc.id, " => ", doc.data());
+
+              db.collection("Courses")
+                .doc(teacherCourseId)
+                .collection("Subjects")
+                .doc(teacherSubjectId)
+                .collection("doubtRooms")
+                .doc(doc.id)
+                .collection("messages")
+                .add({
+                  name: chatName,
+                  message: input,
+                  type : "text",
+                  timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                });
             });
+          })
+          .catch((error) => {
+            console.log("Error getting documents: ", error);
+          });
 
         setInput("");
       }
     }
   };
 
+  const open_send_Pdf_box = (e) => {
+    e.preventDefault();
+    dispatch({
+      type: actionTypes.SET_SEND_PDF,
+      sendPdf: true,
+    });
+  };
+
   return (
     <div className="doubtsPageforTeacher">
-      <HeaderTeacher/>
+      <HeaderTeacher />
       <Container>
         <DoubtBox>
           <div className="student_names">
@@ -220,17 +240,25 @@ function DoubtsPageForTeacher() {
             <div className="doubt_section_header">
               <p>{chatName}</p>
             </div>
+            {sendPdf === false ? (
               <div className="doubt_section_doubts_messages">
                 {console.log(messages)}
                 {messages.map((message) => (
-                  <Doubt
-                    name={message.name}
-                    message={message.message}
-                    timestamp={message.timestamp}
-                  />
+                 <Doubt
+                 name={message.data.name}
+                 message={message.data.message}
+                 timestamp={message.data.timestamp}
+                 type = {message.data.type}
+                 fileName = {message.data.fileName}
+                 fileUrl = {message.data.fileUrl}
+                 id = {message.id}
+               />
                 ))}
               </div>
-            <div className="doubtBox_footer">
+            ) : (
+              <UploadPdf />
+            )}
+            {sendPdf === false && (<div className="doubtBox_footer">
               <div className="send_Message_box">
                 <input
                   type="text"
@@ -238,13 +266,22 @@ function DoubtsPageForTeacher() {
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                 />
-                <div className="icons">
-                  <AttachFileIcon className="attach_file_icon icon" />
-                  <InsertEmoticonIcon className="emoji_icon icon" />
-                  <SendIcon className="send_icon icon" onClick={sendMessage} />
+                <div className="doutBox_footer_icons">
+                  <div>
+                    <ImageIcon className="footer_icon" />
+                    <VideocamIcon className="footer_icon" />
+                    <InsertDriveFileRoundedIcon
+                      className="footer_icon"
+                      onClick={open_send_Pdf_box}
+                    />
+                  </div>
+                  <SendIcon
+                    className="footer_icon footer_send_icon"
+                    onClick={sendMessage}
+                  />
                 </div>
               </div>
-            </div>
+            </div>)}
           </div>
         </DoubtBox>
       </Container>
@@ -290,6 +327,27 @@ const DoubtBox = styled.div`
     padding: 5px;
     display: flex;
     flex-direction: row;
+  }
+
+  .doutBox_footer_icons {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding-left: 8px;
+  }
+
+  .footer_icon {
+    font-size: 15px;
+    margin-right: 3px;
+
+    &:hover {
+      cursor: pointer;
+      color: #6d6969;
+    }
+  }
+
+  .footer_send_icon {
+    font-size: 18px;
   }
 
   .send_Message_box {
@@ -343,7 +401,7 @@ const DoubtBox = styled.div`
     flex-direction: column;
     overflow-y: scroll;
     background-color: #5094ee;
-    padding-bottom : 10px;
+    padding-bottom: 10px;
   }
 `;
 

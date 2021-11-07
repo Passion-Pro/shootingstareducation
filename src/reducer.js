@@ -7,7 +7,7 @@ export const initialState = {
   openDoubtReplies: false,
   openAskDoubtPopup: false,
   openAssignmentPopupForTeacher: false,
-  openCreateAssignmentPopup: false,
+  openCreateAssignmentPopup: false, 
   course_Subject: null,
   course_SubjectID: null,
   course_Main: null,
@@ -33,6 +33,13 @@ export const initialState = {
   coursesArray: [],
   // image chat
   selectImageChat:null,
+  sendPdf : false,
+  viewPdf : false,
+  pdfUrl : null,
+  openViewAssignmentPopup : false,
+  studentName : null,
+  assignmentTeacherDetails : null,
+  uploadCorrectedAssignment : false,
 };
 
 export const actionTypes = {
@@ -71,6 +78,15 @@ export const actionTypes = {
   SET_STUDENT_COURSE: 'SET_STUDENT_COURSE',
   SET_STUDENT_COURSE_SUBJECT: 'SET_STUDENT_COURSE_SUBJECT',
   SET_CHATNAME: 'SET_CHATNAME',
+  SET_SEND_PDF : 'SET_SEND_PDF',
+  SET_VIEW_PDF : 'SET_VIEW_PDF',
+  SET_PDF_URL : 'SET_PDF_URL',
+  OPEN_VIEW_ASSIGNMENT_POPUP: 'OPEN_VIEW_ASSIGNMENT_POPUP',
+  CREATE_ASSIGNMENT_DETAILS : "CREATE_ASSIGNMENT_DETAILS",
+  SET_ASSIGNMENT_STUDENT_DETAILS : "SET_ASSIGNMENT_STUDENT_DETAILS",
+  SET_STUDENT_NAME : "SET_STUDENT_NAME",
+  SET_ASSIGNMENT_TEACHER_DETAILS : "SET_ASSIGNMENT_TEACHER_DETAILS",
+  UPLOAD_CORRECTED_ASSIGNMENT : "UPLOAD_CORRECTED_ASSIGNMENT",
 };
 
 const reducer = (state, action) => {
@@ -254,6 +270,41 @@ const reducer = (state, action) => {
       return {
         ...state,
         studentAssignmentName: action.studentAssignmentName,
+      }
+    case actionTypes.SET_SEND_PDF:
+      return {
+        ...state,
+        sendPdf: action.sendPdf,
+      }
+    case actionTypes.SET_VIEW_PDF:
+      return {
+        ...state,
+        viewPdf : action.viewPdf,
+      }
+    case actionTypes.SET_PDF_URL:
+      return {
+        ...state,
+        pdfUrl : action.pdfUrl,
+      }
+    case actionTypes.OPEN_VIEW_ASSIGNMENT_POPUP:
+      return {
+        ...state,
+        openViewAssignmentPopup: action.openViewAssignmentPopup,
+      }
+    case actionTypes.SET_STUDENT_NAME:
+      return {
+        ...state,
+        studentName : action.studentName,
+      }
+    case actionTypes.SET_ASSIGNMENT_TEACHER_DETAILS:
+      return {
+        ...state,
+        assignmentTeacherDetails : action.assignmentTeacherDetails,
+      }
+    case actionTypes.UPLOAD_CORRECTED_ASSIGNMENT:
+      return {
+        ...state,
+        uploadCorrectedAssignment: action.uploadCorrectedAssignment,
       }
     default:
       return state;

@@ -24,6 +24,21 @@ function AssignmentPopup() {
       assignmentStudentDetails : []
   })
   };
+
+  const view_pdf = (e) => {
+    e.preventDefault();
+    history.push("/viewPdf");
+    dispatch({
+      type : actionTypes.SET_VIEW_PDF,
+      viewPdf : true
+    });
+    dispatch({
+      type : actionTypes.SET_PDF_URL,
+      pdfUrl : assignmentStudentDetails?.assignmentUrl
+    })
+  }
+
+
   return (
     <>
       {openAsignmentPopup === true && (
@@ -40,10 +55,8 @@ function AssignmentPopup() {
               {assignmentStudentDetails?.description}
             </p>
            {assignmentStudentDetails?.assignmentUrl && (
-              <div className="assignment_attatched">
-              <a href = {assignmentStudentDetails?.assignmentUrl}>
-                {assignmentStudentDetails?.assignmentUploadedName}
-              </a>
+              <div className="assignment_attatched"  onClick = {view_pdf}>
+                <p>{assignmentStudentDetails?.assignmentUploadedName}</p>
             </div>
            )}
             <div className="attach_assignment">
@@ -141,8 +154,15 @@ const Container = styled.div`
        
     }
 
+    p{
+      max-width : 100%;
+      overflow-x : hidden;
+      margin-bottom : 0px;
+    }
+
     &:hover {
       background-color : #e2e0e0;
+      cursor: pointer;
     }
   }
 

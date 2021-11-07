@@ -127,7 +127,7 @@ function AssignmentsPage() {
 const Container = styled.div`
   display: flex;
   flex-direction: row;
-  height: 100%;
+  height: fit-content;
   padding-top: 10px;
   background-color: #7db3ff;
   
@@ -174,8 +174,7 @@ const Assignments = styled.div`
     flex-wrap: wrap;
     justify-content: center;
     margin-bottom: 10px;
-    height : 260px;
-    overflow-y : scroll;
+    height : fit-content;
   }
 
   .submitted_assignments {

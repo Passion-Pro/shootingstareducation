@@ -16,14 +16,13 @@ function UploadCorrectedAssignment() {
   const history = useHistory();
   const [
     {
-      openAsignmentPopup,
       user,
       teacherCourseId,
       teacherSubjectId,
       signInAs,
       assignmentTeacherDetails,
       studentName,
-      uploadCorrectedAssignment
+      chatName,
     },
     dispatch,
   ] = useStateValue();
@@ -40,12 +39,6 @@ function UploadCorrectedAssignment() {
 
   // onchange event
   const fileType = ["application/pdf"];
-
-  useEffect(() => {
-      if(uploadCorrectedAssignment === false) {
-        history.push("/AssignmentsPage")
-      }
-  }, [assignmentTeacherDetails , uploadCorrectedAssignment]);
 
   const defaultLayoutPluginInstance = defaultLayoutPlugin();
 
@@ -80,11 +73,19 @@ function UploadCorrectedAssignment() {
     }
   };
 
-  const back_to_previous_page = () => {
-    history.push("/AssignmentsPage")
+  const close_send_pdf = (e) => {
+    e.preventDefault();
+    dispatch({
+      type: actionTypes.SET_SEND_PDF,
+      sendPdf: false,
+    });
   };
 
-  const submit_assignment = async (e) => {
+  const back_to_previous_page = () => {
+    history.goBack();
+  };
+
+  const send_assignment = async (e) => {
     e.preventDefault();
     if (viewPdf) {
       const upload = storage.ref(`files/${fileName}`).put(file);
@@ -102,10 +103,9 @@ function UploadCorrectedAssignment() {
         (error) => console.log(error.code),
         async () => {
           const downloadURL = await upload.snapshot.ref.getDownloadURL();
-          const fileUrl = downloadURL;
-          if (marks && fileUrl && fileName) {
+          if (downloadURL && fileName) {
             db.collection("students")
-              .where("name", "==", studentName)
+              .where("name", "==", chatName)
               .get()
               .then((querySnapshot) => {
                 querySnapshot.forEach((doc) => {
@@ -141,30 +141,14 @@ function UploadCorrectedAssignment() {
                                 .doc(doc1.id)
                                 .collection("subjects")
                                 .doc(doc2.id)
-                                .collection("assignments")
-                                .where(
-                                  "name",
-                                  "==",
-                                  assignmentTeacherDetails?.name
-                                )
-                                .get()
-                                .then((querySnapshot) => {
-                                  querySnapshot.forEach((doc3) => {
-                                    console.log(doc3.id, "=>", doc3.data());
-                                    db.collection("students")
-                                      .doc(doc.id)
-                                      .collection("courses")
-                                      .doc(doc1.id)
-                                      .collection("subjects")
-                                      .doc(doc2.id)
-                                      .collection("assignments")
-                                      .doc(doc3.id)
-                                      .update({
-                                        correctedAssignmentUrl: fileUrl,
-                                        marks: marks,
-                                        correctedAssignmentName: fileName,
-                                      });
-                                  });
+                                .collection("messagesToTeacher")
+                                .add({
+                                  name: chatName,
+                                  fileName: fileName,
+                                  fileUrl: downloadURL,
+                                  type: "pdf",
+                                  timestamp:
+                                    firebase.firestore.FieldValue.serverTimestamp(),
                                 });
                             });
                           });
@@ -179,8 +163,8 @@ function UploadCorrectedAssignment() {
               .doc(teacherCourseId)
               .collection("Subjects")
               .doc(teacherSubjectId)
-              .collection("assignments")
-              .where("name", "==", assignmentTeacherDetails.name)
+              .collection("doubtRooms")
+              .where("name", "==", chatName)
               .get()
               .then((querySnapshot) => {
                 querySnapshot.forEach((doc) => {
@@ -191,28 +175,16 @@ function UploadCorrectedAssignment() {
                     .doc(teacherCourseId)
                     .collection("Subjects")
                     .doc(teacherSubjectId)
-                    .collection("assignments")
+                    .collection("doubtRooms")
                     .doc(doc.id)
-                    .collection("answers")
-                    .where("name", "==", studentName)
-                    .get()
-                    .then((querySnapshot) => {
-                      querySnapshot.forEach((doc1) => {
-                        console.log(doc1.id, "=>", doc1.data());
-                        db.collection("Courses")
-                          .doc(teacherCourseId)
-                          .collection("Subjects")
-                          .doc(teacherSubjectId)
-                          .collection("assignments")
-                          .doc(doc.id)
-                          .collection("answers")
-                          .doc(doc1.id)
-                          .update({
-                            correctedAssignmentUrl: fileUrl,
-                            marks: marks,
-                            correctedAssignmentName: fileName,
-                          });
-                      });
+                    .collection("messages")
+                    .add({
+                      name: chatName,
+                      fileName: fileName,
+                      fileUrl: downloadURL,
+                      type: "pdf",
+                      timestamp:
+                        firebase.firestore.FieldValue.serverTimestamp(),
                     });
                 });
               })
@@ -220,19 +192,13 @@ function UploadCorrectedAssignment() {
                 console.log("Error getting documents: ", error);
               });
 
-            console.log(fileUrl);
-          } else {
-            alert("Please re-enter all the details ");
+              dispatch({
+                type: actionTypes.SET_SEND_PDF,
+                sendPdf: false,
+              });
           }
         }
       );
-
-      dispatch({
-        type: actionTypes.OPEN_ASSIGNMENT_POPUP,
-        openAsignmentPopup: false,
-      });
-
-      history.push("/AssignmentsPage");
     } else {
       alert("Please upload the file");
     }
@@ -241,81 +207,65 @@ function UploadCorrectedAssignment() {
   return (
     <>
       <Container>
-        <Section>
-          <div className="submit_assignment_page_header">
-            <ArrowBackIcon
-              onClick={back_to_previous_page}
-              className="arrow_back_icon"
-            />
-            <p></p>
-          </div>
-          <div className="upload_pdf">
-            <input
-              type="file"
-              name="file"
-              onChange={handlePdfFileChange}
-              required
-            />
-            {pdfFileError && <div className="error-msg">{pdfFileError}</div>}
-            <button type="submit" className="" onClick={handlePdfFileSubmit}>
-              Upload
-            </button>
-          </div>
-          <p className="view_pdf">View Pdf</p>
-          <div className="pdf-container">
-            {/* show pdf conditionally (if we have one)  */}
-            {viewPdf && (
-              <>
-                <Worker workerUrl="https://unpkg.com/pdfjs-dist@2.6.347/build/pdf.worker.min.js">
-                  <Viewer
-                    fileUrl={viewPdf}
-                    plugins={[defaultLayoutPluginInstance]}
-                  />
-                </Worker>
-              </>
-            )}
+        <div className="submit_assignment_page_header">
+          <ArrowBackIcon
+            onClick={back_to_previous_page}
+            className="arrow_back_icon"
+            onClick={close_send_pdf}
+          />
+        </div>
+        <div className="upload_pdf">
+          <input
+            type="file"
+            name="file"
+            onChange={handlePdfFileChange}
+            required
+          />
+          {pdfFileError && <div className="error-msg">{pdfFileError}</div>}
+          <button type="submit" className="" onClick={handlePdfFileSubmit}>
+            Upload
+          </button>
+        </div>
+        <p className="view_pdf">View Pdf</p>
+        <div className="pdf-container">
+          {/* show pdf conditionally (if we have one)  */}
+          {viewPdf && (
+            <>
+              <Worker workerUrl="https://unpkg.com/pdfjs-dist@2.6.347/build/pdf.worker.min.js">
+                <Viewer
+                  fileUrl={viewPdf}
+                  plugins={[defaultLayoutPluginInstance]}
+                />
+              </Worker>
+            </>
+          )}
 
-            {/* if we dont have pdf or viewPdf state is null */}
-            {!viewPdf && <>No pdf file selected</>}
-          </div>
-          <div className="marks">
-            <p>Marks:</p>
-            <input
-              type="number"
-              value={marks}
-              onChange={(e) => setMarks(e.target.value)}
-            />
-          </div>
-          <div className="submit_button_div">
-            <button onClick={submit_assignment}>Submit</button>
-          </div>
-        </Section>
+          {/* if we dont have pdf or viewPdf state is null */}
+          {!viewPdf && <>No pdf file selected</>}
+        </div>
+        <div className="submit_button_div">
+          <button onClick={send_assignment}>Send</button>
+        </div>
       </Container>
     </>
   );
 }
 
 const Container = styled.div`
-  width: 100vw;
-  height: 100vh;
-  background-color: #f1efef;
-`;
-
-const Section = styled.div`
-  width: 90vw;
+  width: 100%;
   background-color: white;
-  height: 100vh;
   margin-left: auto;
   margin-right: auto;
   display: flex;
   flex-direction: column;
   padding-bottom: 10px;
+  height: 100%;
 
   .submit_assignment_page_header {
     display: flex;
     justify-content: space-between;
-    border-bottom: 1px solid lightgray;
-    padding: 10px;
+    padding-left: 10px;
+    padding-top: 10px;
     p {
       width: 100%;
       text-align: center;
@@ -325,6 +275,7 @@ const Section = styled.div`
   }
 
   .arrow_back_icon {
+    font-size: 18px;
     &:hover {
       color: #6d6969;
       cursor: pointer;
@@ -360,7 +311,7 @@ const Section = styled.div`
 
   .pdf-container {
     width: 90%;
-    height: 800px;
+    height: 100%;
     background-color: #e4e4e4;
     overflow-y: auto;
     display: flex;
