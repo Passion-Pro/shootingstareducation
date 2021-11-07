@@ -6,8 +6,6 @@ import CloseIcon from "@mui/icons-material/Close";
 import { actionTypes } from "../../../../reducer";
 
 function CreateAssignmentPopup() {
-  const [{ openCreateAssignmentPopup }, dispatch] = useStateValue();
-
   const [
     {
       openCreateAssignmentPopup,
