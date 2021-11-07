@@ -11,6 +11,7 @@ import { Worker } from "@react-pdf-viewer/core";
 import db, { storage } from "../../../../firebase";
 import firebase from "firebase";
 import { actionTypes } from "../../../../reducer";
+import Loading from "../../Loading/Loading"
 
 function UploadCorrectedAssignment() {
   const history = useHistory();
@@ -39,6 +40,7 @@ function UploadCorrectedAssignment() {
   // for submit event
   const [viewPdf, setViewPdf] = useState(null);
   const [marks, setMarks] = useState(0);
+  const[loading , setLoading] = useState(false)
 
   // onchange event
   const fileType = ["application/pdf"];
@@ -90,6 +92,7 @@ function UploadCorrectedAssignment() {
     e.preventDefault();
     if (viewPdf) {
       const upload = storage.ref(`files/${fileName}`).put(file);
+      setLoading(true);
       upload.on(
         "state_changed",
         (snapshot) => {
@@ -105,6 +108,8 @@ function UploadCorrectedAssignment() {
         async () => {
           const downloadURL = await upload.snapshot.ref.getDownloadURL();
           const fileUrl = downloadURL;
+          setLoading(false);
+          history.push("/AssignmentsPage");
           if (marks && fileUrl && fileName) {
             db.collection("students")
               .where("name", "==", studentName)
@@ -224,7 +229,7 @@ function UploadCorrectedAssignment() {
 
             console.log(fileUrl);
           } else {
-            alert("Please re-enter all the details ");
+            alert("Please re-enter all the details");
           }
         }
       );
@@ -233,8 +238,6 @@ function UploadCorrectedAssignment() {
         type: actionTypes.OPEN_ASSIGNMENT_POPUP,
         openAsignmentPopup: false,
       });
-
-      history.push("/AssignmentsPage");
     } else {
       alert("Please upload the file");
     }
@@ -243,7 +246,7 @@ function UploadCorrectedAssignment() {
   return (
     <>
       <Container>
-        <Section>
+        {(loading === false ) ? (<Section>
           <div className="submit_assignment_page_header">
             <ArrowBackIcon
               onClick={back_to_previous_page}
@@ -291,7 +294,9 @@ function UploadCorrectedAssignment() {
           <div className="submit_button_div">
             <button onClick={submit_assignment}>Submit</button>
           </div>
-        </Section>
+        </Section>):(
+          <Loading/>
+        )}
       </Container>
     </>
   );

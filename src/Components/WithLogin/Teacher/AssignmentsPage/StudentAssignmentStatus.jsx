@@ -11,7 +11,7 @@ function StudentAssignmentStatus({
   answerUrl,
   fileName,
   assignmentName,
-  submissionDate
+  submissionDate,
 }) {
   const [submissiondetails, setSubmissionDetails] = useState(false);
   const history = useHistory();
@@ -20,7 +20,7 @@ function StudentAssignmentStatus({
     dispatch,
   ] = useStateValue();
   const [checkedAssignmentDetails, setCheckedAssignmentDetails] = useState([]);
-  const[lateSubmitted , setLateSubmitted] = useState(false);
+  const [lateSubmitted, setLateSubmitted] = useState(false);
 
   useEffect(() => {
     if (user && teacherSubjectId && teacherCourseId && name && assignmentName) {
@@ -72,29 +72,47 @@ function StudentAssignmentStatus({
 
   useEffect(() => {
     console.log("Ran");
-    console.log("CHECKED ASSIGNMENT DETAILS ARE" , checkedAssignmentDetails?.timestamp)
-     if(checkedAssignmentDetails?.timestamp) { 
+    console.log(
+      "CHECKED ASSIGNMENT DETAILS ARE",
+      checkedAssignmentDetails?.timestamp
+    );
+    if (checkedAssignmentDetails?.timestamp) {
       console.log(checkedAssignmentDetails?.timestamp);
 
       console.log(submissionDate);
-      var x = parseInt(checkedAssignmentDetails?.timestamp[5] + checkedAssignmentDetails?.timestamp[6]);
-      var y = parseInt(checkedAssignmentDetails?.timestamp[8] + checkedAssignmentDetails?.timestamp[9]);
-      var z = parseInt(checkedAssignmentDetails?.timestamp[0] + checkedAssignmentDetails?.timestamp[1] + checkedAssignmentDetails?.timestamp[2] + checkedAssignmentDetails?.timestamp[3]);
-
+      var x = parseInt(
+        checkedAssignmentDetails?.timestamp[5] +
+          checkedAssignmentDetails?.timestamp[6]
+      );
+      var y = parseInt(
+        checkedAssignmentDetails?.timestamp[8] +
+          checkedAssignmentDetails?.timestamp[9]
+      );
+      var z = parseInt(
+        checkedAssignmentDetails?.timestamp[0] +
+          checkedAssignmentDetails?.timestamp[1] +
+          checkedAssignmentDetails?.timestamp[2] +
+          checkedAssignmentDetails?.timestamp[3]
+      );
 
       var a = parseInt(submissionDate[5] + submissionDate[6]);
       var b = parseInt(submissionDate[8] + submissionDate[9]);
-      var c = parseInt(submissionDate[0] + submissionDate[1] + submissionDate[2] + submissionDate[3]);
-    if (
-      z > c ||
-      (z == c && x > a) ||
-      (z == c && x == a && y > b) ||
-      (z == c && x == a && y == b)
-    ){
-      setLateSubmitted(true);
+      var c = parseInt(
+        submissionDate[0] +
+          submissionDate[1] +
+          submissionDate[2] +
+          submissionDate[3]
+      );
+      if (
+        z > c ||
+        (z == c && x > a) ||
+        (z == c && x == a && y > b) ||
+        (z == c && x == a && y == b)
+      ) {
+        setLateSubmitted(true);
+      }
     }
-     }
-  } , [checkedAssignmentDetails.length , lateSubmitted])
+  }, [checkedAssignmentDetails.length, lateSubmitted]);
   const view_details = (e) => {
     e.preventDefault();
     setSubmissionDetails(true);
@@ -113,8 +131,8 @@ function StudentAssignmentStatus({
       studentName: name,
     });
     dispatch({
-      type : actionTypes.UPLOAD_CORRECTED_ASSIGNMENT,
-       uploadCorrectedAssignment : true,
+      type: actionTypes.UPLOAD_CORRECTED_ASSIGNMENT,
+      uploadCorrectedAssignment: true,
     });
   };
 
@@ -122,29 +140,27 @@ function StudentAssignmentStatus({
     e.preventDefault();
     history.push("/viewPdf");
     dispatch({
-      type : actionTypes.SET_VIEW_PDF,
-      viewPdf : true
+      type: actionTypes.SET_VIEW_PDF,
+      viewPdf: true,
     });
     dispatch({
-      type : actionTypes.SET_PDF_URL,
-      pdfUrl : checkedAssignmentDetails?.correctedAssignmentName
-    })
+      type: actionTypes.SET_PDF_URL,
+      pdfUrl: checkedAssignmentDetails?.correctedAssignmentName,
+    });
   };
 
   const view_answer_pdf = (e) => {
     e.preventDefault();
     history.push("/viewPdf");
     dispatch({
-      type : actionTypes.SET_VIEW_PDF,
-      viewPdf : true
+      type: actionTypes.SET_VIEW_PDF,
+      viewPdf: true,
     });
     dispatch({
-      type : actionTypes.SET_PDF_URL,
-      pdfUrl : answerUrl
-    })
+      type: actionTypes.SET_PDF_URL,
+      pdfUrl: answerUrl,
+    });
   };
-  
-
 
   return (
     <>
@@ -159,21 +175,25 @@ function StudentAssignmentStatus({
               <CancelIcon className="cancel_icon" onClick={close_details} />
             </div>
             <div className="submitted_assignment_name">
-              <p className = "file_name" onClick = {view_answer_pdf}>{fileName}</p>
-              {(lateSubmitted === true) && (
-                <div className  = "late_submission">Late Submission</div>
+              <p className="file_name" onClick={view_answer_pdf}>
+                {fileName}
+              </p>
+              {lateSubmitted === true && (
+                <div className="late_submission">Late Submission</div>
               )}
             </div>
             {checkedAssignmentDetails?.correctedAssignmentUrl ? (
-             <div className = "corrected_assignment_details">
-               <p>Corrected Assignment:</p>
-               <p className = "file_name" onClick = {view_pdf}>{checkedAssignmentDetails?.correctedAssignmentName}</p>
-             </div>
+              <div className="corrected_assignment_details">
+                <p>Corrected Assignment:</p>
+                <p className="file_name" onClick={view_pdf}>
+                  {checkedAssignmentDetails?.correctedAssignmentName}
+                </p>
+              </div>
             ) : (
               <button onClick={goToUploadPage}>
-              Upload corrected assignment
-            </button>
-             )}
+                Upload corrected assignment
+              </button>
+            )}
           </div>
         )}
       </Container>
@@ -217,17 +237,17 @@ const Container = styled.div`
     .submitted_assignment_name {
       font-size: 15px;
 
-      .file_name{
-      max-width : 90%;
-      overflow-x : hidden;
-      margin-bottom : 0px;
-      text-decoration : underline;
+      .file_name {
+        max-width: 90%;
+        overflow-x: hidden;
+        margin-bottom: 0px;
+        text-decoration: underline;
 
-      &:hover {
-      color: blue;
-      cursor: pointer;
-    }
-  }
+        &:hover {
+          color: blue;
+          cursor: pointer;
+        }
+      }
       span {
         padding: 0px !important;
       }
@@ -281,35 +301,34 @@ const Container = styled.div`
     }
   }
 
-  .late_submission{
-     color : white;
-     background-color : rgb(255, 0, 0);
-     border-radius : 20px;
-     width : fit-content;
-     padding : 3px;
-     font-size : 12px;
-     margin-top : 5px;
-   }
-
-  .corrected_assignment_details{
-    margin-top : 5px;
-   p{
+  .late_submission {
+    color: white;
+    background-color: rgb(255, 0, 0);
+    border-radius: 20px;
+    width: fit-content;
+    padding: 3px;
     font-size: 12px;
-     margin-bottom: 0px;
-   }
-   .file_name{
-      max-width : 90%;
-      overflow-x : hidden;
-      margin-bottom : 0px;
-      text-decoration : underline;
-
-      &:hover {
-      color: blue;
-      cursor: pointer;
-    }
+    margin-top: 5px;
   }
 
+  .corrected_assignment_details {
+    margin-top: 5px;
+    p {
+      font-size: 12px;
+      margin-bottom: 0px;
+    }
+    .file_name {
+      max-width: 90%;
+      overflow-x: hidden;
+      margin-bottom: 0px;
+      text-decoration: underline;
+      font-size : 15px;
 
+      &:hover {
+        color: blue;
+        cursor: pointer;
+      }
+    }
   }
 `;
 

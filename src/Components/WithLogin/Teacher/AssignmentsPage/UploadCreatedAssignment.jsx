@@ -11,6 +11,7 @@ import { Worker } from "@react-pdf-viewer/core";
 import db, { storage } from "../../../../firebase";
 import firebase from "firebase";
 import { actionTypes } from "../../../../reducer";
+import Loading from "../../Loading/Loading";
 
 function UploadCorrectedAssignment() {
   const history = useHistory();
@@ -35,6 +36,7 @@ function UploadCorrectedAssignment() {
   // for submit event
   const [viewPdf, setViewPdf] = useState(null);
   const [marks, setMarks] = useState(0);
+  const [loading, setLoading] = useState(false);
 
   // onchange event
   const fileType = ["application/pdf"];
@@ -80,6 +82,7 @@ function UploadCorrectedAssignment() {
     e.preventDefault();
     if (viewPdf) {
       const upload = storage.ref(`files/${fileName}`).put(file);
+      setLoading(true);
       upload.on(
         "state_changed",
         (snapshot) => {
@@ -94,14 +97,15 @@ function UploadCorrectedAssignment() {
         (error) => console.log(error.code),
         async () => {
           const downloadURL = await upload.snapshot.ref.getDownloadURL();
-          dispatch({
-              type : actionTypes.CREATE_ASSIGNMENT_DETAILS,
-              createAssignmentDetails : {
-                  name : fileName,
-                  url : downloadURL
-              }
-          })
+          setLoading(false);
           history.goBack();
+          dispatch({
+            type: actionTypes.CREATE_ASSIGNMENT_DETAILS,
+            createAssignmentDetails: {
+              name: fileName,
+              url: downloadURL,
+            },
+          });
         }
       );
     } else {
@@ -112,47 +116,51 @@ function UploadCorrectedAssignment() {
   return (
     <>
       <Container>
-        <Section>
-          <div className="submit_assignment_page_header">
-            <ArrowBackIcon
-              onClick={back_to_previous_page}
-              className="arrow_back_icon"
-            />
-            <p></p>
-          </div>
-          <div className="upload_pdf">
-            <input
-              type="file"
-              name="file"
-              onChange={handlePdfFileChange}
-              required
-            />
-            {pdfFileError && <div className="error-msg">{pdfFileError}</div>}
-            <button type="submit" className="" onClick={handlePdfFileSubmit}>
-              Upload
-            </button>
-          </div>
-          <p className="view_pdf">View Pdf</p>
-          <div className="pdf-container">
-            {/* show pdf conditionally (if we have one)  */}
-            {viewPdf && (
-              <>
-                <Worker workerUrl="https://unpkg.com/pdfjs-dist@2.6.347/build/pdf.worker.min.js">
-                  <Viewer
-                    fileUrl={viewPdf}
-                    plugins={[defaultLayoutPluginInstance]}
-                  />
-                </Worker>
-              </>
-            )}
+        {loading === false ? (
+          <Section>
+            <div className="submit_assignment_page_header">
+              <ArrowBackIcon
+                onClick={back_to_previous_page}
+                className="arrow_back_icon"
+              />
+              <p></p>
+            </div>
+            <div className="upload_pdf">
+              <input
+                type="file"
+                name="file"
+                onChange={handlePdfFileChange}
+                required
+              />
+              {pdfFileError && <div className="error-msg">{pdfFileError}</div>}
+              <button type="submit" className="" onClick={handlePdfFileSubmit}>
+                Upload
+              </button>
+            </div>
+            <p className="view_pdf">View Pdf</p>
+            <div className="pdf-container">
+              {/* show pdf conditionally (if we have one)  */}
+              {viewPdf && (
+                <>
+                  <Worker workerUrl="https://unpkg.com/pdfjs-dist@2.6.347/build/pdf.worker.min.js">
+                    <Viewer
+                      fileUrl={viewPdf}
+                      plugins={[defaultLayoutPluginInstance]}
+                    />
+                  </Worker>
+                </>
+              )}
 
-            {/* if we dont have pdf or viewPdf state is null */}
-            {!viewPdf && <>No pdf file selected</>}
-          </div>
-          <div className="submit_button_div">
-            <button onClick={submit_assignment}>Submit</button>
-          </div>
-        </Section>
+              {/* if we dont have pdf or viewPdf state is null */}
+              {!viewPdf && <>No pdf file selected</>}
+            </div>
+            <div className="submit_button_div">
+              <button onClick={submit_assignment}>Submit</button>
+            </div>
+          </Section>
+        ) : (
+          <Loading />
+        )}
       </Container>
     </>
   );
@@ -284,4 +292,3 @@ const Section = styled.div`
 `;
 
 export default UploadCorrectedAssignment;
-
