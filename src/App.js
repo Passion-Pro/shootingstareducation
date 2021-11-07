@@ -57,9 +57,7 @@ function App() {
           type : actionTypes.SET_USER,
           user: auth,
         });
-      } else {
-        
-      }
+      } else {  }
     });
   }, []);
 
@@ -88,16 +86,16 @@ function App() {
           </div>
         </Route>
         {/* for check docuemnt 3/11/2021 */}
-
+        
         <Route path="/checkdocument">
-        <Profile/>
+          <CheckDocument/>
         </Route>
 
         <Route path="/notification">
           <Notification/>
         </Route>
         <Route path="/update">
-          <Profile/>
+          <UpdatePage/>
         </Route>
         <Route path="/admin">
           <Admin/>
