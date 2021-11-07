@@ -33,6 +33,28 @@ function AssignmentsPageForTeacher() {
             <Assignment/>
             <Assignment/>
             <Assignment/>
+  }, [user , teacherCourseId , teacherSubjectId , assignments.length , assignmentTeacherDetails]);
+  const open_create_assignment_popup = (e) => {
+    e.preventDefault();
+    dispatch({
+      type: actionTypes.OPEN_CREATE_ASSIGNMENT_POPUP,
+      openCreateAssignmentPopup: true,
+    });
+    dispatch({
+      type : actionTypes.CREATE_ASSIGNMENT_DETAILS,
+      createAssignmentDetails : []
+    })
+  };
+  return (
+    <div className="assignmentsPageforTeacher">
+      <HeaderTeacher />
+      <Container>
+        <Assignments>
+          <div className="assignmentsPageforTeacher_header">
+            <p className="heading">Assignments</p>
+            <button onClick={open_create_assignment_popup}>
+              Create Assignment
+            </button>
           </div>
            </div>
          </Assignments>

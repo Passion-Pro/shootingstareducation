@@ -8,12 +8,235 @@ import { actionTypes } from "../../../../reducer";
 function CreateAssignmentPopup() {
   const [{ openCreateAssignmentPopup }, dispatch] = useStateValue();
 
+  const [
+    {
+      openCreateAssignmentPopup,
+      user,
+      teacherCourseId,
+      teacherSubjectId,
+      signInAs,
+      createAssignmentDetails,
+      teacherCourse,
+      teacherSubject
+    },
+    dispatch,
+  ] = useStateValue();
+  const [input1, setInput1] = useState("");
+  const [input2, setInput2] = useState("");
+  const [input3, setInput3] = useState();
+  const [students, setStudents] = useState([]);
+  const [assignments, setAssignments] = useState([]);
+  const history = useHistory();
+  useEffect(() => {
+    if (user && teacherCourseId && teacherSubjectId) {
+      db.collection("Courses")
+        .doc(teacherCourseId)
+        .collection("students")
+        .onSnapshot((snapshot) => {
+          setStudents(
+            snapshot.docs.map((doc) => ({
+              data: doc.data(),
+            }))
+          );
+        });
+
+      db.collection("Courses")
+        .doc(teacherCourseId)
+        .collection("Subjects")
+        .doc(teacherSubjectId)
+        .collection("assignments")
+        .onSnapshot((snapshot) =>
+          setAssignments(
+            snapshot.docs.map((doc) => ({
+              data : doc.data(),
+            }))
+          )
+        );
+    }
+    setInput1("");
+    setInput2("");
+    setInput3();
+    console.log(assignments);
+    console.log(signInAs)
+  }, [students.length, user, teacherCourseId, openCreateAssignmentPopup , teacherSubjectId]);
+
+  
   const close_popup = (e) => {
     e.preventDefault();
     dispatch({
       type: actionTypes.OPEN_CREATE_ASSIGNMENT_POPUP,
       openCreateAssignmentPopup: false,
     });
+  };
+
+  const create_assignment = (e) => {
+    e.preventDefault();
+    console.log(students);
+    let x = 0;
+    for(let i = 0 ; i < assignments.length ; i++) {
+      if(input1 === assignments[i].data.name){
+         x = 1;
+      }
+    }
+    if (
+      input1 !== "" &&
+      input2 !== "" &&
+      input3  &&
+      user &&
+      teacherCourseId &&
+      teacherSubjectId &&
+      students
+      && x === 0
+    ) {
+      if (createAssignmentDetails?.name) {
+        db.collection("Courses")
+          .doc(teacherCourseId)
+          .collection("Subjects")
+          .doc(teacherSubjectId)
+          .collection("assignments")
+          .add({
+            name: input1,
+            description: input2,
+            submissionDate: input3,
+            assignmentUrl: createAssignmentDetails?.url,
+            assignmentUploadedName: createAssignmentDetails?.name,
+            timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+          });
+        for (let i = 0; i < students.length; i++) {
+          db.collection("students")
+            .where("name", "==", students[i].data.name)
+            .get()
+            .then((querySnapshot) => {
+              querySnapshot.forEach((doc) => {
+                // doc.data() is never undefined for query doc snapshots
+                console.log(doc.id, " => ", doc.data());
+                db.collection("students")
+                  .doc(doc.id)
+                  .collection("courses")
+                  .where("name", "==", teacherCourse)
+                  .get()
+                  .then((querySnapshot) => {
+                    querySnapshot.forEach((doc1) => {
+                      // doc.data() is never undefined for query doc snapshots
+                      console.log(doc1.id, " => ", doc1.data());
+
+                      db.collection("students")
+                        .doc(doc.id)
+                        .collection("courses")
+                        .doc(doc1.id)
+                        .collection("subjects")
+                        .where("name", "==", teacherSubject)
+                        .get()
+                        .then((querySnapshot) => {
+                          querySnapshot.forEach((doc2) => {
+                            // doc.data() is never undefined for query doc snapshots
+                            console.log(doc2.id, " => ", doc2.data());
+                            db.collection("students")
+                              .doc(doc.id)
+                              .collection("courses")
+                              .doc(doc1.id)
+                              .collection("subjects")
+                              .doc(doc2.id)
+                              .collection("assignments")
+                              .add({
+                                name: input1,
+                                description: input2,
+                                submissionDate: input3,
+                                timestamp:
+                                  firebase.firestore.FieldValue.serverTimestamp(),
+                                status: "pending",
+                                assignmentUrl: createAssignmentDetails?.url,
+                                assignmentUploadedName:
+                                  createAssignmentDetails?.name,
+                              });
+                          });
+                        });
+                    });
+                  });
+              });
+            })
+            .catch((error) => {
+              console.log("Error getting documents: ", error);
+            });
+        }
+      } else {
+        db.collection("Courses")
+          .doc(teacherCourseId)
+          .collection("Subjects")
+          .doc(teacherSubjectId)
+          .collection("assignments")
+          .add({
+            name: input1,
+            description: input2,
+            submissionDate: input3,
+            timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+          });
+        for (let i = 0; i < students.length; i++) {
+          db.collection("students")
+            .where("name", "==", students[i].data.name)
+            .get()
+            .then((querySnapshot) => {
+              querySnapshot.forEach((doc) => {
+                // doc.data() is never undefined for query doc snapshots
+                console.log(doc.id, " => ", doc.data());
+                db.collection("students")
+                  .doc(doc.id)
+                  .collection("courses")
+                  .where("name", "==", teacherCourse)
+                  .get()
+                  .then((querySnapshot) => {
+                    querySnapshot.forEach((doc1) => {
+                      // doc.data() is never undefined for query doc snapshots
+                      console.log(doc1.id, " => ", doc1.data());
+
+                      db.collection("students")
+                        .doc(doc.id)
+                        .collection("courses")
+                        .doc(doc1.id)
+                        .collection("subjects")
+                        .where("name", "==", teacherSubject)
+                        .get()
+                        .then((querySnapshot) => {
+                          querySnapshot.forEach((doc2) => {
+                            // doc.data() is never undefined for query doc snapshots
+                            console.log(doc2.id, " => ", doc2.data());
+                            db.collection("students")
+                              .doc(doc.id)
+                              .collection("courses")
+                              .doc(doc1.id)
+                              .collection("subjects")
+                              .doc(doc2.id)
+                              .collection("assignments")
+                              .add({
+                                name: input1,
+                                description: input2,
+                                submissionDate: input3,
+                                timestamp:
+                                  firebase.firestore.FieldValue.serverTimestamp(),
+                                status: "pending",
+                              });
+                          });
+                        });
+                    });
+                  });
+              });
+            })
+            .catch((error) => {
+              console.log("Error getting documents: ", error);
+            });
+        }
+      }
+
+      dispatch({
+        type: actionTypes.OPEN_CREATE_ASSIGNMENT_POPUP,
+        openCreateAssignmentPopup: false,
+      });
+    } else if(x === 1){
+      alert("Please choose a different name for assignment");
+    }
+    else{
+      alert("Please fill all the details")
+    }
   };
   return (
     <>
