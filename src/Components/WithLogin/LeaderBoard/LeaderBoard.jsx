@@ -131,7 +131,7 @@ const addInLeaderBoard=()=>{
             <div className="Add_In_Leaderboard" >
               <AddRoundedIcon onClick={()=>setAddName(!addName)}/>
             </div>
-          <LeaderBoardNumber name={"Vidhi Sharma"} />
+          <LeaderBoardNumber name={"Nishant Mainwal"} />
           </div>
          <div className="scroll">
          Scroll down to see more

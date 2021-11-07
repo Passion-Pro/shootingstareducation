@@ -49,7 +49,9 @@ function App() {
           type : actionTypes.SET_USER,
           user: auth,
         });
-      } else {  }
+      } else {
+        
+      }
     });
   }, []);
 
