@@ -12,15 +12,19 @@ import { useStateValue } from "../../../../StateProvider";
 import { actionTypes } from "../../../../reducer";
 import db from "../../../../firebase";
 import firebase from "firebase";
+import ImageIcon from "@mui/icons-material/Image";
+import VideocamIcon from "@mui/icons-material/Videocam";
+import InsertDriveFileRoundedIcon from "@mui/icons-material/InsertDriveFileRounded";
+import UploadPdf from "./UploadPdf";
 
 function MessagesSectionForMobile() {
   const [
     {
       openDoubtReplies,
       user,
-      course_Main,
-      course_MainID,
-      course_SubjectID,
+      signInAs,
+      teacherCourseId,
+      teacherSubjectId,
       userCourseId,
       userSubjectId,
       chatName,
@@ -40,46 +44,17 @@ function MessagesSectionForMobile() {
   useEffect(() => {
     if (
       user &&
-      course_MainID &&
-      course_SubjectID &&
-      userCourseId &&
-      userSubjectId
+      teacherCourseId &&
+      teacherSubjectId
     ) {
-      db.collection("Courses")
-        .doc(course_MainID)
-        .collection("Subjects")
-        .doc(course_SubjectID)
-        .collection("doubtRooms")
-        .where("name", "==", signInAs.name)
-        .get()
-        .then((querySnapshot) => {
-          querySnapshot.forEach((doc) => {
-            // doc.data() is never undefined for query doc snapshots
-            console.log(doc.id, " => ", doc.data());
-
-            db.collection("Courses")
-              .doc(course_MainID)
-              .collection("Subjects")
-              .doc(course_SubjectID)
-              .collection("doubtRooms")
-              .doc(doc.id)
-              .collection("messages")
-              .orderBy("timestamp", "asc")
-              .onSnapshot((snapshot) =>
-                setMessages(snapshot.docs.map((doc) => doc.data()))
-              );
-          });
-        })
-        .catch((error) => {
-          console.log("Error getting documents: ", error);
-        });
+      console.log(teacherCourseId);
 
       setInput("");
 
       db.collection("Courses")
-        .doc(course_MainID)
+        .doc(teacherCourseId)
         .collection("Subjects")
-        .doc(course_SubjectID)
+        .doc(teacherSubjectId)
         .collection("doubtRooms")
         .onSnapshot((snapshot) =>
           setRooms(
@@ -91,26 +66,62 @@ function MessagesSectionForMobile() {
     }
   }, [
     user,
-    course_MainID,
-    course_SubjectID,
+    teacherCourseId,
+    teacherSubjectId,
     userCourseId,
     userSubjectId,
     messages.length,
   ]);
-  useEffect(() => {}, [chatName]);
+   
+  useEffect(() => {
+    if(user && teacherCourseId && teacherSubjectId && chatName){
+      db.collection("Courses")
+    .doc(teacherCourseId)
+    .collection("Subjects")
+    .doc(teacherSubjectId)
+    .collection("doubtRooms")
+    .where("name", "==", chatName)
+    .get()
+    .then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        // doc.data() is never undefined for query doc snapshots
+        console.log(doc.id, " => ", doc.data());
+
+        db.collection("Courses")
+          .doc(teacherCourseId)
+          .collection("Subjects")
+          .doc(teacherSubjectId)
+          .collection("doubtRooms")
+          .doc(doc.id)
+          .collection("messages")
+          .orderBy("timestamp", "asc")
+          .onSnapshot((snapshot) =>
+            setMessages(
+              snapshot.docs.map((doc) => ({
+                data: doc.data(),
+                id : doc.id
+              }))
+            )
+          );
+      });
+    })
+    .catch((error) => {
+      console.log("Error getting documents: ", error);
+    });
+    }
+  }, [chatName])
   const back_to_previous_page = () => {
     history.goBack();
   };
 
   const sendMessage = (e) => {
     e.preventDefault();
-    if (input !== "") {
+    if(input!== "")
+    { 
       console.log(signInAs);
       console.log(input);
-      if (signInAs.name && userCourseId && userSubjectId && input) {
-        console.log("User Course Id is", userCourseId);
-        console.log("User Subject Id is", userSubjectId);
-
+      if (chatName && input) {
+  
         db.collection("students")
           .where("name", "==", chatName)
           .get()
@@ -118,6 +129,7 @@ function MessagesSectionForMobile() {
             querySnapshot.forEach((doc) => {
               // doc.data() is never undefined for query doc snapshots
               console.log(doc.id, " => ", doc.data());
+              console.log(signInAs)
               db.collection("students")
                 .doc(doc.id)
                 .collection("courses")
@@ -127,7 +139,7 @@ function MessagesSectionForMobile() {
                   querySnapshot.forEach((doc1) => {
                     // doc.data() is never undefined for query doc snapshots
                     console.log(doc1.id, " => ", doc1.data());
-
+  
                     db.collection("students")
                       .doc(doc.id)
                       .collection("courses")
@@ -139,6 +151,8 @@ function MessagesSectionForMobile() {
                         querySnapshot.forEach((doc2) => {
                           // doc.data() is never undefined for query doc snapshots
                           console.log(doc2.id, " => ", doc2.data());
+                          console.log("REACHED" , doc.id , doc1.id , doc2.id)
+
                           db.collection("students")
                             .doc(doc.id)
                             .collection("courses")
@@ -147,7 +161,7 @@ function MessagesSectionForMobile() {
                             .doc(doc2.id)
                             .collection("messagesToTeacher")
                             .add({
-                              name: signInAs.name,
+                              name: chatName,
                               message: input,
                               timestamp:
                                 firebase.firestore.FieldValue.serverTimestamp(),
@@ -161,75 +175,27 @@ function MessagesSectionForMobile() {
           .catch((error) => {
             console.log("Error getting documents: ", error);
           });
-        let x = 0;
-        for (let i = 0; i < rooms.length; i++) {
-          if (rooms[i].data.name === signInAs.name) {
-            x = 1;
-          }
-        }
-        if (x === 0) {
           db.collection("Courses")
-            .doc(course_MainID)
+            .doc(teacherCourseId)
             .collection("Subjects")
-            .doc(course_SubjectID)
+            .doc(teacherSubjectId)
             .collection("doubtRooms")
-            .add({
-              name: signInAs.name,
-            })
-            .then(() => {
-              db.collection("Courses")
-                .doc(course_MainID)
-                .collection("Subjects")
-                .doc(course_SubjectID)
-                .collection("doubtRooms")
-                .where("name", "==", signInAs.name)
-                .get()
-                .then((querySnapshot) => {
-                  querySnapshot.forEach((doc) => {
-                    // doc.data() is never undefined for query doc snapshots
-                    console.log(doc.id, " => ", doc.data());
-
-                    db.collection("Courses")
-                      .doc(course_MainID)
-                      .collection("Subjects")
-                      .doc(course_SubjectID)
-                      .collection("doubtRooms")
-                      .doc(doc.id)
-                      .collection("messages")
-                      .add({
-                        name: signInAs.name,
-                        message: input,
-                        timestamp:
-                          firebase.firestore.FieldValue.serverTimestamp(),
-                      });
-                  });
-                })
-                .catch((error) => {
-                  console.log("Error getting documents: ", error);
-                });
-            });
-        } else {
-          db.collection("Courses")
-            .doc(course_MainID)
-            .collection("Subjects")
-            .doc(course_SubjectID)
-            .collection("doubtRooms")
-            .where("name", "==", signInAs.name)
+            .where("name", "==", chatName)
             .get()
             .then((querySnapshot) => {
               querySnapshot.forEach((doc) => {
                 // doc.data() is never undefined for query doc snapshots
                 console.log(doc.id, " => ", doc.data());
-
+  
                 db.collection("Courses")
-                  .doc(course_MainID)
+                  .doc(teacherCourseId)
                   .collection("Subjects")
-                  .doc(course_SubjectID)
+                  .doc(teacherSubjectId)
                   .collection("doubtRooms")
                   .doc(doc.id)
                   .collection("messages")
                   .add({
-                    name: signInAs.name,
+                    name: chatName,
                     message: input,
                     timestamp: firebase.firestore.FieldValue.serverTimestamp(),
                   });
@@ -238,11 +204,21 @@ function MessagesSectionForMobile() {
             .catch((error) => {
               console.log("Error getting documents: ", error);
             });
-        }
+
         setInput("");
       }
     }
   };
+
+
+  const open_send_Pdf_box = (e) => {
+    e.preventDefault();
+    dispatch({
+      type: actionTypes.SET_SEND_PDF,
+      sendPdf: true,
+    });
+  };
+
 
   return (
     <>
@@ -254,26 +230,46 @@ function MessagesSectionForMobile() {
           />
           <p>{chatName}</p>
         </div>
-        <div className="messages_section_messages">
-          {messages.map((message) => (
-            <Doubt
-              name={message.name}
-              message={message.message}
-              timestamp={message.timestamp}
-            />
-          ))}
-        </div>
-        <div className="messages_section_footer">
+         {sendPdf === false ? (
+              <div className="messages_section_messages">
+                {console.log(messages)}
+                {messages.map((message) => (
+                  <Doubt
+                    name={message.data.name}
+                    message={message.data.message}
+                    timestamp={message.data.timestamp}
+                    type = {message.data.type}
+                    fileName = {message.data.fileName}
+                    fileUrl = {message.data.fileUrl}
+                    id = {message.id}
+                  />
+                ))}
+              </div>
+            ) : (
+              <UploadPdf />
+            )}
+        {sendPdf === false && (
+          <div className="messages_section_footer">
           <div className="send_Message_box">
             <input type="text" placeholder="Type a message "  value={input}
                   onChange={(e) => setInput(e.target.value)}/>
-            <div className="icons">
-              <AttachFileIcon className="attach_file_icon icon" />
-              <InsertEmoticonIcon className="emoji_icon icon" />
-              <SendIcon className="send_icon icon"  onClick={sendMessage}/>
-            </div>
+           <div className="doutBox_footer_icons">
+                  <div>
+                    <ImageIcon className="footer_icon" />
+                    <VideocamIcon className="footer_icon" />
+                    <InsertDriveFileRoundedIcon
+                      className="footer_icon"
+                      onClick={open_send_Pdf_box}
+                    />
+                  </div>
+                  <SendIcon
+                    className="footer_icon footer_send_icon"
+                    onClick={sendMessage}
+                  />
+                </div>
           </div>
         </div>
+        )}
       </Container>
     </>
   );
@@ -314,6 +310,27 @@ const Container = styled.div`
 
   .messages_section_footer{
     border-top : 1px solid gray;
+  }
+
+  .doutBox_footer_icons {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding-left: 8px;
+  }
+
+  .footer_icon {
+    font-size: 15px;
+    margin-right: 3px;
+
+    &:hover {
+      cursor: pointer;
+      color: #6d6969;
+    }
+  }
+
+  .footer_send_icon {
+    font-size: 18px;
   }
 `;
 

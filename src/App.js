@@ -57,9 +57,7 @@ function App() {
           type: actionTypes.SET_USER,
           user: auth,
         });
-      } else {
-        
-      }
+      } else {  }
     });
   }, []);
 
@@ -181,20 +179,11 @@ function App() {
         <Route path="/signIn">
           <Login />
         </Route>
-        <Route path="/AssignmentsPage">
-          <AssignmentsPage />
-        </Route>
         <Route path="/NoticesPage">
           <NoticesPage />
         </Route>
         <Route path="/DoubtsPage">
-          <DoubtsPage />
-        </Route>
-        <Route path = "/AssignmentsPageForTeachers">
-          <AssignmentsPageForTeacher/>
-        </Route>
-        <Route path = "/DoubtsPageForTeachers">
-          <DoubtsPageForTeacher/>
+        {signInAs && signInAs.value==='teacher' ? <DoubtsPageForTeacher /> : <DoubtsPage/> }
         </Route>
         <Route path = "/doubtsMessagesPageForTeachers">
           <MessagesSectionForMobile/>
@@ -225,6 +214,21 @@ function App() {
         <Route path="/loading">
           <Loading />
         </Route>
+        <Route path = "/submitAssignment">
+          <SubmitAssignment/>
+        </Route>
+        <Route path = "/uploadCorrectedAssignmentPage">
+          <UploadCorrectedAssignment/>
+        </Route>
+        <Route path = "/uploadCreatedAssignment">
+          <UploadCreatedAssignment/>
+        </Route>
+         <Route  path = "/ViewAssignment/:assignmentId">
+            <ViewAssignmentPage/>
+         </Route>
+         <Route  path = "/viewPdf">
+            <ViewPdf/>
+         </Route>
         <Route path="/">
           {!signInAs ? (
             <Home />
