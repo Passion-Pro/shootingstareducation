@@ -49,6 +49,10 @@ function AssignmentsPageForTeacher() {
       type: actionTypes.OPEN_CREATE_ASSIGNMENT_POPUP,
       openCreateAssignmentPopup: true,
     });
+    dispatch({
+      type : actionTypes.CREATE_ASSIGNMENT_DETAILS,
+      createAssignmentDetails : []
+    })
   };
   return (
     <div className="assignmentsPageforTeacher">

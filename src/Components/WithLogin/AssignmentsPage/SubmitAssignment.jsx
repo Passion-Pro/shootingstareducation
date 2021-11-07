@@ -10,7 +10,9 @@ import "@react-pdf-viewer/default-layout/lib/styles/index.css";
 import { Worker } from "@react-pdf-viewer/core";
 import db, { storage } from "../../../firebase";
 import firebase from "firebase"
-import {actionTypes} from "../../../reducer"
+import {actionTypes} from "../../../reducer";
+import { CircularProgress } from '@mui/material';
+import Loading from "../Loading/Loading"
 
 function SubmitAssignment() {
   const history = useHistory();
@@ -39,12 +41,15 @@ function SubmitAssignment() {
 
   // onchange event
   const fileType = ["application/pdf"];
+  const[loading , setLoading] = useState(false);
 
   let submitted_date
 
   useEffect(() => {
     console.log(assignmentStudentDetails);
-  }, [assignmentStudentDetails]);
+  }, [assignmentStudentDetails , loading]);
+
+  
 
   const defaultLayoutPluginInstance = defaultLayoutPlugin();
 
@@ -88,6 +93,7 @@ function SubmitAssignment() {
     // console.log(pdfFile);
     console.log(signInAs);
     console.log(submitted_date);
+    setLoading(true);
 
     var now = new Date();
     var now_date = parseInt(now.getDate());
@@ -121,6 +127,8 @@ function SubmitAssignment() {
       async () => {
         const downloadURL = await upload.snapshot.ref.getDownloadURL();
         const fileUrl = downloadURL;
+        history.push("/AssignmentsPage");
+        setLoading(false);
         db.collection("students")
         .doc(user.uid)
         .collection("courses")
@@ -189,14 +197,12 @@ function SubmitAssignment() {
         type : actionTypes.OPEN_ASSIGNMENT_POPUP,
         openAsignmentPopup : false,
     });
-
-      history.push("/AssignmentsPage")
   };
 
   return (
     <>
       <Container>
-        <Section>
+     {(loading === false)?(   <Section>
           <div className="submit_assignment_page_header">
             <ArrowBackIcon
               onClick={back_to_previous_page}
@@ -236,7 +242,9 @@ function SubmitAssignment() {
           <div className="submit_button_div">
             <button onClick={submit_assignment} disabled = {!viewPdf}>Submit</button>
           </div>
-        </Section>
+        </Section>):(
+          <Loading/>
+        )}
       </Container>
     </>
   );
