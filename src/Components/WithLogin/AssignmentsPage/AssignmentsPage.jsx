@@ -8,38 +8,11 @@ import Notices from "../Notices/Notices";
 import { actionTypes } from "../../../reducer";
 import NoticePopup from "../Notices/NoticePopup";
 import { useHistory } from "react-router-dom";
-import HeaderMain from "../Header/HeaderMain";
-import db from "../../../firebase";
-import VewAssignmentPopup from "./VewAssignmentPopup";
-function AssignmentsPage() {
-  const [{ openAsignmentPopup, user, userCourseId, userSubjectId }, dispatch] =
-    useStateValue();
-  const history = useHistory();
-  const [assignments, setAssignments] = useState([]);
-  const [dueAssignments, setDueAssignments] = useState([]);
-  const [submittedAssignments, setSubmittedAssignments] = useState([]);
+import HeaderMain from "../Header/HeaderMain"
 
-  useEffect(() => {
-    console.log(user);
-    console.log(userCourseId, "&&&", userSubjectId);
-    if (user && userCourseId && userSubjectId) {
-      db.collection("students")
-        .doc(user.uid)
-        .collection("courses")
-        .doc(userCourseId)
-        .collection("subjects")
-        .doc(userSubjectId)
-        .collection("assignments")
-        .onSnapshot((snapshot) => {
-          setAssignments(
-            snapshot.docs.map((doc) => ({
-              data: doc.data(),
-            }))
-          );
-        });
-    };
-    console.log("Assignments are" , assignments)
-  }, [user, userCourseId, userSubjectId, assignments.length]);
+function AssignmentsPage() {
+  const [{ openAsignmentPopup }, dispatch] = useStateValue();
+  const history = useHistory();
 
   const open_noticesPopup = (e) => {
     e.preventDefault();
@@ -55,7 +28,7 @@ function AssignmentsPage() {
   };
   return (
     <div className="assignmentsPage">
-      <HeaderMain />
+     <HeaderMain/>
       <div className="upcoming_class_div">
         <p>Upcoming Class at 14:33 on Monday</p>
         <div className="upcoming_class_div_button">
@@ -74,43 +47,15 @@ function AssignmentsPage() {
         <Assignments>
           <p className="due_assignments">Due Assignments</p>
           <div className="due_assignments_div">
-            {console.log("Assignments are" , assignments)}
-            {assignments.map((assignment) => (
-              <>
-                {assignment.data.status === "pending" && (
-                  <Assignment
-                    name={assignment.data.name}
-                    description={assignment.data.description}
-                    date={assignment.data.submissionDate}
-                    status={assignment.data.status}
-                    assignmentUrl={assignment.data.assignmentUrl}
-                    assignmentUploadedName={
-                      assignment.data.assignmentUploadedName
-                    }
-                  />
-                )}
-              </>
-            ))}
+            <Assignment />
+            <Assignment />
+            <Assignment />
           </div>
           <p className="submitted_assignments">Submitted Assignments</p>
           <div className="submitted_assignments_div">
-            {console.log(assignments)}
-          {assignments.map((assignment) => (
-              <>
-                {assignment.data.status === "submitted" && (
-                  <Assignment
-                    name={assignment.data.name}
-                    description={assignment.data.description}
-                    date={assignment.data.submissionDate}
-                    status={assignment.data.status}
-                    assignmentUrl={assignment.data.assignmentUrl}
-                    assignmentUploadedName={
-                      assignment.data.assignmentUploadedName
-                    }
-                  />
-                )}
-              </>
-            ))}
+            <Assignment />
+            <Assignment />
+            <Assignment />
           </div>
         </Assignments>
         <div className="notices">
@@ -119,7 +64,6 @@ function AssignmentsPage() {
       </Container>
       <AssignmentPopup />
       <NoticePopup />
-      <VewAssignmentPopup />
     </div>
   );
 }
@@ -127,18 +71,15 @@ function AssignmentsPage() {
 const Container = styled.div`
   display: flex;
   flex-direction: row;
-  height: fit-content;
+  height: 100%;
   padding-top: 10px;
-  background-color: #7db3ff;
-  
-  
 
   .notices {
     flex: 0.3;
     display: flex;
     justify-content: center;
     margin-top: 30px;
-    margin-right: 30px;
+    margin-right : 30px;
   }
 
   @media (max-width: 1184px) {
@@ -174,7 +115,6 @@ const Assignments = styled.div`
     flex-wrap: wrap;
     justify-content: center;
     margin-bottom: 10px;
-    height : fit-content;
   }
 
   .submitted_assignments {
