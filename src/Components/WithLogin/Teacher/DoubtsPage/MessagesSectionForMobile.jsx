@@ -22,7 +22,6 @@ function MessagesSectionForMobile() {
     {
       openDoubtReplies,
       user,
-      signInAs,
       teacherCourseId,
       teacherSubjectId,
       userCourseId,
