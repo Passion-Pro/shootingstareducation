@@ -18,6 +18,7 @@ function Profile() {
     e.preventDefault();
     if(user){
       auth.signOut();
+      history.push('/')
     }
   }
 
