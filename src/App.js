@@ -20,7 +20,7 @@ import Main from "./Components/WithLogin/Main/Main";
 import Chat from "./Components/WithLogin/Chat/Chat";
 import Profile from "./Components/WithLogin/Profile/Profile";
 import LeaderBoard from "./Components/WithLogin/LeaderBoard/LeaderBoard";
-import AssignmentsPageForTeacher from "./Components/WithLogin/Teacher/AssignmentsPage/AssignmentsPageForTeacher";
+import AssignmentsPageForTeacher from "./Components/WithLogin/Teacher/AssignmentsPage/AssignmentsPageForTeacher"
 import DoubtsPageForTeacher from "./Components/WithLogin/Teacher/DoubtsPage/DoubtsPageForTeacher";
 import MessagesSectionForMobile from "./Components/WithLogin/Teacher/DoubtsPage/MessagesSectionForMobile";
 import MainTeacher from "./Components/WithLogin/Teacher/Main/MainTeacher";
@@ -29,10 +29,6 @@ import { actionTypes } from "./reducer";
 import db, { auth } from "./firebase";
 import { useEffect } from "react";
 import { useStateValue } from "./StateProvider";
-import SubmitAssignment from "./Components/WithLogin/AssignmentsPage/SubmitAssignment";
-import UploadCorrectedAssignment from "./Components/WithLogin/Teacher/AssignmentsPage/UplaodCorrectedAssignment";
-import UploadCreatedAssignment from "./Components/WithLogin/Teacher/AssignmentsPage/UploadCreatedAssignment";
-
 import ChatTeacher from "./Components/WithLogin/Teacher/ChatTeacher/ChatTeacher";
 import Admin from "./Components/WithLogin/Admin/Main/Main";
 import AddStudent from "./Components/WithLogin/Admin/AddStudent/AddStudent";
@@ -40,108 +36,87 @@ import AddTeacher from "./Components/WithLogin/Admin/AddTeacher/AddTeacher";
 import AddAdmin from "./Components/WithLogin/Admin/AddAdmin/AddAdmin";
 import AddTeacherInfo from "./Components/WithLogin/Admin/AddTeacher/AddTeacherInfo";
 import AddCourse from "./Components/WithLogin/Admin/AddCourse/AddCourse";
-import ViewAssignmentPage from "./Components/WithLogin/Teacher/AssignmentsPage/ViewAssignmentPage";
-import UpdatePage from "./Components/WithLogin/Profile/UpdatePage";
-import CheckDocument from "./Components/WithLogin/Teacher/ChatTeacher/CheckDocument";
-import ViewPdf from "./Components/WithLogin/ViewPdf/ViewPdf";
-import Loading from "./Components/WithLogin/Loading/Loading";
 
 function App() {
-  const [{ signInAs, user }, dispatch] = useStateValue();
+
+  const[{signInAs,user} , dispatch] = useStateValue();
 
   useEffect(() => {
     // will only run once when the app component loads...
     auth.onAuthStateChanged((auth) => {
-      if (auth) {
+      if (auth) { 
         dispatch({
-          type: actionTypes.SET_USER,
+          type : actionTypes.SET_USER,
           user: auth,
         });
       } else {
+        
       }
     });
   }, []);
 
-  useEffect(() => {
-    if (user?.uid) {
-      db.collection("users")
-        .doc(user?.uid)
-        .onSnapshot((snapshot) =>
-          dispatch({
-            type: actionTypes.SIGN_IN_AS,
-            signInAs: snapshot.data(),
-          })
-        );
-    }
-  }, [user?.uid]);
 
+  useEffect(()=>{
+  if(user?.uid){
+     db.collection('users').doc(user?.uid).onSnapshot((snapshot)=>(
+      dispatch({
+        type:actionTypes.SIGN_IN_AS,
+        signInAs:snapshot.data(),
+       })
+     ))
+  }
+  },[user?.uid])
+
+  
   return (
     <Router>
       <Switch>
         <Route path="/chat">
           <div className="chat_Show">
-            {signInAs && signInAs.value === "teacher" ? (
-              <ChatTeacher />
-            ) : (
-              <Chat />
-            )}
+            {signInAs && signInAs.value==='teacher' ? <ChatTeacher/>:<Chat />}
           </div>
           <div className="chat_Show_Not">
-            {signInAs && signInAs.value === "teacher" ? (
-              <MainTeacher />
-            ) : (
-              <Main />
-            )}
+          {signInAs && signInAs.value==='teacher' ? <MainTeacher /> : <Main /> }
           </div>
         </Route>
         {/* for check docuemnt 3/11/2021 */}
 
         <Route path="/checkdocument">
-          <CheckDocument />
+        <Profile/>
         </Route>
 
         <Route path="/notification">
-          <Notification />
+          <Notification/>
         </Route>
         <Route path="/update">
-          <UpdatePage />
+          <Profile/>
         </Route>
         <Route path="/admin">
-          <Admin />
+          <Admin/>
         </Route>
         <Route path="/addcourse">
-          <AddCourse />
+        <AddCourse/>
         </Route>
         <Route path="/addteacher">
-          <Admin />
+        <Admin/>
         </Route>
         <Route path="/addstudent">
-          <Admin />
+        <Admin/>
         </Route>
         {/* <Route path="/addteacherinfo">
         <AddTeacherInfo/>
         </Route> */}
         <Route path="/addadmin">
-          <Admin />
+        <Admin/>
         </Route>
         <Route path="/leaderboard">
           <LeaderBoard />
         </Route>
         <Route path="/main">
-          {signInAs && signInAs.value === "teacher" ? (
-            <MainTeacher />
-          ) : (
-            <Main />
-          )}
+          {signInAs && signInAs.value==='teacher' ? <MainTeacher /> : <Main /> }
         </Route>
-        <Route path="/AssignmentsPage">
-          {signInAs && signInAs.value === "teacher" ? (
-            <AssignmentsPageForTeacher />
-          ) : (
-            <AssignmentsPage />
-          )}
-        </Route>
-
+        {/* </Route> */}
+        {/* <Route path="/main"> */}
         <Route path="/profile">
           <Profile />
         </Route>
@@ -181,45 +156,26 @@ function App() {
         <Route path="/signIn">
           <Login />
         </Route>
+        <Route path="/AssignmentsPage">
+          <AssignmentsPage />
+        </Route>
         <Route path="/NoticesPage">
           <NoticesPage />
         </Route>
         <Route path="/DoubtsPage">
-          {signInAs && signInAs.value === "teacher" ? (
-            <DoubtsPageForTeacher />
-          ) : (
-            <DoubtsPage />
-          )}
+          <DoubtsPage />
         </Route>
-        <Route path="/doubtsMessagesPageForTeachers">
-          <MessagesSectionForMobile />
+        <Route path = "/AssignmentsPageForTeachers">
+          <AssignmentsPageForTeacher/>
         </Route>
-        <Route path="/submitAssignment">
-          <SubmitAssignment />
+        <Route path = "/DoubtsPageForTeachers">
+          <DoubtsPageForTeacher/>
         </Route>
-        <Route path="/uploadCorrectedAssignmentPage">
-          <UploadCorrectedAssignment />
-        </Route>
-        <Route path="/uploadCreatedAssignment">
-          <UploadCreatedAssignment />
-        </Route>
-        <Route path="/ViewAssignment/:assignmentId">
-          <ViewAssignmentPage />
-        </Route>
-        <Route path="/viewPdf">
-          <ViewPdf />
-        </Route>
-        <Route path="/loading">
-          <Loading />
+        <Route path = "/doubtsMessagesPageForTeachers">
+          <MessagesSectionForMobile/>
         </Route>
         <Route path="/">
-          {!signInAs ? (
-            <Home />
-          ) : signInAs && signInAs.value === "teacher" ? (
-            <MainTeacher />
-          ) : (
-            <Main />
-          )}
+          {!signInAs? <Home />: signInAs && signInAs.value==='teacher' ? <MainTeacher /> : <Main />  }
         </Route>
       </Switch>
     </Router>

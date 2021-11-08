@@ -28,6 +28,8 @@ function MessagesSectionForMobile() {
       userCourseId,
       userSubjectId,
       chatName,
+      signInAs,
+      course_Subject,
       sendPdf,
       teacherCourse,
       teacherSubject
