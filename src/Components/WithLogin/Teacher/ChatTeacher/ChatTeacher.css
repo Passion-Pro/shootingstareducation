@@ -45,7 +45,7 @@
 .chatTeacher__body {
   height: 70vh;
   background-color: #5094ee;
-  overflow: scroll;
+  overflow-y: scroll;
 }
 .chatTeacher__input {
   display: flex;

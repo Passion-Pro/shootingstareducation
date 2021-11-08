@@ -145,7 +145,7 @@ function StudentAssignmentStatus({
     });
     dispatch({
       type: actionTypes.SET_PDF_URL,
-      pdfUrl: checkedAssignmentDetails?.correctedAssignmentName,
+      pdfUrl: checkedAssignmentDetails?.correctedAssignmentUrl,
     });
   };
 
