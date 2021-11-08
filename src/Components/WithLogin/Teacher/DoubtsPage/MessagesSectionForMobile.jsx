@@ -159,7 +159,7 @@ function MessagesSectionForMobile() {
                             .doc(doc2.id)
                             .collection("messagesToTeacher")
                             .add({
-                              name: chatName,
+                              name: signInAs?.name,
                               message: input,
                               timestamp:
                                 firebase.firestore.FieldValue.serverTimestamp(),
@@ -193,7 +193,7 @@ function MessagesSectionForMobile() {
                   .doc(doc.id)
                   .collection("messages")
                   .add({
-                    name: chatName,
+                    name: signInAs?.name,
                     message: input,
                     timestamp: firebase.firestore.FieldValue.serverTimestamp(),
                   });

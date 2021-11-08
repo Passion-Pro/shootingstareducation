@@ -18,6 +18,7 @@ import VideocamIcon from "@mui/icons-material/Videocam";
 import InsertDriveFileRoundedIcon from "@mui/icons-material/InsertDriveFileRounded";
 import UploadPdf from "./UploadPdf";
 
+
 function DoubtsPageForTeacher() {
   const [
     {
@@ -31,7 +32,7 @@ function DoubtsPageForTeacher() {
       chatName,
       sendPdf,
       teacherCourse,
-      teacherSubject
+      teacherSubject,
     },
     dispatch,
   ] = useStateValue();
@@ -93,7 +94,7 @@ function DoubtsPageForTeacher() {
                 setMessages(
                   snapshot.docs.map((doc) => ({
                     data: doc.data(),
-                    id : doc.id
+                    id: doc.id,
                   }))
                 )
               );
@@ -110,7 +111,7 @@ function DoubtsPageForTeacher() {
       type: actionTypes.SET_SEND_PDF,
       sendPdf: false,
     });
-  } , [chatName])
+  }, [chatName]);
 
   useEffect(() => {
     dispatch({
@@ -166,9 +167,9 @@ function DoubtsPageForTeacher() {
                             .doc(doc2.id)
                             .collection("messagesToTeacher")
                             .add({
-                              name: chatName,
+                              name: signInAs?.name,
                               message: input,
-                              type : "text",
+                              type: "text",
                               timestamp:
                                 firebase.firestore.FieldValue.serverTimestamp(),
                             });
@@ -201,9 +202,9 @@ function DoubtsPageForTeacher() {
                 .doc(doc.id)
                 .collection("messages")
                 .add({
-                  name: chatName,
+                  name: signInAs?.name,
                   message: input,
-                  type : "text",
+                  type: "text",
                   timestamp: firebase.firestore.FieldValue.serverTimestamp(),
                 });
             });
@@ -246,44 +247,46 @@ function DoubtsPageForTeacher() {
               <div className="doubt_section_doubts_messages">
                 {console.log(messages)}
                 {messages.map((message) => (
-                 <Doubt
-                 name={message.data.name}
-                 message={message.data.message}
-                 timestamp={message.data.timestamp}
-                 type = {message.data.type}
-                 fileName = {message.data.fileName}
-                 fileUrl = {message.data.fileUrl}
-                 id = {message.id}
-               />
+                  <Doubt
+                    name={message.data.name}
+                    message={message.data.message}
+                    timestamp={message.data.timestamp}
+                    type={message.data.type}
+                    fileName={message.data.fileName}
+                    fileUrl={message.data.fileUrl}
+                    id={message.id}
+                  />
                 ))}
               </div>
             ) : (
               <UploadPdf />
             )}
-            {sendPdf === false && (<div className="doubtBox_footer">
-              <div className="send_Message_box">
-                <input
-                  type="text"
-                  placeholder="Type a message "
-                  value={input}
-                  onChange={(e) => setInput(e.target.value)}
-                />
-                <div className="doutBox_footer_icons">
-                  <div>
-                    <ImageIcon className="footer_icon" />
-                    <VideocamIcon className="footer_icon" />
-                    <InsertDriveFileRoundedIcon
-                      className="footer_icon"
-                      onClick={open_send_Pdf_box}
+            {sendPdf === false && (
+              <div className="doubtBox_footer">
+                <div className="send_Message_box">
+                  <input
+                    type="text"
+                    placeholder="Type a message "
+                    value={input}
+                    onChange={(e) => setInput(e.target.value)}
+                  />
+                  <div className="doutBox_footer_icons">
+                    <div>
+                      <ImageIcon className="footer_icon" />
+                      <VideocamIcon className="footer_icon" />
+                      <InsertDriveFileRoundedIcon
+                        className="footer_icon"
+                        onClick={open_send_Pdf_box}
+                      />
+                    </div>
+                    <SendIcon
+                      className="footer_icon footer_send_icon"
+                      onClick={sendMessage}
                     />
                   </div>
-                  <SendIcon
-                    className="footer_icon footer_send_icon"
-                    onClick={sendMessage}
-                  />
                 </div>
               </div>
-            </div>)}
+            )}
           </div>
         </DoubtBox>
       </Container>
